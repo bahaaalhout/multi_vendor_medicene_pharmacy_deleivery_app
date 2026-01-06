@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: Size(393, 852),
       builder: (context, child) => MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Multi Vendor Medicene Pharmacy Deleivery App',
         theme: ThemeData(
           textTheme: TextTheme(
