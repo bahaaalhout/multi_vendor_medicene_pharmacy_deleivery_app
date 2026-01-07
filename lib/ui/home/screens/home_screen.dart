@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/ui/home/widgets/categories.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/ui/home/widgets/pharmacy_offers.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/ui/home/widgets/section_bar.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -41,15 +43,15 @@ class HomeScreen extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    SectionBar(
-                      sectionTitle: 'Pharmacy Offers',
-                      onPressed: () {},
-                    ),
+                    PharmacyOffers(),
+                    SizedBox(height: 16.h),
                     SectionBar(
                       sectionTitle: 'Nearby pharmacies',
                       onPressed: () {},
                     ),
-                    SectionBar(sectionTitle: 'Categories', onPressed: () {}),
+                    SizedBox(height: 16.h),
+                    Categories(),
+                    SizedBox(height: 16.h),
                     SectionBar(sectionTitle: 'Most Sales', onPressed: () {}),
                   ],
                 ),
