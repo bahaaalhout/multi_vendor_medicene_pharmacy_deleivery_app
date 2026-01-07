@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: Size(393, 852),
+      designSize: Size(852, 393, ),
       builder: (context, child) => MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Multi Vendor Medicene Pharmacy Deleivery App',

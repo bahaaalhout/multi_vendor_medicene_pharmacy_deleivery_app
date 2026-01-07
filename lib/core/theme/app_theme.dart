@@ -54,6 +54,24 @@ class AppTextStyles {
     fontSize: 14.sp,
   );
 
+  static TextStyle small12 = TextStyle(
+    fontFamily: 'Work Sans',
+    fontWeight: FontWeight.w400,
+    fontSize: 12.sp,
+  );
+
+  static TextStyle small12w500 = TextStyle(
+    fontFamily: 'Work Sans',
+    fontWeight: FontWeight.w500,
+    fontSize: 12.sp,
+  );
+
+  static TextStyle small8w500 = TextStyle(
+    fontFamily: 'Work Sans',
+    fontWeight: FontWeight.w500,
+    fontSize: 8.sp,
+  );
+
   // Pre Title Text Style
   static TextStyle preTitle = TextStyle(
     fontFamily: 'Work Sans',
