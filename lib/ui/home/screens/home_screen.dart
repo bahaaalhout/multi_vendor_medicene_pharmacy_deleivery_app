@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/ui/home/widgets/section_bar.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -8,56 +7,40 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.neutralNormal,
-      body: SafeArea(
-        child: Column(
-          children: [
-            Container(
-              height: 100,
-              decoration: BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(32.r),
-                  bottomRight: Radius.circular(32.r),
-                ),
-              ),
+    return Column(
+      children: [
+        Container(
+          height: 100,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(32.r),
+              bottomRight: Radius.circular(32.r),
             ),
-            SizedBox(height: 16),
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(32.r),
-                    topRight: Radius.circular(32.r),
-                  ),
-                ),
-                padding: EdgeInsets.only(
-                  top: 24,
-                  bottom: 8,
-                  right: 20,
-                  left: 20,
-                ),
-                child: Column(
-                  children: [
-                    SectionBar(
-                      sectionTitle: 'Pharmacy Offers',
-                      onPressed: () {},
-                    ),
-                    SectionBar(
-                      sectionTitle: 'Nearby pharmacies',
-                      onPressed: () {},
-                    ),
-                    SectionBar(sectionTitle: 'Categories', onPressed: () {}),
-                    SectionBar(sectionTitle: 'Most Sales', onPressed: () {}),
-                  ],
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
-      ),
+        SizedBox(height: 16),
+        Expanded(
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(32.r),
+                topRight: Radius.circular(32.r),
+              ),
+            ),
+            padding: EdgeInsets.only(top: 24, bottom: 8, right: 20, left: 20),
+            child: Column(
+              children: [
+                SectionBar(sectionTitle: 'Pharmacy Offers', onPressed: () {}),
+                SectionBar(sectionTitle: 'Nearby pharmacies', onPressed: () {}),
+                SectionBar(sectionTitle: 'Categories', onPressed: () {}),
+                SectionBar(sectionTitle: 'Most Sales', onPressed: () {}),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

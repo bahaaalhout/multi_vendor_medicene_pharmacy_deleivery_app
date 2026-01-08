@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/ui/home/screens/home_screen.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/ui/main_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,8 +30,9 @@ class MyApp extends StatelessWidget {
             labelLarge: AppTextStyles.buttonText,
             labelMedium: AppTextStyles.linkText,
           ),
+          primaryColor: AppColors.neutralNormal,
         ),
-        home: HomeScreen(),
+        home: MainScreen(),
       ),
     );
   }
