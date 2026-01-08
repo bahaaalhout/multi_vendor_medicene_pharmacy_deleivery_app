@@ -14,4 +14,6 @@ class AppColors {
   static const Color neutralDarkActive = Color(0xFF5b5958);
 
   static const Color neutralDarker = Color(0xFF474545);
+
+  static const Color placeholder = Color(0xFFD9D9D9);
 }
