@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/data/fake_data.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/ui/home/widgets/pharmacies_section.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/ui/home/widgets/categories.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/ui/home/widgets/pharmacy_offers.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/ui/home/models/MedicineModel.dart';
@@ -94,6 +96,13 @@ class HomeScreen extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
+                    SectionBar(
+                      sectionTitle: 'Pharmacy Offers',
+                      onPressed: () {},
+                    ),
+                    PharmaciesSection(items: pharmacies, onPressedCard: (ph) {}, onPressedSeeAll: () { },),
+                    SizedBox(height: 24.h),
+                    SectionBar(sectionTitle: 'Categories', onPressed: () {}),
                     PharmacyOffers(),
                     SizedBox(height: 16.h),
                     SectionBar(
