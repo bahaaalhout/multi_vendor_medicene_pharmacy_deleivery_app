@@ -16,6 +16,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: Size(393, 852),
+      minTextAdapt: true,
+      splitScreenMode: true,
       builder: (context, child) => MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Multi Vendor Medicene Pharmacy Deleivery App',

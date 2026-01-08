@@ -62,14 +62,14 @@ class PharmacyCard extends StatelessWidget {
           // Top image / icon area
           Container(
             height: 100.h,
-              decoration: BoxDecoration(
+            decoration: BoxDecoration(
               color: AppColors.placeholder,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(12.r),
                 topRight: Radius.circular(12.r),
               ),
               image: DecorationImage(
-                image: NetworkImage(imageUrl),
+                image: AssetImage(imageUrl),
                 fit: BoxFit.cover,
               ),
             ),
@@ -77,7 +77,12 @@ class PharmacyCard extends StatelessWidget {
 
           // Content
           Padding(
-            padding: EdgeInsets.only(top: 8.h, left: 12.w, right: 12.w, bottom: 12.h),
+            padding: EdgeInsets.only(
+              top: 8.h,
+              left: 12.w,
+              right: 12.w,
+              bottom: 12.h,
+            ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,

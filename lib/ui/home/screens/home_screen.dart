@@ -41,33 +41,7 @@ class HomeScreen extends StatelessWidget {
           quantity: 30,
           strength: '500mg',
           requiresPrescription: false,
-          imageUrls: [""],
-        ),
-      ),
-      PharmacyOfferModel(
-        id: '1',
-        isAvailable: true,
-        price: 12.0,
-        discountedPrice: 9.0,
-        discountPercent: 25,
-        pharmacy: PharmacyModel(
-          id: 'p1',
-          name: 'Al Shifa Pharmacy',
-          rating: 4.6,
-          reviewCount: 120,
-          deliveryFee: 2.5,
-        ),
-        medicine: MedicineModel(
-          id: 'm1',
-          brandName: 'Panadol',
-          genericName: 'Paracetamol',
-          description: '',
-          warnings: const [],
-          form: FormType.tablet,
-          quantity: 30,
-          strength: '500mg',
-          requiresPrescription: false,
-          imageUrls: [""],
+          imageUrls: ["assets/images/med1.png"],
         ),
       ),
     ];
@@ -75,61 +49,53 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.neutralNormal,
       body: SafeArea(
+        bottom: true,
         child: ListView(
           children: [
             WelcomeSection(),
-            SizedBox(height: 16),
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(32.r),
-                    topRight: Radius.circular(32.r),
-                  ),
-                ),
-                padding: EdgeInsets.only(
-                  top: 24,
-                  bottom: 8,
-                  right: 20,
-                  left: 20,
-                ),
-                child: Column(
-                  children: [
-                    SectionBar(
-                      sectionTitle: 'Pharmacy Offers',
-                      onPressed: () {},
-                    ),
-                    PharmaciesSection(items: pharmacies, onPressedCard: (ph) {}, onPressedSeeAll: () { },),
-                    SizedBox(height: 24.h),
-                    SectionBar(sectionTitle: 'Categories', onPressed: () {}),
-                    PharmacyOffers(),
-                    SizedBox(height: 16.h),
-                    SectionBar(
-                      sectionTitle: 'Nearby pharmacies',
-                      onPressed: () {},
-                    ),
-                    SizedBox(height: 16.h),
-                    Categories(),
-                    SizedBox(height: 16.h),
-                    SectionBar(sectionTitle: 'Most Sales', onPressed: () {}),
-                    MostSalesSection(offers: offers),
-                  ],
+            SizedBox(height: 16.h),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(32.r),
+                  topRight: Radius.circular(32.r),
                 ),
               ),
+              padding: EdgeInsets.only(
+                top: 24.h,
+                bottom: 8.h,
+                right: 20.w,
+                left: 20.w,
+              ),
+              child: Column(
+                children: [
+                  SectionBar(sectionTitle: 'Pharmacy Offers', onPressed: () {}),
+                  PharmaciesSection(
+                    items: pharmacies,
+                    onPressedCard: (ph) {},
+                    onPressedSeeAll: () {},
+                  ),
+                  SizedBox(height: 24.h),
+                  SectionBar(sectionTitle: 'Categories', onPressed: () {}),
+                  PharmacyOffers(),
+                  SizedBox(height: 16.h),
+                  SectionBar(
+                    sectionTitle: 'Nearby pharmacies',
+                    onPressed: () {},
+                  ),
+                  SizedBox(height: 16.h),
+                  Categories(),
+                  SizedBox(height: 16.h),
+                  SectionBar(sectionTitle: 'Most Sales', onPressed: () {}),
+                  MostSalesSection(offers: offers),
+                  SizedBox(height: 102.h),
+                ],
+              ),
             ),
-            padding: EdgeInsets.only(top: 24, bottom: 8, right: 20, left: 20),
-            child: Column(
-              children: [
-                SectionBar(sectionTitle: 'Pharmacy Offers', onPressed: () {}),
-                SectionBar(sectionTitle: 'Nearby pharmacies', onPressed: () {}),
-                SectionBar(sectionTitle: 'Categories', onPressed: () {}),
-                SectionBar(sectionTitle: 'Most Sales', onPressed: () {}),
-              ],
-            ),
-          ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
