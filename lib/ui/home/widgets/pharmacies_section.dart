@@ -5,16 +5,17 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/ui/home/widgets/sec
 import 'pharmacy_card.dart';
 
 class PharmaciesSection extends StatelessWidget {
-  const PharmaciesSection({super.key, required this.items, this.onTap});
+  const PharmaciesSection({super.key, required this.items, this.onPressedCard, required this.onPressedSeeAll});
 
   final List<Pharmacy> items;
-  final void Function(Pharmacy)? onTap;
+  final void Function(Pharmacy)? onPressedCard;
+  final void Function()? onPressedSeeAll;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SectionBar(sectionTitle: 'Nearby pharmacies', onPressed: () {}),
+        SectionBar(sectionTitle: 'Nearby pharmacies', onPressed: onPressedSeeAll),
         SizedBox(height: 16.h),
         SizedBox(
           height: 191.h,
@@ -25,7 +26,7 @@ class PharmaciesSection extends StatelessWidget {
             itemBuilder: (context, index) {
               final item = items[index];
               return GestureDetector(
-                onTap: () => onTap?.call(item),
+                onTap: () => onPressedCard?.call(item),
                 child: PharmacyCard.fromPharmacy(pharmacy: item),
               );
             },
