@@ -118,9 +118,18 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-          ],
+            padding: EdgeInsets.only(top: 24, bottom: 8, right: 20, left: 20),
+            child: Column(
+              children: [
+                SectionBar(sectionTitle: 'Pharmacy Offers', onPressed: () {}),
+                SectionBar(sectionTitle: 'Nearby pharmacies', onPressed: () {}),
+                SectionBar(sectionTitle: 'Categories', onPressed: () {}),
+                SectionBar(sectionTitle: 'Most Sales', onPressed: () {}),
+              ],
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
 }
