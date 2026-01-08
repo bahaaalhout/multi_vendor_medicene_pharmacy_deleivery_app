@@ -8,6 +8,7 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/ui/home/models/Phar
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/ui/home/models/pharmacyOfferModel.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/ui/home/widgets/most_sales_section.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/ui/home/widgets/section_bar.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/ui/home/widgets/welcome_section.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -72,18 +73,9 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.neutralNormal,
       body: SafeArea(
-        child: Column(
+        child: ListView(
           children: [
-            Container(
-              height: 100,
-              decoration: BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(32.r),
-                  bottomRight: Radius.circular(32.r),
-                ),
-              ),
-            ),
+            WelcomeSection(),
             SizedBox(height: 16),
             Expanded(
               child: Container(
