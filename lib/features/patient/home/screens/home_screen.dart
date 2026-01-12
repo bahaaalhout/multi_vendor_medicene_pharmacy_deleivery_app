@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/Features/home/models/MedicineModel.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/Features/home/models/PharmacyModel.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/models/MedicineModel.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/models/PharmacyModel.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/models/pharmacyOfferModel.dart';
 
 class HomeScreen extends StatelessWidget {

@@ -1,5 +1,5 @@
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/Features/home/models/MedicineModel.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/Features/home/models/PharmacyModel.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/models/MedicineModel.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/models/PharmacyModel.dart';
 
 class PharmacyOfferModel {
   final String id;
