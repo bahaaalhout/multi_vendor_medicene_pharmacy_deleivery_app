@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-class CustomBottonNavBarItem extends StatelessWidget {
-  const CustomBottonNavBarItem({
+class PatientBottonNavBarItem extends StatelessWidget {
+  const PatientBottonNavBarItem({
     super.key,
 
     required this.tabIndex,

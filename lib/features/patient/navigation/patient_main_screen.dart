@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/ui/home/screens/home_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/ui/home/widgets/cutom_bottom_nav_bar.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/navigation/patient_bottom_nav_bar.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/screens/home_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key, this.selectedIndex});
@@ -51,7 +51,7 @@ class _MainScreenState extends State<MainScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  CustomBottonNavBarItem(
+                  PatientBottonNavBarItem(
                     tabIndex: 0,
                     index: index,
                     activeIcon: 'assets/icons/home_icon.svg',
@@ -63,7 +63,7 @@ class _MainScreenState extends State<MainScreen> {
                       });
                     },
                   ),
-                  CustomBottonNavBarItem(
+                  PatientBottonNavBarItem(
                     tabIndex: 1,
                     index: index,
                     activeIcon: 'assets/icons/order.svg',
@@ -75,7 +75,7 @@ class _MainScreenState extends State<MainScreen> {
                       });
                     },
                   ),
-                  CustomBottonNavBarItem(
+                  PatientBottonNavBarItem(
                     tabIndex: 2,
                     index: index,
                     activeIcon: 'assets/icons/reminder.svg',
@@ -87,7 +87,7 @@ class _MainScreenState extends State<MainScreen> {
                       });
                     },
                   ),
-                  CustomBottonNavBarItem(
+                  PatientBottonNavBarItem(
                     tabIndex: 3,
                     index: index,
                     activeIcon: 'assets/icons/cart.svg',
@@ -99,7 +99,7 @@ class _MainScreenState extends State<MainScreen> {
                       });
                     },
                   ),
-                  CustomBottonNavBarItem(
+                  PatientBottonNavBarItem(
                     tabIndex: 4,
                     index: index,
                     activeIcon: 'assets/icons/profile.svg',
