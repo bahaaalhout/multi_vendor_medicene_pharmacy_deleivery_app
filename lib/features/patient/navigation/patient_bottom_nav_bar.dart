@@ -28,7 +28,6 @@ class PatientBottonNavBarItem extends StatelessWidget {
       children: [
         SvgPicture.asset(
           activeIcon,
-          color: Colors.black,
           width: isIndexTwo ? 24.w : 18.w,
           height: isIndexTwo ? 27.h : 18.h,
         ),
