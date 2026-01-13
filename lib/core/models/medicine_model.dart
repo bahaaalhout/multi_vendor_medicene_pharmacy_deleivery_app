@@ -4,11 +4,14 @@ class MedicineModel {
   final String genericName;
   final String description;
   final List<String> warnings;
+  final String type;
+  final String brand;
   final String strength;
   final FormType form;
   final int quantity;
   final bool requiresPrescription;
   final List<String> imageUrls;
+  final double rating;
 
   MedicineModel({
     required this.id,
@@ -21,7 +24,10 @@ class MedicineModel {
     required this.strength,
     required this.requiresPrescription,
     required this.imageUrls,
+    required this.rating,
+    required this.brand,
+    required this.type,
   });
 }
 
-enum FormType { tablet, syrup, capsule }
+enum FormType { tablet, syrup, capsule, injection, cream, ointment }
