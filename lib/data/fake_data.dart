@@ -117,7 +117,7 @@ final pharmacies = [
   ),
 ];
 
-List<MedicineModel> medicineData = [
+final List<MedicineModel> medicineData = [
   MedicineModel(
     id: "1",
     brandName: "Panadol Extra",
@@ -133,8 +133,17 @@ List<MedicineModel> medicineData = [
     form: FormType.tablet,
     quantity: 20,
     requiresPrescription: false,
-    imageUrls: ["assets/images/pandol.png", "assets/images/pandol.png"],
+    imageUrls: [
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReqT59ijEJcjQ8BgJvkPAhqeXayWD2lRXP4Q&s",
+    ],
     rating: 4.5,
+    details:
+        "Panadol Extra contains paracetamol, a trusted pain reliever that works quickly to reduce fever and relieve pain.",
+    effects:
+        "Relieves mild to moderate pain such as headaches, menstrual pain, and toothaches.",
+    directions:
+        "Take 1-2 tablets every 4 to 6 hours as needed. Do not exceed 8 tablets in 24 hours.",
+    reviews: ["Great for headaches!", "I rely on this for my pain relief."],
   ),
   MedicineModel(
     id: "2",
@@ -151,8 +160,20 @@ List<MedicineModel> medicineData = [
     form: FormType.ointment,
     quantity: 30,
     requiresPrescription: true,
-    imageUrls: ["assets/images/pandol.png", "assets/images/pandol.png"],
+    imageUrls: [
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReqT59ijEJcjQ8BgJvkPAhqeXayWD2lRXP4Q&s",
+    ],
     rating: 4.8,
+    details:
+        "Voltaren contains diclofenac sodium, a nonsteroidal anti-inflammatory drug (NSAID) that reduces pain, swelling, and inflammation.",
+    effects:
+        "Treats pain and inflammation caused by osteoarthritis, rheumatoid arthritis, and musculoskeletal conditions.",
+    directions:
+        "Apply a thin layer to the affected area 2-3 times a day, depending on your doctor’s recommendations.",
+    reviews: [
+      "Works wonders for my joint pain!",
+      "Effective, but can be a bit greasy.",
+    ],
   ),
   MedicineModel(
     id: "3",
@@ -169,8 +190,17 @@ List<MedicineModel> medicineData = [
     form: FormType.capsule,
     quantity: 50,
     requiresPrescription: false,
-    imageUrls: ["assets/images/pandol.png"],
+    imageUrls: [
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReqT59ijEJcjQ8BgJvkPAhqeXayWD2lRXP4Q&s",
+    ],
     rating: 4.2,
+    details:
+        "Benadryl is an antihistamine that relieves symptoms of allergy, hay fever, and the common cold, such as sneezing, runny nose, and itching.",
+    effects:
+        "Relieves symptoms caused by seasonal allergies or allergic reactions.",
+    directions:
+        "Take 1-2 capsules every 4-6 hours as needed. Do not exceed 6 capsules in 24 hours.",
+    reviews: ["Helps with my seasonal allergies.", "It makes me very drowsy."],
   ),
   MedicineModel(
     id: "4",
@@ -185,8 +215,19 @@ List<MedicineModel> medicineData = [
     form: FormType.syrup,
     quantity: 100,
     requiresPrescription: true,
-    imageUrls: ["assets/images/pandol.png"],
+    imageUrls: [
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReqT59ijEJcjQ8BgJvkPAhqeXayWD2lRXP4Q&s",
+    ],
     rating: 4.0,
+    details:
+        "Amoxil is a broad-spectrum antibiotic that is used to treat a variety of infections including ear infections, bronchitis, pneumonia, and urinary tract infections.",
+    effects: "Treats bacterial infections by stopping the growth of bacteria.",
+    directions:
+        "Take as prescribed by your doctor. Complete the full course of treatment even if symptoms disappear.",
+    reviews: [
+      "Great for treating infections.",
+      "I felt better within a few days.",
+    ],
   ),
   MedicineModel(
     id: "5",
@@ -203,8 +244,17 @@ List<MedicineModel> medicineData = [
     form: FormType.ointment,
     quantity: 1,
     requiresPrescription: false,
-    imageUrls: ["assets/images/pandol.png"],
+    imageUrls: [
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReqT59ijEJcjQ8BgJvkPAhqeXayWD2lRXP4Q&s",
+    ],
     rating: 4.6,
+    details:
+        "Vicks VapoRub is a topical ointment that provides relief for cough and muscle pain by inhalation of menthol vapors or through skin absorption.",
+    effects:
+        "Soothes coughs, relieves muscle aches, and provides comfort during cold and flu symptoms.",
+    directions:
+        "Apply on chest, back, and throat for cough relief. Use as directed for muscle pain.",
+    reviews: ["Works wonders for colds.", "A great product for a sore throat."],
   ),
   MedicineModel(
     id: "6",
@@ -218,8 +268,16 @@ List<MedicineModel> medicineData = [
     form: FormType.cream,
     quantity: 3,
     requiresPrescription: false,
-    imageUrls: ["assets/images/pandol.png"],
+    imageUrls: [
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReqT59ijEJcjQ8BgJvkPAhqeXayWD2lRXP4Q&s",
+    ],
     rating: 4.7,
+    details:
+        "Dove Soap is a gentle cleanser that moisturizes and softens the skin, leaving it feeling smooth and hydrated.",
+    effects: "Cleanses, moisturizes, and nourishes the skin.",
+    directions:
+        "Apply to wet skin, lather, and rinse. Use daily for best results.",
+    reviews: ["Love how smooth my skin feels.", "Perfect for sensitive skin."],
   ),
 ];
 

@@ -12,6 +12,10 @@ class MedicineModel {
   final bool requiresPrescription;
   final List<String> imageUrls;
   final double rating;
+  final String details;
+  final String effects;
+  final String directions;
+  final List<String> reviews;
 
   MedicineModel({
     required this.id,
@@ -27,6 +31,10 @@ class MedicineModel {
     required this.rating,
     required this.brand,
     required this.type,
+    required this.details,
+    required this.effects,
+    required this.directions,
+    required this.reviews,
   });
 }
 
