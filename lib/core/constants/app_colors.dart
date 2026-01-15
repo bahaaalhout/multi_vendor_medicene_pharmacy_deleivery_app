@@ -14,4 +14,12 @@ class AppColors {
   static const Color neutralDarkActive = Color(0xFF5b5958);
 
   static const Color neutralDarker = Color(0xFF474545);
+
+  // Profile screen colors
+  static const Color primaryBlue = Color(0xFF334EAC); // Dark blue for text and icons
+  static const Color lightBlue = Color(0xFFEBEDF7); // Light blue for backgrounds and borders
+  static const Color toggleGreen = Color(0xFF4CAF50); // Green for toggle switches
+  static const Color textDark = Color(0xFF212121); // Dark text
+  static const Color textLight = Color(0xFF757575); // Light gray text
+  static const Color inactiveGray = Color(0xFF9E9E9E); // Inactive navigation items
 }
