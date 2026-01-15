@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/data/fake_data.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/screens/delivery_home_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/navigation/patient_main_screen.dart';
 
 void main() {
@@ -18,7 +20,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Multi Vendor Medicene Pharmacy Deleivery App',
         theme: ThemeData(primaryColor: AppColors.primaryNormal),
-        home: MainScreen(),
+        home: DeliveryHomeScreen(availableDeliveries: availableDeliveries,),
+        // home: DeliveryDetailScreen(delivery: deliveryAccepted),
       ),
     );
   }

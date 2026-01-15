@@ -4,7 +4,6 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_sizes.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/delivery_model.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/availableOrdersSection.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/available_order_card.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/bottom_navigation.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/header.dart';
@@ -21,7 +20,7 @@ class DeliveryHomeScreen extends StatefulWidget {
   const DeliveryHomeScreen({
     super.key,
     this.driverName = "Mohammed",
-    this.driverLocation = "Gaza City",
+    this.driverLocation = "26 Salah El Din St., Gaza",
     required this.availableDeliveries,
     this.driverImageUrl,
     this.hasReviewAlert = true,
@@ -57,14 +56,49 @@ class _DeliveryHomeScreenState extends State<DeliveryHomeScreen> {
               SizedBox(height: AppSizes.spacing16.h),
               if (widget.hasReviewAlert) ReviewAlert(),
               if (widget.hasReviewAlert) SizedBox(height: AppSizes.spacing16.h),
-              AvailableOrdersSection(availableDeliveries: widget.availableDeliveries, onAcceptOrder: _handleAcceptOrder),
+              _buildAvailableOrdersHeader(),
+              SizedBox(height: AppSizes.spacing16.h),
+              Expanded(child: _buildOrdersList()),
               BottomNavigation(),
             ],
+
           ),
         ),
       ),
     );
   }
+
+  Widget _buildAvailableOrdersHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          'Available Orders',
+          style: AppTextStyles.bold21.copyWith(color: AppColors.primaryDarker),
+        ),
+        Text(
+          '${widget.availableDeliveries.length} orders',
+          style: AppTextStyles.reqular14.copyWith(
+            color: AppColors.primaryNormal,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildOrdersList() {
+    return ListView.separated(
+      itemCount: widget.availableDeliveries.length,
+      separatorBuilder: (_, __) => SizedBox(height: AppSizes.spacing16.h),
+      itemBuilder: (context, index) {
+        return AvailableOrderCard(
+          deliveryModel: widget.availableDeliveries[index],
+          onAccept: () => _handleAcceptOrder(widget.availableDeliveries[index]),
+        );
+      },
+    );
+  }
+
 
   void _handleAcceptOrder(DeliveryModel delivery) {
     debugPrint('Accept order: ${delivery.id}');
