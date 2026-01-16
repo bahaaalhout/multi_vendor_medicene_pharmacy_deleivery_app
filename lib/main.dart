@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/ui/profile/screens/profile_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/ui/prescription/screens/upload_prescription_screen.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/ui/terms/screens/terms_and_conditions_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
             labelMedium: AppTextStyles.linkText,
           ),
         ),
-        home: const UploadPrescriptionScreen(),
+        home: const TermsAndConditionsScreen(),
       ),
     );
   }

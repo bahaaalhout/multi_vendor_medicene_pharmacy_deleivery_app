@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
 
@@ -7,7 +8,8 @@ class TermsAndConditionsScreen extends StatefulWidget {
   const TermsAndConditionsScreen({super.key});
 
   @override
-  State<TermsAndConditionsScreen> createState() => _TermsAndConditionsScreenState();
+  State<TermsAndConditionsScreen> createState() =>
+      _TermsAndConditionsScreenState();
 }
 
 class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
@@ -21,40 +23,45 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
         child: Column(
           children: [
             // Header
-            Container(
-              color: Colors.white,
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
               child: Row(
                 children: [
                   // Back button
                   Container(
-                    width: 40.w,
-                    height: 40.h,
+                    width: 60.w,
+                    height: 60.h,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: AppColors.neutralLight,
+                      border: Border.all(
+                        color: AppColors.lightBlue,
+                        width: 1.5,
+                      ),
+                      color: Colors.white,
                     ),
                     child: IconButton(
                       padding: EdgeInsets.zero,
-                      icon: Icon(
-                        Icons.chevron_left,
-                        size: 24.sp,
-                        color: AppColors.textDark,
+                      icon: Image.asset(
+                        "assets/icons/back.png",
+                        width: 20.w,
+                        height: 20.h,
                       ),
                       onPressed: () => Navigator.of(context).pop(),
                     ),
                   ),
-                  SizedBox(width: 16.w),
                   // Title
                   Expanded(
                     child: Text(
                       'Terms & Conditions',
-                      style: AppTextStyles.header3.copyWith(
+                      style: GoogleFonts.montserrat(
                         color: AppColors.textDark,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 22.sp,
                       ),
+                      textAlign: TextAlign.center,
                     ),
                   ),
+                  SizedBox(width: 56.w), // Balance the back button width
                 ],
               ),
             ),
@@ -65,21 +72,31 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Text(
+                      'By using this application, you agree to the Following Terms and Conditions:',
+                      style: GoogleFonts.montserrat(
+                        color: AppColors.textDark,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 12.sp,
+                      ),
+                    ),
+                    SizedBox(height: 12.h),
                     // Main Content Area with dotted border
-                    _DottedBorderContainer(
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: AppColors.lightBlue,
+                          width: 1.5,
+                        ),
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
                       child: Padding(
                         padding: EdgeInsets.all(20.w),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             // Introductory Text
-                            Text(
-                              'By using this application, you agree to the Following Terms and Conditions:',
-                              style: AppTextStyles.body.copyWith(
-                                color: AppColors.textDark,
-                              ),
-                            ),
-                            SizedBox(height: 24.h),
+                            SizedBox(height: 1.h),
                             // Terms List
                             _buildTermItem(
                               number: 1,
@@ -140,53 +157,82 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20.h),
-                    // Agreement Section with dotted border
-                    _DottedBorderContainer(
-                      child: Padding(
-                        padding: EdgeInsets.all(20.w),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'By clicking on "I agree to.. "then you follow all the above instructions and information',
-                              style: AppTextStyles.body.copyWith(
-                                color: AppColors.textDark,
-                              ),
-                            ),
-                            SizedBox(height: 16.h),
-                            // Agreement checkbox/button
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  isAgreed = !isAgreed;
-                                });
-                              },
-                              child: Row(
-                                children: [
-                                  Checkbox(
-                                    value: isAgreed,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        isAgreed = value ?? false;
-                                      });
-                                    },
-                                    activeColor: AppColors.primaryBlue,
+                    SizedBox(height: 5.h),
+                    // Agreement Section
+                    Container(
+                      padding: EdgeInsets.all(16.w),
+                      
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Instruction text with bullet point
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(top: 6.h, right: 8.w),
+                                child: Container(
+                                  width: 4.w,
+                                  height: 4.h,
+                                  decoration: BoxDecoration(
+                                    color: AppColors.textDark,
+                                    shape: BoxShape.circle,
                                   ),
-                                  Expanded(
-                                    child: Text(
-                                      'I agree to the Terms and Conditions',
-                                      style: AppTextStyles.body.copyWith(
-                                        color: AppColors.primaryBlue,
-                                        decoration: TextDecoration.underline,
-                                      ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  'By clicking on "I agree to.. " then you follow all the above instructions and information',
+                                  style: GoogleFonts.montserrat(
+                                    color: AppColors.textDark,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 13.sp,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 16.h),
+                          // Agreement checkbox with text
+                          Row(
+                            children: [
+                              Checkbox(
+                                value: isAgreed,
+                                onChanged: (value) {
+                                  setState(() {
+                                    isAgreed = value ?? false;
+                                  });
+                                },
+                                activeColor: AppColors.primaryBlue,
+                                side: BorderSide(
+                                  color: AppColors.lightBlue,
+                                  width: 1.5,
+                                ),
+                              ),
+                              Expanded(
+                                child: RichText(
+                                  text: TextSpan(
+                                    style: GoogleFonts.montserrat(
+                                      color: AppColors.textDark,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14.sp,
                                     ),
+                                    children: [
+                                      TextSpan(
+                                        text: 'I agree to the Terms and Conditions',
+                                        style: GoogleFonts.montserrat(
+                                          color: AppColors.primaryBlue,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 12.sp,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ],
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
                     SizedBox(height: 20.h),
@@ -233,16 +279,19 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
             children: [
               Text(
                 title,
-                style: AppTextStyles.body.copyWith(
+                style: GoogleFonts.montserrat(
                   color: AppColors.textDark,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 14.sp,
                 ),
               ),
               SizedBox(height: 8.h),
               Text(
                 description,
-                style: AppTextStyles.body.copyWith(
+                style: GoogleFonts.montserrat(
                   color: AppColors.textDark,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 12.sp,
                 ),
               ),
             ],
@@ -251,84 +300,5 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
       ],
     );
   }
-}
-
-// Dotted Border Container Widget
-class _DottedBorderContainer extends StatelessWidget {
-  final Widget child;
-
-  const _DottedBorderContainer({required this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12.r),
-        color: Colors.white,
-      ),
-      child: CustomPaint(
-        painter: _DottedBorderPainter(
-          color: AppColors.lightBlue,
-          strokeWidth: 2,
-          radius: 12.r,
-        ),
-        child: child,
-      ),
-    );
-  }
-}
-
-// Dotted Border Painter
-class _DottedBorderPainter extends CustomPainter {
-  final Color color;
-  final double strokeWidth;
-  final double radius;
-  final double dashWidth = 5.0;
-  final double dashSpace = 3.0;
-
-  _DottedBorderPainter({
-    required this.color,
-    required this.strokeWidth,
-    required this.radius,
-  });
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = color
-      ..strokeWidth = strokeWidth
-      ..style = PaintingStyle.stroke;
-
-    final path = Path()
-      ..addRRect(
-        RRect.fromRectAndRadius(
-          Rect.fromLTWH(0, 0, size.width, size.height),
-          Radius.circular(radius),
-        ),
-      );
-
-    final dashPath = _dashPath(path, dashWidth, dashSpace);
-    canvas.drawPath(dashPath, paint);
-  }
-
-  Path _dashPath(Path path, double dashWidth, double dashSpace) {
-    final dashPath = Path();
-    final pathMetrics = path.computeMetrics();
-
-    for (final pathMetric in pathMetrics) {
-      double distance = 0.0;
-      while (distance < pathMetric.length) {
-        dashPath.addPath(
-          pathMetric.extractPath(distance, distance + dashWidth),
-          Offset.zero,
-        );
-        distance += dashWidth + dashSpace;
-      }
-    }
-    return dashPath;
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
