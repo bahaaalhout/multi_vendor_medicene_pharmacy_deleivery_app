@@ -1,7 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/address.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/pharmacy_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/models/pharmacy_offer_model.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/models/medicine_reminder.dart';
 
 final List<Address> address = [
   Address(
@@ -241,5 +243,48 @@ List<PharmacyOfferModel> offers = [
     discountPercent: 25,
     pharmacy: pharmacies[1],
     medicine: medicineData[1],
+  ),
+];
+
+List<MedicineReminder> reminders = [
+  MedicineReminder(
+    id: '1',
+    medicine: medicineData[0], // ✅ Panadol
+    time: const TimeOfDay(hour: 8, minute: 20),
+    dose: 1,
+    startDate: DateTime(2025, 12, 17),
+    endDate: DateTime(2025, 12, 30),
+    days: [1, 2, 3, 4, 5, 6, 7],
+    done: false,
+  ),
+  MedicineReminder(
+    id: '2',
+    medicine: medicineData[1], // ✅ Voltaren
+    time: const TimeOfDay(hour: 10, minute: 0),
+    dose: 2,
+    startDate: DateTime(2025, 12, 17),
+    endDate: DateTime(2025, 12, 30),
+    days: [1, 3, 5],
+    done: false,
+  ),
+  MedicineReminder(
+    id: '3',
+    medicine: medicineData[2], // ✅ Benadryl
+    time: const TimeOfDay(hour: 12, minute: 30),
+    dose: 1,
+    startDate: DateTime(2025, 12, 17),
+    endDate: DateTime(2025, 12, 30),
+    days: [2, 4, 6],
+    done: true,
+  ),
+  MedicineReminder(
+    id: '4',
+    medicine: medicineData[3], // ✅ Amoxil
+    time: const TimeOfDay(hour: 18, minute: 45),
+    dose: 3,
+    startDate: DateTime(2025, 12, 17),
+    endDate: DateTime(2025, 12, 30),
+    days: [1, 2, 3, 4, 5],
+    done: true,
   ),
 ];
