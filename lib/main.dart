@@ -17,9 +17,12 @@ class MyApp extends StatelessWidget {
       builder: (context, child) => MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Multi Vendor Medicene Pharmacy Deleivery App',
-        theme: ThemeData(primaryColor: AppColors.primaryNormal),
-       home: DeliveryHomeScreen(),
-         ),
+        theme: ThemeData(
+          primaryColor: AppColors.primaryNormal,
+          scaffoldBackgroundColor: AppColors.neutralNormal,
+        ),
+        home: MainScreen(),
+      ),
     );
   }
 }
