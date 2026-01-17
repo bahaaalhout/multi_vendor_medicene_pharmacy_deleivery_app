@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/address.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/address_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/pharmacy_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/widgets/nearby_pharmacy_widget.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/widgets/title_of_headers.dart';
@@ -26,7 +26,7 @@ class NearbyPharmacies extends StatelessWidget {
                 pharmacyModel: PharmacyModel(
                   id: '1',
                   name: 'Ah',
-                  address: Address(
+                  address: AddressModel(
                     id: '1',
                     street: 'Al Nasr',
                     area: 'Al Rimal',
