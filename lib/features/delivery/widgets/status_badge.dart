@@ -35,7 +35,6 @@ class StatusBadge extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppSizes.borderRadius8.r),
       ),
       child: Row(
-        mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             customText ?? config.text,
@@ -47,7 +46,7 @@ class StatusBadge extends StatelessWidget {
             SizedBox(width: AppSizes.spacing4.w),
             Icon(
               Icons.check,
-              size: 12.sp,
+              size: AppSizes.iconSize12.sp,
               color: config.textColor,
             ),
           ],

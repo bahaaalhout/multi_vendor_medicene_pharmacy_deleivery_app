@@ -2,21 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_sizes.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/order_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/delivery_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/utils/formatting_utils.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/card_details_tile.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/delivery_info_badge.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/delivery_info_chips.dart';
-import 'contact_info_row.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/card_title_row.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/status_badge.dart';
 
 class CustomerInfoCard extends StatelessWidget {
-  final OrderModel order;
   final DeliveryModel delivery;
   final String? customerImageUrl;
 
   const CustomerInfoCard({
     super.key,
-    required this.order,
     required this.delivery,
     this.customerImageUrl,
   });
@@ -31,130 +30,58 @@ class CustomerInfoCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          _buildCustomerHeader(),
+          CardTitleRow(
+            imageUrl: customerImageUrl,
+            fallbackIcon: Icons.person,
+            title: delivery.order.customerName,
+            statusBadge: _getCustomerStatusBadge(),
+          ),
           SizedBox(height: AppSizes.spacing12.h),
           _buildContactInfo(),
           SizedBox(height: AppSizes.spacing12.h),
-          _buildDeliveryInfo(),
+          DeliveryInfoChips(
+            timeMinutes: delivery.order.estimatedTimeMinutes,
+            distanceKm: delivery.distanceKm,
+            deliveryInfoBadge: DeliveryInfoBadge(
+              paymentMethod: delivery.order.paymentMethod,
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildCustomerHeader() {
-    return Row(
-      children: [
-        CircleAvatar(
-          radius: 28.r,
-          backgroundColor: AppColors.neutralLight,
-          backgroundImage: customerImageUrl != null
-              ? NetworkImage(customerImageUrl!)
-              : null,
-          child: customerImageUrl == null
-              ? Text(
-                  FormattingUtils.getInitials(order.customerName),
-                  style: AppTextStyles.bold21.copyWith(
-                    color: AppColors.primaryNormal,
-                  ),
-                )
-              : null,
-        ),
-        SizedBox(width: AppSizes.spacing12.w),
-        
-        Expanded(
-          child: Text(
-            order.customerName,
-            style: AppTextStyles.bold16.copyWith(
-              color: AppColors.primaryDark,
-            ),
-          ),
-        ),
-
-        if (delivery.status == DeliveryStatus.enRoute)
-          Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: AppSizes.spacing12.w,
-              vertical: AppSizes.spacing8.h,
-            ),
-            decoration: BoxDecoration(
-              color: AppColors.warningLightActive,
-              borderRadius: BorderRadius.circular(AppSizes.borderRadius8.r),
-            ),
-            child: Text(
-              'On way',
-              style: AppTextStyles.semiBold12.copyWith(
-                color: AppColors.warningDarker,
-              ),
-            ),
-          ),
-      ],
-    );
+  Widget? _getCustomerStatusBadge() {
+    switch (delivery.status) {
+      case DeliveryStatus.enRoute:
+        return StatusBadge(type: BadgeType.onWay);
+      default:
+        return null;
+    }
   }
 
   Widget _buildContactInfo() {
     return Column(
       children: [
-        ContactInfoRow(
-          icon: Icons.location_on,
+        CardDetailsTile(
           label: 'To',
-          value: order.deliveryAddress.street,
-          subtitle: '${order.deliveryAddress.area}, ${order.deliveryAddress.city}',
+          value: delivery.order.deliveryAddress.street,
+          subTitle:
+              '${delivery.order.deliveryAddress.area}, ${delivery.order.deliveryAddress.city}',
         ),
         SizedBox(height: AppSizes.spacing8.h),
-        ContactInfoRow(
-          icon: Icons.email,
+        CardDetailsTile(
+          icon: Icons.email_outlined,
           label: 'Gmail',
-          value: order.customerEmail,
+          value: delivery.order.customerEmail,
         ),
         SizedBox(height: AppSizes.spacing8.h),
-        ContactInfoRow(
-          icon: Icons.phone,
+        CardDetailsTile(
+          icon: Icons.phone_outlined,
           label: 'Phone',
-          value: FormattingUtils.formatPhoneNumber(order.customerPhone),
+          value: FormattingUtils.formatPhoneNumber(delivery.order.customerPhone),
         ),
       ],
-    );
-  }
-
-  Widget _buildDeliveryInfo() {
-    return Row(
-      children: [
-        Expanded(
-          child: DeliveryInfoChips(
-            timeMinutes: order.estimatedTimeMinutes,
-            distanceKm: delivery.distanceKm,
-            showFreeDelivery: false,
-          ),
-        ),
-        SizedBox(width: AppSizes.spacing8.w),
-        _buildPaymentBadge(),
-      ],
-    );
-  }
-
-  Widget _buildPaymentBadge() {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: AppSizes.spacing12.w,
-        vertical: AppSizes.spacing8.h,
-      ),
-      decoration: BoxDecoration(
-        color: AppColors.neutralLightActive,
-        borderRadius: BorderRadius.circular(AppSizes.borderRadius8.r),
-      ),
-      child: order.paymentMethod.toLowerCase().contains('visa')
-          ? Image.asset(
-              'assets/images/visa_logo.png',
-              height: 24.h,
-              errorBuilder: (_, __, ___) => Text(
-                order.paymentMethod,
-                style: AppTextStyles.medium12,
-              ),
-            )
-          : Text(
-              order.paymentMethod,
-              style: AppTextStyles.medium12,
-            ),
     );
   }
 }

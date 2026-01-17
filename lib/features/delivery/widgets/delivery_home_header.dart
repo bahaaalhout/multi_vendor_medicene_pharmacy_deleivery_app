@@ -4,12 +4,12 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_sizes.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
 
-class Header extends StatelessWidget {
+class DeliveyHomeHeader extends StatelessWidget {
   final String driverName;
   final String driverLocation;
   final String? driverImageUrl;
 
-  const Header({
+  const DeliveyHomeHeader({
     super.key,
     required this.driverName,
     required this.driverLocation,

@@ -17,8 +17,8 @@ class ProductItem extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 40.w,
-            height: 40.h,
+            width: AppSizes.spacing40.w,
+            height: AppSizes.spacing40.h,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(AppSizes.borderRadius4.r),
@@ -34,7 +34,7 @@ class ProductItem extends StatelessWidget {
                 fit: BoxFit.cover,
                 errorBuilder: (_, __, ___) => Icon(
                   Icons.medication,
-                  size: 20.sp,
+                  size: AppSizes.iconSize20.sp,
                   color: AppColors.primaryNormal,
                 ),
               ),

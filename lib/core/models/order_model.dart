@@ -1,3 +1,5 @@
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/pharmacy_model.dart';
+
 import 'cart_item_model.dart';
 import 'address_model.dart';
 
@@ -39,6 +41,7 @@ class OrderModel {
   });
 
   int get totalItems => items.fold(0, (sum, item) => sum + item.quantity);
+  PharmacyModel get pharmacy => items.first.pharmacyOffer.pharmacy;
   String get pharmacyId => items.first.pharmacyOffer.pharmacy.id;
   String get pharmacyName => items.first.pharmacyOffer.pharmacy.name;
   AddressModel get pharmacyAddress => items.first.pharmacyOffer.pharmacy.address;

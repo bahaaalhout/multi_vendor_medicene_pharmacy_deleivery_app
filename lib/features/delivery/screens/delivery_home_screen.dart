@@ -6,7 +6,7 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_them
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/delivery_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/available_order_card.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/bottom_navigation.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/header.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/delivery_home_header.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/online_toggle.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/review_alert.dart';
 
@@ -37,12 +37,13 @@ class _DeliveryHomeScreenState extends State<DeliveryHomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      bottomNavigationBar: BottomNavigation(),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: AppSizes.spacing16.w),
           child: Column(
             children: [
-              Header(
+              DeliveyHomeHeader(
                 driverName: widget.driverName,
                 driverLocation: widget.driverLocation,
                 driverImageUrl: widget.driverImageUrl,
@@ -59,7 +60,6 @@ class _DeliveryHomeScreenState extends State<DeliveryHomeScreen> {
               _buildAvailableOrdersHeader(),
               SizedBox(height: AppSizes.spacing16.h),
               Expanded(child: _buildOrdersList()),
-              BottomNavigation(),
             ],
 
           ),
@@ -92,7 +92,7 @@ class _DeliveryHomeScreenState extends State<DeliveryHomeScreen> {
       separatorBuilder: (_, __) => SizedBox(height: AppSizes.spacing16.h),
       itemBuilder: (context, index) {
         return AvailableOrderCard(
-          deliveryModel: widget.availableDeliveries[index],
+          delivery: widget.availableDeliveries[index],
           onAccept: () => _handleAcceptOrder(widget.availableDeliveries[index]),
         );
       },

@@ -22,10 +22,10 @@ class ActionButton extends StatelessWidget {
     final config = _getButtonConfig();
 
     return Container(
-      padding: EdgeInsets.all(AppSizes.spacing16.w),
+      padding: EdgeInsets.symmetric(horizontal:  AppSizes.spacing16.w, vertical: AppSizes.spacing12.h),
       decoration: BoxDecoration(
         border: Border.all(color: AppColors.neutralNormal),
-        borderRadius: BorderRadius.circular(AppSizes.borderRadius8.r),
+        borderRadius: BorderRadius.circular(AppSizes.borderRadius12.r),
       ),
       child: Column(
         children: [
@@ -39,7 +39,6 @@ class ActionButton extends StatelessWidget {
 
           SizedBox(
             width: double.infinity,
-            height: 48.h,
             child: ElevatedButton(
               onPressed: config.onPressed,
               style: ElevatedButton.styleFrom(
@@ -48,10 +47,13 @@ class ActionButton extends StatelessWidget {
                   borderRadius: BorderRadius.circular(AppSizes.borderRadius8.r),
                 ),
               ),
-              child: Text(
-                config.buttonText,
-                style: AppTextStyles.semiBold16.copyWith(
-                  color: Colors.white,
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: AppSizes.spacing18.h),
+                child: Text(
+                  config.buttonText,
+                  style: AppTextStyles.semiBold16.copyWith(
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),

@@ -19,10 +19,10 @@ class DeliveryInstructionsCard extends StatelessWidget {
     }
 
     return Container(
-      padding: EdgeInsets.all(AppSizes.spacing16.w),
+      padding: EdgeInsets.symmetric(horizontal: AppSizes.spacing16.w, vertical: AppSizes.spacing12.h),
       decoration: BoxDecoration(
         color: AppColors.warningLightHover,
-        borderRadius: BorderRadius.circular(AppSizes.borderRadius8.r),
+        borderRadius: BorderRadius.circular(AppSizes.borderRadius12.r),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.15),
@@ -38,7 +38,7 @@ class DeliveryInstructionsCard extends StatelessWidget {
             children: [
               Icon(
                 Icons.info_outline,
-                size: 32.sp,
+                size: AppSizes.iconSize32.r,
                 color: AppColors.neutralDarker,
               ),
               SizedBox(width: AppSizes.spacing12.w),
@@ -50,13 +50,13 @@ class DeliveryInstructionsCard extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: AppSizes.spacing8.h),
+          SizedBox(height: AppSizes.spacing4.h),
           
-          Center(
+          Padding(
+            padding: EdgeInsets.only(left: AppSizes.spacing32.w + AppSizes.spacing16.w),
             child: Text(
               instructions!,
               style: AppTextStyles.reqular14,
-              textAlign: TextAlign.center,
             ),
           ),
         ],

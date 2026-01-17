@@ -10,12 +10,10 @@ import 'step_connector.dart';
 
 class DeliveryProgressStepper extends StatelessWidget {
   final DeliveryModel delivery;
-  final String? statusMessage;
 
   const DeliveryProgressStepper({
     super.key,
     required this.delivery,
-    this.statusMessage,
   });
 
   @override
@@ -48,6 +46,7 @@ class DeliveryProgressStepper extends StatelessWidget {
                 label: 'On the way',
                 isActive: delivery.isStepActive(DeliveryStep.onTheWay),
                 isCompleted: delivery.isStepCompleted(DeliveryStep.onTheWay),
+                alignment: TextAlign.center,
               ),
               StepLabel(
                 label: 'Delivered',
@@ -87,25 +86,25 @@ class DeliveryProgressStepper extends StatelessWidget {
             ],
           ),
 
-          if (statusMessage != null) ...[
+          if (delivery.statusMessage != null) ...[
             SizedBox(height: AppSizes.spacing16.h),
             Container(
               padding: EdgeInsets.symmetric(
-                horizontal: AppSizes.spacing8.w,
-                vertical: AppSizes.spacing12.h,
+                horizontal: AppSizes.spacing12.w,
+                vertical: AppSizes.spacing14.h,
               ),
               decoration: BoxDecoration(
                 color: AppColors.warningLightActive,
-                borderRadius: BorderRadius.circular(AppSizes.borderRadius8.r),
+                borderRadius: BorderRadius.circular(AppSizes.borderRadius12.r),
               ),
               child: Row(
                 children: [
                   Icon(
                     Icons.access_time,
-                    size: 20.sp,
+                    size: AppSizes.iconSize20.sp,
                     color: AppColors.neutralDarker,
                   ),
-                  SizedBox(width: AppSizes.spacing8.w),
+                  SizedBox(width: AppSizes.spacing4.w),
                   Text(
                     'Status',
                     style: AppTextStyles.semiBold12.copyWith(
@@ -114,7 +113,7 @@ class DeliveryProgressStepper extends StatelessWidget {
                   ),
                   const Spacer(),
                   Text(
-                    statusMessage!,
+                    delivery.statusMessage!,
                     style: AppTextStyles.medium12.copyWith(
                       color: AppColors.warningDark,
                     ),

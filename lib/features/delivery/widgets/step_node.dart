@@ -28,7 +28,7 @@ class StepNode extends StatelessWidget {
       content = Icon(
         Icons.check,
         color: Colors.white,
-        size: 32.sp,
+        size: AppSizes.iconSize32.sp,
       );
     } else if (isActive) {
       backgroundColor = AppColors.secondaryNormal;
@@ -51,8 +51,8 @@ class StepNode extends StatelessWidget {
     }
 
     return Container(
-      width: 56.w,
-      height: 56.h,
+      width: AppSizes.spacing56.w,
+      height: AppSizes.spacing56.h,
       decoration: BoxDecoration(
         color: backgroundColor,
         shape: BoxShape.circle,

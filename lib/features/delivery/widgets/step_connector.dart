@@ -25,8 +25,8 @@ class StepConnector extends StatelessWidget {
         children: List.generate(
           3,
           (index) => Container(
-            width: 8.w,
-            height: 8.h,
+            width: AppSizes.iconSize8.w,
+            height: AppSizes.iconSize8.h,
             decoration: BoxDecoration(
               color: color,
               shape: BoxShape.circle,

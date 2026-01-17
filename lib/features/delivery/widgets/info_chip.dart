@@ -17,25 +17,23 @@ class InfoChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: AppSizes.spacing12.w,
-        vertical: AppSizes.spacing8.h,
-      ),
+      padding: EdgeInsets.all(AppSizes.spacing12.r),
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(color: AppColors.neutralNormal, width: 0.5.w),
         borderRadius: BorderRadius.circular(AppSizes.borderRadius8.r),
       ),
       child: Row(
-        mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 16.sp, color: AppColors.neutralDarker),
+          Icon(
+            icon,
+            size: AppSizes.iconSize16.r,
+            color: AppColors.neutralDarkActive,
+          ),
           SizedBox(width: AppSizes.spacing8.w),
           Text(
             text,
-            style: AppTextStyles.medium12.copyWith(
-              color: AppColors.neutralDarkActive,
-            ),
+            style: AppTextStyles.medium12.copyWith(color: AppColors.neutralDarkActive),
           ),
         ],
       ),

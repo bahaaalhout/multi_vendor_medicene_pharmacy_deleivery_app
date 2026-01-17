@@ -26,17 +26,16 @@ class ProductListWidget extends StatelessWidget {
     final totalQuantity = items.fold(0, (sum, item) => sum + item.quantity);
 
     return Container(
-      padding: EdgeInsets.all(AppSizes.spacing8.w),
+      padding: EdgeInsets.symmetric(horizontal: AppSizes.spacing12.w, vertical: AppSizes.spacing8.h),
       decoration: BoxDecoration(
         color: AppColors.secondaryLight,
         borderRadius: BorderRadius.circular(AppSizes.borderRadius4.r),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Header row
           Container(
-            padding: EdgeInsets.all(AppSizes.spacing8.w),
+            padding: EdgeInsets.all(AppSizes.spacing8.r),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(AppSizes.borderRadius4.r),
@@ -77,19 +76,19 @@ class ProductListWidget extends StatelessWidget {
                 children: [
                   // Overlapping medicine images - with bounded constraints
                   SizedBox(
-                    width: (items.length.clamp(0, 4) * 24 + 16).w,
-                    height: 40.h,
+                    width: (items.length.clamp(0, 4) * AppSizes.iconSize24 + AppSizes.spacing16).w,
+                    height: AppSizes.spacing40.h,
                     child: Stack(
                       clipBehavior: Clip.none,
                       children: List.generate(
                         items.length.clamp(0, 4),
                         (index) => Positioned(
-                          left: (index * 24).w,
+                          left: (index * AppSizes.iconSize24).w,
                           child: Transform.rotate(
                             angle: 0.14,
                             child: Container(
-                              width: 40.w,
-                              height: 40.h,
+                              width: AppSizes.spacing40.w,
+                              height: AppSizes.spacing40.h,
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(AppSizes.borderRadius4.r),
@@ -105,7 +104,7 @@ class ProductListWidget extends StatelessWidget {
                                   fit: BoxFit.cover,
                                   errorBuilder: (_, __, ___) => Icon(
                                     Icons.medication,
-                                    size: 20.sp,
+                                    size: AppSizes.iconSize20.sp,
                                     color: AppColors.primaryNormal,
                                   ),
                                 ),
@@ -158,7 +157,7 @@ class ProductListWidget extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.verified_user,
-                    size: 14.sp,
+                    size: AppSizes.iconSize14.sp,
                     color: AppColors.successDarkActive,
                   ),
                   SizedBox(width: AppSizes.spacing4.w),

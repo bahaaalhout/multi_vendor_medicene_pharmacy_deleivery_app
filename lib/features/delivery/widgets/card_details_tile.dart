@@ -5,16 +5,18 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/utils/formatting_utils.dart';
 
-class AddressTile extends StatelessWidget {
+class CardDetailsTile extends StatelessWidget {
+  final IconData icon;
   final String label;
-  final String street;
-  final String areaCity;
+  final String value;
+  final String? subTitle;
 
-  const AddressTile({
+  const CardDetailsTile({
     super.key,
+    this.icon = Icons.location_on_outlined,
     required this.label,
-    required this.street,
-    required this.areaCity,
+    required this.value,
+    this.subTitle,
   });
 
   @override
@@ -37,14 +39,16 @@ class AddressTile extends StatelessWidget {
             child: Row(
               children: [
                 Icon(
-                  Icons.location_on_outlined,
+                  icon,
                   color: AppColors.primaryNormal,
                   size: AppSizes.iconSize16.w,
                 ),
                 SizedBox(width: AppSizes.spacing8.w),
                 Text(
                   label,
-                  style: AppTextStyles.semiBold14.copyWith(color: Colors.black.withAlphaPercent(0.8)),
+                  style: AppTextStyles.semiBold14.copyWith(
+                    color: Colors.black.withAlphaPercent(0.8),
+                  ),
                 ),
               ],
             ),
@@ -56,13 +60,18 @@ class AddressTile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  street,
-                  style: AppTextStyles.semiBold14.copyWith(color: Colors.black.withAlphaPercent(0.8)),
+                  value,
+                  style: AppTextStyles.semiBold14.copyWith(
+                    color: Colors.black.withAlphaPercent(0.8),
+                  ),
                 ),
-                Text(
-                  areaCity,
-                  style: AppTextStyles.reqular12.copyWith(color: Colors.black.withAlphaPercent(0.5)),
-                ),
+                if (subTitle != null)
+                  Text(
+                    subTitle!,
+                    style: AppTextStyles.reqular12.copyWith(
+                      color: Colors.black.withAlphaPercent(0.5),
+                    ),
+                  ),
               ],
             ),
           ),
