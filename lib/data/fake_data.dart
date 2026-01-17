@@ -63,7 +63,7 @@ final pharmacies = [
     address: address[0],
     rating: 4.5,
     reviewCount: 500,
-    deliveryFee: 5,
+    deliveryFee: 0,
     deliveryTime: "15 minutes",
     distance: 2.5,
   ),
