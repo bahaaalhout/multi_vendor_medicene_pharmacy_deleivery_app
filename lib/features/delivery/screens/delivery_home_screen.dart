@@ -4,6 +4,7 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_sizes.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/delivery_model.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/data/fake_data.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/available_order_card.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/bottom_navigation.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/delivery_home_header.dart';
@@ -11,20 +12,8 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/w
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/review_alert.dart';
 
 class DeliveryHomeScreen extends StatefulWidget {
-  final String driverName;
-  final String driverLocation;
-  final String? driverImageUrl;
-  final bool hasReviewAlert;
-  final List<DeliveryModel> availableDeliveries;
 
-  const DeliveryHomeScreen({
-    super.key,
-    this.driverName = "Mohammed",
-    this.driverLocation = "26 Salah El Din St., Gaza",
-    required this.availableDeliveries,
-    this.driverImageUrl,
-    this.hasReviewAlert = true,
-  });
+  const DeliveryHomeScreen({super.key,});
 
   @override
   State<DeliveryHomeScreen> createState() => _DeliveryHomeScreenState();
@@ -32,6 +21,11 @@ class DeliveryHomeScreen extends StatefulWidget {
 
 class _DeliveryHomeScreenState extends State<DeliveryHomeScreen> {
   bool _isOnline = true;
+  final String driverName= "Mohammed";
+  final String driverLocation = "26 Salah El Din St., Gaza";
+  final String? driverImageUrl = null;
+  final bool hasReviewAlert = true;
+  final List<DeliveryModel> availableDeliveries = fakeAvailableDeliveries;
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +38,9 @@ class _DeliveryHomeScreenState extends State<DeliveryHomeScreen> {
           child: Column(
             children: [
               DeliveyHomeHeader(
-                driverName: widget.driverName,
-                driverLocation: widget.driverLocation,
-                driverImageUrl: widget.driverImageUrl,
+                driverName: driverName,
+                driverLocation: driverLocation,
+                driverImageUrl: driverImageUrl,
               ),
               SizedBox(height: AppSizes.spacing16.h),
               OnlineToggle(isOnline: _isOnline, onChanged: (value) {
@@ -55,8 +49,8 @@ class _DeliveryHomeScreenState extends State<DeliveryHomeScreen> {
                 });
               }),
               SizedBox(height: AppSizes.spacing16.h),
-              if (widget.hasReviewAlert) ReviewAlert(),
-              if (widget.hasReviewAlert) SizedBox(height: AppSizes.spacing16.h),
+              if (hasReviewAlert) ReviewAlert(),
+              if (hasReviewAlert) SizedBox(height: AppSizes.spacing16.h),
               _buildAvailableOrdersHeader(),
               SizedBox(height: AppSizes.spacing16.h),
               Expanded(child: _buildOrdersList()),
@@ -77,7 +71,7 @@ class _DeliveryHomeScreenState extends State<DeliveryHomeScreen> {
           style: AppTextStyles.bold21.copyWith(color: AppColors.primaryDarker),
         ),
         Text(
-          '${widget.availableDeliveries.length} orders',
+          '${availableDeliveries.length} orders',
           style: AppTextStyles.reqular14.copyWith(
             color: AppColors.primaryNormal,
           ),
@@ -88,12 +82,12 @@ class _DeliveryHomeScreenState extends State<DeliveryHomeScreen> {
 
   Widget _buildOrdersList() {
     return ListView.separated(
-      itemCount: widget.availableDeliveries.length,
+      itemCount: availableDeliveries.length,
       separatorBuilder: (_, __) => SizedBox(height: AppSizes.spacing16.h),
       itemBuilder: (context, index) {
         return AvailableOrderCard(
-          delivery: widget.availableDeliveries[index],
-          onAccept: () => _handleAcceptOrder(widget.availableDeliveries[index]),
+          delivery: availableDeliveries[index],
+          onAccept: () => _handleAcceptOrder(availableDeliveries[index]),
         );
       },
     );

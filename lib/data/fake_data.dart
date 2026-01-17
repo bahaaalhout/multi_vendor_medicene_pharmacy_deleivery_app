@@ -444,7 +444,7 @@ const pharmacyAddress = AddressModel(
   );
 
   // === Available Deliveries for Home Screen ===
-  final availableDeliveries = [
+  final fakeAvailableDeliveries = [
     deliveryAccepted,
     DeliveryModel(
       id: 'del_5',
