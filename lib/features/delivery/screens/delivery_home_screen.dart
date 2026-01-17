@@ -5,6 +5,7 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/delivery_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/data/fake_data.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/screens/delivery_details_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/available_order_card.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/bottom_navigation.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/delivery_home_header.dart';
@@ -12,8 +13,7 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/w
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/review_alert.dart';
 
 class DeliveryHomeScreen extends StatefulWidget {
-
-  const DeliveryHomeScreen({super.key,});
+  const DeliveryHomeScreen({super.key});
 
   @override
   State<DeliveryHomeScreen> createState() => _DeliveryHomeScreenState();
@@ -21,7 +21,7 @@ class DeliveryHomeScreen extends StatefulWidget {
 
 class _DeliveryHomeScreenState extends State<DeliveryHomeScreen> {
   bool _isOnline = true;
-  final String driverName= "Mohammed";
+  final String driverName = "Mohammed";
   final String driverLocation = "26 Salah El Din St., Gaza";
   final String? driverImageUrl = null;
   final bool hasReviewAlert = true;
@@ -43,11 +43,14 @@ class _DeliveryHomeScreenState extends State<DeliveryHomeScreen> {
                 driverImageUrl: driverImageUrl,
               ),
               SizedBox(height: AppSizes.spacing16.h),
-              OnlineToggle(isOnline: _isOnline, onChanged: (value) {
-                setState(() {
-                  _isOnline = value;
-                });
-              }),
+              OnlineToggle(
+                isOnline: _isOnline,
+                onChanged: (value) {
+                  setState(() {
+                    _isOnline = value;
+                  });
+                },
+              ),
               SizedBox(height: AppSizes.spacing16.h),
               if (hasReviewAlert) ReviewAlert(),
               if (hasReviewAlert) SizedBox(height: AppSizes.spacing16.h),
@@ -55,7 +58,6 @@ class _DeliveryHomeScreenState extends State<DeliveryHomeScreen> {
               SizedBox(height: AppSizes.spacing16.h),
               Expanded(child: _buildOrdersList()),
             ],
-
           ),
         ),
       ),
@@ -93,14 +95,13 @@ class _DeliveryHomeScreenState extends State<DeliveryHomeScreen> {
     );
   }
 
-
   void _handleAcceptOrder(DeliveryModel delivery) {
     debugPrint('Accept order: ${delivery.id}');
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) => DeliveryDetailScreen(delivery: delivery),
-    //   ),
-    // );
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => DeliveryDetailScreen(delivery: delivery),
+      ),
+    );
   }
 }

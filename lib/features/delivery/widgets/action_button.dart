@@ -6,21 +6,19 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_them
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/delivery_model.dart';
 
 class ActionButton extends StatelessWidget {
-  final DeliveryStatus status;
-  final VoidCallback onAccept;
-  final VoidCallback onStart;
+  final String buttonText;
+  final String noticeText;
+  final VoidCallback onPressed;
 
   const ActionButton({
     super.key,
-    required this.status,
-    required this.onAccept,
-    required this.onStart,
+    required this.buttonText,
+    required this.noticeText,
+    required this.onPressed,
   });
 
   @override
   Widget build(BuildContext context) {
-    final config = _getButtonConfig();
-
     return Container(
       padding: EdgeInsets.symmetric(horizontal:  AppSizes.spacing16.w, vertical: AppSizes.spacing12.h),
       decoration: BoxDecoration(
@@ -30,7 +28,7 @@ class ActionButton extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            config.noticeText,
+            noticeText,
             style: AppTextStyles.reqular12.copyWith(
               color: AppColors.neutralDarkHover,
             ),
@@ -40,7 +38,7 @@ class ActionButton extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: config.onPressed,
+              onPressed: onPressed,
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primaryDarkActive,
                 shape: RoundedRectangleBorder(
@@ -50,7 +48,7 @@ class ActionButton extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: AppSizes.spacing18.h),
                 child: Text(
-                  config.buttonText,
+                  buttonText,
                   style: AppTextStyles.semiBold16.copyWith(
                     color: Colors.white,
                   ),
@@ -62,39 +60,4 @@ class ActionButton extends StatelessWidget {
       ),
     );
   }
-
-  ButtonConfig _getButtonConfig() {
-    switch (status) {
-      case DeliveryStatus.accepted:
-        return ButtonConfig(
-          buttonText: 'Accept Order',
-          noticeText: 'By agreeing now to deliver this order, you will be required to wait for a completion notification from the pharmacy.',
-          onPressed: onAccept,
-        );
-      case DeliveryStatus.pickedUp:
-        return ButtonConfig(
-          buttonText: 'Start Delivery',
-          noticeText: 'Confirming the order now will change its status to "On the way" to the customer\'s location.',
-          onPressed: onStart,
-        );
-      default:
-        return ButtonConfig(
-          buttonText: '',
-          noticeText: '',
-          onPressed: () {},
-        );
-    }
-  }
-}
-
-class ButtonConfig {
-  final String buttonText;
-  final String noticeText;
-  final VoidCallback onPressed;
-
-  ButtonConfig({
-    required this.buttonText,
-    required this.noticeText,
-    required this.onPressed,
-  });
 }

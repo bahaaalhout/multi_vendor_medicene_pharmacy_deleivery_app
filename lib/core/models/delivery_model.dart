@@ -69,4 +69,30 @@ class DeliveryModel {
   bool get canStartDelivery => status == DeliveryStatus.pickedUp;
   bool get canComplete => status == DeliveryStatus.enRoute;
   bool get isCompleted => status == DeliveryStatus.delivered || status == DeliveryStatus.confirmed;
+
+  DeliveryModel copyWith({
+    String? id,
+    OrderModel? order,
+    DeliveryStatus? status,
+    double? distanceKm,
+    double? timeMinutes,
+    double? price,
+    double? rating,
+    String? customerOtp,
+    String? proofImageUrl,
+    String? statusMessage,
+  }) {
+    return DeliveryModel(
+      id: id ?? this.id,
+      order: order ?? this.order,
+      status: status ?? this.status,
+      distanceKm: distanceKm ?? this.distanceKm,
+      timeMinutes: timeMinutes ?? this.timeMinutes,
+      price: price ?? this.price,
+      rating: rating ?? this.rating,
+      customerOtp: customerOtp ?? this.customerOtp,
+      proofImageUrl: proofImageUrl ?? this.proofImageUrl,
+      statusMessage: statusMessage ?? this.statusMessage,
+    );
+  }
 }
