@@ -7,7 +7,6 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/deliver
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/data/fake_data.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/screens/delivery_details_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/available_order_card.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/bottom_navigation.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/delivery_home_header.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/online_toggle.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/review_alert.dart';
@@ -31,7 +30,6 @@ class _DeliveryHomeScreenState extends State<DeliveryHomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      bottomNavigationBar: BottomNavigation(),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: AppSizes.spacing16.w),

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_sizes.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/delivery_model.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/data/fake_data.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/bottom_navigation.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/delivery_progress_stepper.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/delivery_instructions_card.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/customer_info_card.dart';
@@ -34,7 +32,6 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      bottomNavigationBar: BottomNavigation(),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: AppSizes.spacing16.h),
