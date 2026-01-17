@@ -7,7 +7,7 @@ class ReminderChip extends StatelessWidget {
   final Color backgroundColor;
   final Color textColor;
   final TextStyle textStyle;
-  final String? icon; // ✅ SVG ثابت
+  final String? icon;
 
   const ReminderChip({
     super.key,
@@ -21,21 +21,23 @@ class ReminderChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(minHeight: 23.h), // ✅ بدل height: 23.w
-      padding: EdgeInsets.symmetric(
-        horizontal: 8.w,
-        vertical: 4.h,
-      ), // ✅ رجّع عمودي
+      constraints: BoxConstraints(minHeight: 23.h),
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(4.r),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center, // ✅
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           if (icon != null) ...[
-            SvgPicture.asset(icon!, width: 10.w, height: 13.w),
+            SvgPicture.asset(
+              icon!,
+              width: 10.w,
+              height: 10.w,
+              color: textColor,
+            ),
             SizedBox(width: 4.w),
           ],
           Text(label, style: textStyle.copyWith(color: textColor)),

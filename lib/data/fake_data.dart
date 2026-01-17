@@ -3,8 +3,9 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/address
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/pharmacy_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/models/pharmacy_offer_model.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/models/medicine_reminder.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/models/reminder_item.dart';
 
+final now = DateTime.now();
 final List<Address> address = [
   Address(
     id: "1",
@@ -246,44 +247,44 @@ List<PharmacyOfferModel> offers = [
   ),
 ];
 
-List<MedicineReminder> reminders = [
-  MedicineReminder(
+List<ReminderItem> reminders = [
+  ReminderItem(
     id: '1',
-    medicine: medicineData[0], // ✅ Panadol
+    medicine: medicineData[0],
     time: const TimeOfDay(hour: 8, minute: 20),
     dose: 1,
-    startDate: DateTime(2025, 12, 17),
-    endDate: DateTime(2025, 12, 30),
+    startDate: DateTime(now.year, now.month, now.day),
+    endDate: DateTime(now.year, now.month, now.day + 30),
     days: [1, 2, 3, 4, 5, 6, 7],
     done: false,
   ),
-  MedicineReminder(
+  ReminderItem(
     id: '2',
-    medicine: medicineData[1], // ✅ Voltaren
+    medicine: medicineData[1],
     time: const TimeOfDay(hour: 10, minute: 0),
     dose: 2,
-    startDate: DateTime(2025, 12, 17),
-    endDate: DateTime(2025, 12, 30),
+    startDate: DateTime(now.year, now.month, now.day),
+    endDate: DateTime(now.year, now.month, now.day + 30),
     days: [1, 3, 5],
     done: false,
   ),
-  MedicineReminder(
+  ReminderItem(
     id: '3',
-    medicine: medicineData[2], // ✅ Benadryl
+    medicine: medicineData[2],
     time: const TimeOfDay(hour: 12, minute: 30),
     dose: 1,
-    startDate: DateTime(2025, 12, 17),
-    endDate: DateTime(2025, 12, 30),
+    startDate: DateTime(now.year, now.month, now.day),
+    endDate: DateTime(now.year, now.month, now.day + 30),
     days: [2, 4, 6],
     done: true,
   ),
-  MedicineReminder(
+  ReminderItem(
     id: '4',
-    medicine: medicineData[3], // ✅ Amoxil
+    medicine: medicineData[3],
     time: const TimeOfDay(hour: 18, minute: 45),
     dose: 3,
-    startDate: DateTime(2025, 12, 17),
-    endDate: DateTime(2025, 12, 30),
+    startDate: DateTime(now.year, now.month, now.day),
+    endDate: DateTime(now.year, now.month, now.day + 30),
     days: [1, 2, 3, 4, 5],
     done: true,
   ),

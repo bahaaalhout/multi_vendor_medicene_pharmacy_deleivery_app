@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_model.dart';
 
-class MedicineReminder {
+class ReminderItem {
   final String id;
-
   final MedicineModel medicine;
-
   final TimeOfDay time;
-  final int dose; // 1, 2, ...
+  final int dose;
   final DateTime startDate;
   final DateTime endDate;
-
-  final List<int> days; // 1=Mon ... 7=Sun
-
+  final List<int> days;
   bool done;
 
-  MedicineReminder({
+  ReminderItem({
     required this.id,
     required this.medicine,
     required this.time,

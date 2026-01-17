@@ -22,7 +22,7 @@ class ReminderDateSelector extends StatelessWidget {
         IconButton(
           onPressed: onPrev,
           icon: SvgPicture.asset(
-            "assets/icons/back_icon.svg",
+            'assets/icons/back_icon.svg',
             width: 40.w,
             height: 40.h,
           ),
@@ -35,21 +35,7 @@ class ReminderDateSelector extends StatelessWidget {
               borderRadius: BorderRadius.circular(16.r),
               border: Border.all(color: AppColors.primaryNormal),
             ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    width: 265.w,
-                    height: 40.h,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16.r),
-                      border: Border.all(color: AppColors.primaryNormal),
-                    ),
-                    child: Center(child: dateWidget),
-                  ),
-                ),
-              ],
-            ),
+            child: Center(child: dateWidget),
           ),
         ),
         IconButton(
@@ -57,7 +43,7 @@ class ReminderDateSelector extends StatelessWidget {
           icon: Transform.scale(
             scaleX: -1,
             child: SvgPicture.asset(
-              "assets/icons/back_icon.svg",
+              'assets/icons/back_icon.svg',
               width: 40.w,
               height: 40.w,
             ),

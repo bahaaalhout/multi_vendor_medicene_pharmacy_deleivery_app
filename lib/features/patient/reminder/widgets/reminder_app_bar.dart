@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
 
 class ReminderAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -16,21 +15,15 @@ class ReminderAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-
+      backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
       centerTitle: true,
-
-      // نثبت ارتفاع شريط الأدوات
-      toolbarHeight: 56.h,
-
-      // نخلي المسافة تحت النوتش
+      surfaceTintColor: Colors.transparent,
       flexibleSpace: Padding(
         padding: EdgeInsets.only(
           top: MediaQuery.of(context).padding.top + 16.h,
         ),
         child: Row(
           children: [
-            // LEFT
             Padding(
               padding: EdgeInsets.only(left: 16.w),
               child: IconButton(
@@ -38,14 +31,12 @@ class ReminderAppBar extends StatelessWidget implements PreferredSizeWidget {
                 padding: EdgeInsets.zero,
                 constraints: BoxConstraints(minWidth: 40.w, minHeight: 40.w),
                 icon: SvgPicture.asset(
-                  "assets/icons/back_icon.svg",
+                  'assets/icons/back_icon.svg',
                   width: 60.w,
                   height: 60.w,
                 ),
               ),
             ),
-
-            // TITLE
             Expanded(
               child: Center(
                 child: Text(
@@ -58,8 +49,6 @@ class ReminderAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
             ),
-
-            // RIGHT
             Padding(
               padding: EdgeInsets.only(right: 16.w),
               child: IconButton(
@@ -67,7 +56,7 @@ class ReminderAppBar extends StatelessWidget implements PreferredSizeWidget {
                 padding: EdgeInsets.zero,
                 constraints: BoxConstraints(minWidth: 40.w, minHeight: 40.w),
                 icon: SvgPicture.asset(
-                  "assets/icons/more_icon.svg",
+                  'assets/icons/more_icon.svg',
                   width: 60.w,
                   height: 60.w,
                 ),

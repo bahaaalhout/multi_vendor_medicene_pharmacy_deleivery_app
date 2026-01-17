@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
-
-class DayItem {
-  final String weekLetter; // S M T W T F S
-  final int dayNumber;
-
-  DayItem({required this.weekLetter, required this.dayNumber});
-}
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/models/day_item.dart';
 
 class ReminderDayStrip extends StatelessWidget {
   final List<DayItem> days;
@@ -39,7 +33,7 @@ class ReminderDayStrip extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    d.weekLetter,
+                    d.dayLetter,
                     style: TextStyle(
                       fontSize: 12.sp,
                       color: isSelected

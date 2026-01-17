@@ -1,14 +1,27 @@
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/models/day_item.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/models/reminder_item.dart';
+
+List<ReminderItem> filterRemindersByDate(
+  List<ReminderItem> reminders,
+  DateTime date,
+) {
+  final weekday = date.weekday;
+
+  return reminders.where((r) {
+    final inRange = !date.isBefore(r.startDate) && !date.isAfter(r.endDate);
+    final matchesDay = r.days.contains(weekday);
+    return inRange && matchesDay;
+  }).toList();
+}
 
 List<DayItem> buildDaysStrip(DateTime centerDate, {int range = 3}) {
   final List<DayItem> days = [];
 
   for (int i = -range; i <= range; i++) {
     final date = centerDate.add(Duration(days: i));
-
     days.add(
       DayItem(
-        dayLetter: _getdayLetter(date.weekday),
+        dayLetter: _getDayLetter(date.weekday),
         dayNumber: date.day,
         date: date,
       ),
@@ -18,7 +31,7 @@ List<DayItem> buildDaysStrip(DateTime centerDate, {int range = 3}) {
   return days;
 }
 
-String _getdayLetter(int weekday) {
+String _getDayLetter(int weekday) {
   switch (weekday) {
     case DateTime.monday:
       return 'M';
