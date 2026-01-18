@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/address.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/address_model.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/cart_item_model.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/delivery_model.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/order_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/pharmacy_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/models/pharmacy_offer_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/models/notification_item.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/pharmacy_offer_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/models/reminder_item.dart';
 
 final now = DateTime.now();
-final List<Address> address = [
-  Address(
+final List<AddressModel> address = [
+  AddressModel(
     id: "1",
     street: "123 Main St",
     area: "AlRemal",
@@ -16,7 +20,7 @@ final List<Address> address = [
     country: "Palestine",
     postalCode: "00970",
   ),
-  Address(
+  AddressModel(
     id: "2",
     street: "456 Central Ave",
     area: "Sheikh Radwan",
@@ -24,7 +28,7 @@ final List<Address> address = [
     country: "Palestine",
     postalCode: "00972",
   ),
-  Address(
+  AddressModel(
     id: "3",
     street: "789 First Blvd",
     area: "AlTuffah",
@@ -32,7 +36,7 @@ final List<Address> address = [
     country: "Palestine",
     postalCode: "00972",
   ),
-  Address(
+  AddressModel(
     id: "4",
     street: "1012 Liberty Rd",
     area: "AlNasr",
@@ -40,7 +44,7 @@ final List<Address> address = [
     country: "Palestine",
     postalCode: "00970",
   ),
-  Address(
+  AddressModel(
     id: "5",
     street: "34 Green St",
     area: "AlZaytoun",
@@ -48,7 +52,7 @@ final List<Address> address = [
     country: "Palestine",
     postalCode: "00970",
   ),
-  Address(
+  AddressModel(
     id: "6",
     street: "56 Blue Ln",
     area: "AlShati",
@@ -67,7 +71,7 @@ final pharmacies = [
     address: address[0],
     rating: 4.5,
     reviewCount: 500,
-    deliveryFee: 5,
+    deliveryFee: 0,
     deliveryTime: "15 minutes",
     distance: 2.5,
   ),
@@ -121,7 +125,7 @@ final pharmacies = [
   ),
 ];
 
-List<MedicineModel> medicineData = [
+final List<MedicineModel> medicineData = [
   MedicineModel(
     id: "1",
     brandName: "Panadol Extra",
@@ -137,8 +141,17 @@ List<MedicineModel> medicineData = [
     form: FormType.tablet,
     quantity: 20,
     requiresPrescription: false,
-    imageUrls: ["assets/images/pandol.png", "assets/images/pandol.png"],
+    imageUrls: [
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReqT59ijEJcjQ8BgJvkPAhqeXayWD2lRXP4Q&s",
+    ],
     rating: 4.5,
+    details:
+        "Panadol Extra contains paracetamol, a trusted pain reliever that works quickly to reduce fever and relieve pain.",
+    effects:
+        "Relieves mild to moderate pain such as headaches, menstrual pain, and toothaches.",
+    directions:
+        "Take 1-2 tablets every 4 to 6 hours as needed. Do not exceed 8 tablets in 24 hours.",
+    reviews: ["Great for headaches!", "I rely on this for my pain relief."],
   ),
   MedicineModel(
     id: "2",
@@ -155,8 +168,20 @@ List<MedicineModel> medicineData = [
     form: FormType.ointment,
     quantity: 30,
     requiresPrescription: true,
-    imageUrls: ["assets/images/pandol.png", "assets/images/pandol.png"],
+    imageUrls: [
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReqT59ijEJcjQ8BgJvkPAhqeXayWD2lRXP4Q&s",
+    ],
     rating: 4.8,
+    details:
+        "Voltaren contains diclofenac sodium, a nonsteroidal anti-inflammatory drug (NSAID) that reduces pain, swelling, and inflammation.",
+    effects:
+        "Treats pain and inflammation caused by osteoarthritis, rheumatoid arthritis, and musculoskeletal conditions.",
+    directions:
+        "Apply a thin layer to the affected area 2-3 times a day, depending on your doctor’s recommendations.",
+    reviews: [
+      "Works wonders for my joint pain!",
+      "Effective, but can be a bit greasy.",
+    ],
   ),
   MedicineModel(
     id: "3",
@@ -173,8 +198,17 @@ List<MedicineModel> medicineData = [
     form: FormType.capsule,
     quantity: 50,
     requiresPrescription: false,
-    imageUrls: ["assets/images/pandol.png"],
+    imageUrls: [
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReqT59ijEJcjQ8BgJvkPAhqeXayWD2lRXP4Q&s",
+    ],
     rating: 4.2,
+    details:
+        "Benadryl is an antihistamine that relieves symptoms of allergy, hay fever, and the common cold, such as sneezing, runny nose, and itching.",
+    effects:
+        "Relieves symptoms caused by seasonal allergies or allergic reactions.",
+    directions:
+        "Take 1-2 capsules every 4-6 hours as needed. Do not exceed 6 capsules in 24 hours.",
+    reviews: ["Helps with my seasonal allergies.", "It makes me very drowsy."],
   ),
   MedicineModel(
     id: "4",
@@ -189,8 +223,19 @@ List<MedicineModel> medicineData = [
     form: FormType.syrup,
     quantity: 100,
     requiresPrescription: true,
-    imageUrls: ["assets/images/pandol.png"],
+    imageUrls: [
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReqT59ijEJcjQ8BgJvkPAhqeXayWD2lRXP4Q&s",
+    ],
     rating: 4.0,
+    details:
+        "Amoxil is a broad-spectrum antibiotic that is used to treat a variety of infections including ear infections, bronchitis, pneumonia, and urinary tract infections.",
+    effects: "Treats bacterial infections by stopping the growth of bacteria.",
+    directions:
+        "Take as prescribed by your doctor. Complete the full course of treatment even if symptoms disappear.",
+    reviews: [
+      "Great for treating infections.",
+      "I felt better within a few days.",
+    ],
   ),
   MedicineModel(
     id: "5",
@@ -207,8 +252,17 @@ List<MedicineModel> medicineData = [
     form: FormType.ointment,
     quantity: 1,
     requiresPrescription: false,
-    imageUrls: ["assets/images/pandol.png"],
+    imageUrls: [
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReqT59ijEJcjQ8BgJvkPAhqeXayWD2lRXP4Q&s",
+    ],
     rating: 4.6,
+    details:
+        "Vicks VapoRub is a topical ointment that provides relief for cough and muscle pain by inhalation of menthol vapors or through skin absorption.",
+    effects:
+        "Soothes coughs, relieves muscle aches, and provides comfort during cold and flu symptoms.",
+    directions:
+        "Apply on chest, back, and throat for cough relief. Use as directed for muscle pain.",
+    reviews: ["Works wonders for colds.", "A great product for a sore throat."],
   ),
   MedicineModel(
     id: "6",
@@ -222,8 +276,16 @@ List<MedicineModel> medicineData = [
     form: FormType.cream,
     quantity: 3,
     requiresPrescription: false,
-    imageUrls: ["assets/images/pandol.png"],
+    imageUrls: [
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReqT59ijEJcjQ8BgJvkPAhqeXayWD2lRXP4Q&s",
+    ],
     rating: 4.7,
+    details:
+        "Dove Soap is a gentle cleanser that moisturizes and softens the skin, leaving it feeling smooth and hydrated.",
+    effects: "Cleanses, moisturizes, and nourishes the skin.",
+    directions:
+        "Apply to wet skin, lather, and rinse. Use daily for best results.",
+    reviews: ["Love how smooth my skin feels.", "Perfect for sensitive skin."],
   ),
 ];
 
@@ -335,5 +397,164 @@ List<NotificationItem> notifications = [
     description: 'Explore our latest range of health supplements today.',
     createdAt: now.subtract(const Duration(days: 5)),
     isRead: true,
+//delivery screen fake data
+const pharmacyAddress = AddressModel(
+  id: 'addr_1',
+  street: '1852, Alkinz St.',
+  area: 'Al Naser area',
+  city: 'Gaza',
+  country: 'Palestine',
+  postalCode: '00000',
+);
+
+const customerAddress = AddressModel(
+  id: 'addr_2',
+  street: '2629, Omar AlMukhtar St.',
+  area: 'AlRemal area',
+  city: 'Gaza',
+  country: 'Palestine',
+  postalCode: '00000',
+);
+
+// Medicine
+final medicine = MedicineModel(
+  id: 'med_1',
+  brandName: 'Pain Relief-X 400 mg',
+  genericName: 'Ibuprofen',
+  description: 'Pain reliever and fever reducer',
+  warnings: ['Do not exceed recommended dose'],
+  form: FormType.tablet,
+  quantity: 12,
+  strength: '400mg',
+  requiresPrescription: false,
+  imageUrls: ['https://via.placeholder.com/150/0000FF/FFFFFF?text=Med'],
+  rating: 4.5,
+  brand: 'PharmaCo',
+  type: 'Pain Relief',
+  details: 'Effective pain relief',
+  effects: 'Reduces pain and inflammation',
+  directions: 'Take 1-2 tablets every 4-6 hours',
+  reviews: [],
+);
+
+// Pharmacy
+final pharmacy = PharmacyModel(
+  id: 'pharm_1',
+  name: 'Family Pharmacy',
+  image: 'https://via.placeholder.com/150/4CAF50/FFFFFF?text=Pharmacy',
+  address: pharmacyAddress,
+  rating: 4.2,
+  reviewCount: 150,
+  deliveryFee: 0.0,
+  deliveryTime: '15 minutes',
+  distance: 2.55,
+);
+
+// Pharmacy Offer
+final pharmacyOffer = PharmacyOfferModel(
+  id: 'offer_1',
+  pharmacy: pharmacy,
+  medicine: medicine,
+  price: 12.99,
+  isAvailable: true,
+);
+
+// Cart Items (4 items as in design)
+final cartItems = List.generate(
+  4,
+  (index) => CartItemModel(
+    id: 'item_${index + 1}',
+    pharmacyOffer: pharmacyOffer,
+    quantity: 1,
+    requiresPrescription: false,
+    status: CartItemStatus.ready,
+  ),
+);
+
+// Base Order
+final order = OrderModel(
+  id: 'O325',
+  status: OrderStatus.placed,
+  items: cartItems,
+  deliveryAddress: customerAddress,
+  createdAt: DateTime.now(),
+  customerName: 'Mohammed Bassam',
+  customerPhone: '+970 59-244-9634',
+  customerEmail: 'example20@gmail.com',
+  estimatedTimeMinutes: 18, // Will format to "15-20 minutes"
+  paymentMethod: 'Visa',
+  deliveryInstructions: '"Leave at door."',
+);
+
+// === Different Delivery States for Testing ===
+
+/// State 1: Accepted, pharmacy preparing (Pickup step)
+final deliveryAccepted = DeliveryModel(
+  id: 'del_1',
+  order: order,
+  status: DeliveryStatus.accepted,
+  distanceKm: 2.55,
+  timeMinutes: 15,
+  price: 0.0,
+  rating: 0.0,
+  statusMessage: "Preparing order's products",
+);
+
+/// State 2: Picked up, ready to start (On the way step)
+final deliveryPickedUp = DeliveryModel(
+  id: 'del_2',
+  order: order,
+  status: DeliveryStatus.pickedUp,
+  distanceKm: 3.63,
+  timeMinutes: 20,
+  price: 0.0,
+  rating: 0.0,
+  statusMessage: "Waiting for your accepting",
+);
+
+/// State 3: En route to customer (On the way step - active)
+final deliveryEnRoute = DeliveryModel(
+  id: 'del_3',
+  order: order,
+  status: DeliveryStatus.enRoute,
+  distanceKm: 3.63,
+  timeMinutes: 20,
+  price: 0.0,
+  rating: 0.0,
+);
+
+/// State 4: Delivered (Delivered step)
+final deliveryCompleted = DeliveryModel(
+  id: 'del_4',
+  order: order,
+  status: DeliveryStatus.delivered,
+  distanceKm: 3.63,
+  timeMinutes: 20,
+  price: 12.0,
+  rating: 4.5,
+);
+
+// === Available Deliveries for Home Screen ===
+final fakeAvailableDeliveries = [
+  deliveryAccepted,
+  DeliveryModel(
+    id: 'del_5',
+    order: OrderModel(
+      id: 'O326',
+      status: OrderStatus.placed,
+      items: cartItems,
+      deliveryAddress: customerAddress,
+      createdAt: DateTime.now(),
+      customerName: 'Ahmed Hassan',
+      customerPhone: '+970 59-123-4567',
+      customerEmail: 'ahmed@example.com',
+      estimatedTimeMinutes: 15,
+      paymentMethod: 'Cash',
+    ),
+    status: DeliveryStatus.available,
+    distanceKm: 2.55,
+    timeMinutes: 15,
+    price: 12.0,
+    rating: 0.0,
   ),
 ];
