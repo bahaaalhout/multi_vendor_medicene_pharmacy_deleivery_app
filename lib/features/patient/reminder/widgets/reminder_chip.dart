@@ -36,6 +36,7 @@ class ReminderChip extends StatelessWidget {
               icon!,
               width: 10.w,
               height: 10.w,
+              // ignore: deprecated_member_use
               color: textColor,
             ),
             SizedBox(width: 4.w),

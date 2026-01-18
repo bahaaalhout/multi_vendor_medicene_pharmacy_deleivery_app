@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_date_label.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_date_selector.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_primary_app_bar.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/data/fake_data.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/helpers/reminder_filter.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/models/day_item.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/models/reminder_item.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/reminder_date_label.dart';
-
-import '../widgets/reminder_app_bar.dart';
-import '../widgets/reminder_date_selector.dart';
 import '../widgets/reminder_day_strip.dart';
 import '../widgets/reminder_list_item.dart';
 
@@ -29,7 +28,11 @@ class _AddReminderPageState extends State<AddReminderPage> {
 
     return Scaffold(
       backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
-      appBar: ReminderAppBar(onBack: () {}, onMore: () {}),
+      appBar: AppPrimaryAppBar(
+        title: 'Add Reminder',
+        onBack: () {},
+        onAction: () {},
+      ),
       body: Padding(
         padding: EdgeInsets.all(16.w),
         child: Column(
@@ -48,8 +51,8 @@ class _AddReminderPageState extends State<AddReminderPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ReminderDateSelector(
-          dateWidget: ReminderDateLabel(date: selectedDate),
+        AppDateSelector(
+          dateWidget: AppDateLabel(date: selectedDate),
           onPrev: _prevDay,
           onNext: _nextDay,
         ),

@@ -5,6 +5,8 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/deliver
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/order_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/pharmacy_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_model.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/models/pharmacy_offer_model.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/models/notification_item.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/pharmacy_offer_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/models/reminder_item.dart';
 
@@ -351,6 +353,50 @@ List<ReminderItem> reminders = [
   ),
 ];
 
+List<NotificationItem> notifications = [
+  NotificationItem(
+    id: 'n1',
+    category: NotificationCategory.offer,
+    title: '20% off at City pharmacy',
+    description:
+        'Get 20% discount on all prescription medicines valid until Sunday.',
+    createdAt: now.subtract(const Duration(hours: 1)),
+    isRead: false,
+  ),
+  NotificationItem(
+    id: 'n2',
+    category: NotificationCategory.offer,
+    title: 'Buy one, get one free',
+    description:
+        'On select over-the-counter medications, valid through next week.',
+    createdAt: now.subtract(const Duration(hours: 2)),
+    isRead: false,
+  ),
+  NotificationItem(
+    id: 'n3',
+    category: NotificationCategory.medicineReminder,
+    title: 'Time to refill your medicine',
+    description:
+        'Your Omeprazole 20mg prescription is running low. Refill now.',
+    createdAt: now.subtract(const Duration(days: 1, hours: 3)),
+    isRead: false,
+  ),
+  NotificationItem(
+    id: 'n4',
+    category: NotificationCategory.rating,
+    title: 'Rate your delivery experience',
+    description:
+        'How was your order from HealthPlus Pharmacy? Share your feedback.',
+    createdAt: now.subtract(const Duration(hours: 3)),
+    isRead: false,
+  ),
+  NotificationItem(
+    id: 'n5',
+    category: NotificationCategory.offer,
+    title: 'New vitamins are in stock',
+    description: 'Explore our latest range of health supplements today.',
+    createdAt: now.subtract(const Duration(days: 5)),
+    isRead: true,
 //delivery screen fake data
 const pharmacyAddress = AddressModel(
   id: 'addr_1',

@@ -3,11 +3,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
 
-class ReminderAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final VoidCallback onBack;
-  final VoidCallback onMore;
+class AppPrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final String title;
+  final VoidCallback? onBack;
+  final VoidCallback? onAction;
+  final String? actionIconAsset;
 
-  const ReminderAppBar({super.key, required this.onBack, required this.onMore});
+  const AppPrimaryAppBar({
+    super.key,
+    required this.title,
+    this.onBack,
+    this.onAction,
+    this.actionIconAsset,
+  });
 
   @override
   Size get preferredSize => Size.fromHeight(72.h);
@@ -15,7 +23,7 @@ class ReminderAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
+      backgroundColor: Colors.white,
       centerTitle: true,
       surfaceTintColor: Colors.transparent,
       flexibleSpace: Padding(
@@ -37,10 +45,11 @@ class ReminderAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
             ),
+
             Expanded(
               child: Center(
                 child: Text(
-                  'Add Reminder',
+                  title,
                   style: AppTextStyles.bold25.copyWith(
                     fontSize: 24.sp,
                     height: 1.5,
@@ -49,14 +58,15 @@ class ReminderAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
             ),
+
             Padding(
               padding: EdgeInsets.only(right: 16.w),
               child: IconButton(
-                onPressed: onMore,
+                onPressed: onAction,
                 padding: EdgeInsets.zero,
                 constraints: BoxConstraints(minWidth: 40.w, minHeight: 40.w),
                 icon: SvgPicture.asset(
-                  'assets/icons/more_icon.svg',
+                  actionIconAsset ?? 'assets/icons/more_icon.svg',
                   width: 60.w,
                   height: 60.w,
                 ),

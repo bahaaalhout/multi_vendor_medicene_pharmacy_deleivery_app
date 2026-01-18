@@ -3,12 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 
-class ReminderDateSelector extends StatelessWidget {
+class AppDateSelector extends StatelessWidget {
   final Widget dateWidget;
   final VoidCallback onPrev;
   final VoidCallback onNext;
 
-  const ReminderDateSelector({
+  const AppDateSelector({
     super.key,
     required this.dateWidget,
     required this.onPrev,
