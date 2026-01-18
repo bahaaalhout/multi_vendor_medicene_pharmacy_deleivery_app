@@ -306,6 +306,48 @@ List<PharmacyOfferModel> offers = [
   ),
 ];
 
+List<ReminderItem> reminders = [
+  ReminderItem(
+    id: '1',
+    medicine: medicineData[0],
+    time: const TimeOfDay(hour: 8, minute: 20),
+    dose: 1,
+    startDate: DateTime(now.year, now.month, now.day),
+    endDate: DateTime(now.year, now.month, now.day + 30),
+    days: [1, 2, 3, 4, 5, 6, 7],
+    done: false,
+  ),
+  ReminderItem(
+    id: '2',
+    medicine: medicineData[1],
+    time: const TimeOfDay(hour: 10, minute: 0),
+    dose: 2,
+    startDate: DateTime(now.year, now.month, now.day),
+    endDate: DateTime(now.year, now.month, now.day + 30),
+    days: [1, 3, 5],
+    done: false,
+  ),
+  ReminderItem(
+    id: '3',
+    medicine: medicineData[2],
+    time: const TimeOfDay(hour: 12, minute: 30),
+    dose: 1,
+    startDate: DateTime(now.year, now.month, now.day),
+    endDate: DateTime(now.year, now.month, now.day + 30),
+    days: [2, 4, 6],
+    done: true,
+  ),
+  ReminderItem(
+    id: '4',
+    medicine: medicineData[3],
+    time: const TimeOfDay(hour: 18, minute: 45),
+    dose: 3,
+    startDate: DateTime(now.year, now.month, now.day),
+    endDate: DateTime(now.year, now.month, now.day + 30),
+    days: [1, 2, 3, 4, 5],
+    done: true,
+  ),
+];
 
 //delivery screen fake data
 const pharmacyAddress = AddressModel(
