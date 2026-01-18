@@ -29,6 +29,11 @@ class AppTextStyles {
     fontSize: 21.sp,
     fontWeight: FontWeight.w400,
   );
+  static final TextStyle reqular20 = TextStyle(
+    fontFamily: 'Montserrat',
+    fontSize: 20.sp,
+    fontWeight: FontWeight.w400,
+  );
   static final TextStyle reqular17 = TextStyle(
     fontFamily: 'Montserrat',
     fontSize: 17.sp,
@@ -148,6 +153,11 @@ class AppTextStyles {
     fontSize: 21.sp,
     fontWeight: FontWeight.w700,
   );
+  static final TextStyle bold24 = TextStyle(
+    fontFamily: 'Montserrat',
+    fontSize: 24.sp,
+    fontWeight: FontWeight.w700,
+  );
   static final TextStyle bold17 = TextStyle(
     fontFamily: 'Montserrat',
     fontSize: 17.sp,
@@ -203,6 +213,11 @@ class AppTextStyles {
   static final TextStyle semiBold21 = TextStyle(
     fontFamily: 'Montserrat',
     fontSize: 21.sp,
+    fontWeight: FontWeight.w600,
+  );
+  static final TextStyle semiBold20 = TextStyle(
+    fontFamily: 'Montserrat',
+    fontSize: 20.sp,
     fontWeight: FontWeight.w600,
   );
   static final TextStyle semiBold17 = TextStyle(

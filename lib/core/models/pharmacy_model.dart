@@ -1,10 +1,10 @@
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/address.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/address_model.dart';
 
 class PharmacyModel {
   final String id;
   final String name;
   final String image;
-  final Address address;
+  final AddressModel address;
   final double rating;
   final int reviewCount;
   final double deliveryFee;
