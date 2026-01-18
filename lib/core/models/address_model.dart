@@ -1,5 +1,5 @@
-class Address {
-  const Address({
+class AddressModel {
+  const AddressModel({
     required this.id,
     required this.street,
     required this.area,
