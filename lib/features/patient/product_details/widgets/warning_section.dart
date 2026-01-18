@@ -11,10 +11,10 @@ class WarningSection extends StatefulWidget {
   final MedicineModel medicine;
 
   @override
-  _WarningSectionState createState() => _WarningSectionState();
+  WarningSectionState createState() => WarningSectionState();
 }
 
-class _WarningSectionState extends State<WarningSection> {
+class WarningSectionState extends State<WarningSection> {
   bool _isExpanded = false;
   bool _isExpandedText = false;
 

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
@@ -9,7 +8,11 @@ class OnlineToggle extends StatelessWidget {
   final bool isOnline;
   final ValueChanged<bool> onChanged;
 
-  const OnlineToggle({required this.isOnline, required this.onChanged});
+  const OnlineToggle({
+    super.key,
+    required this.isOnline,
+    required this.onChanged,
+  });
   @override
   Widget build(BuildContext context) {
     return Container(
