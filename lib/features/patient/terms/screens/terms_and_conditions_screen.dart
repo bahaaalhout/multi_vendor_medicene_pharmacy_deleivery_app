@@ -161,7 +161,7 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                     // Agreement Section
                     Container(
                       padding: EdgeInsets.all(16.w),
-                      
+
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -219,7 +219,8 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                                     ),
                                     children: [
                                       TextSpan(
-                                        text: 'I agree to the Terms and Conditions',
+                                        text:
+                                            'I agree to the Terms and Conditions',
                                         style: GoogleFonts.montserrat(
                                           color: AppColors.primaryBlue,
                                           fontWeight: FontWeight.w500,
@@ -267,7 +268,7 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
         // Number
         Text(
           '$number. ',
-          style: AppTextStyles.body.copyWith(
+          style: AppTextStyles.bold14.copyWith(
             color: AppColors.textDark,
             fontWeight: FontWeight.bold,
           ),
@@ -301,4 +302,3 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
     );
   }
 }
-

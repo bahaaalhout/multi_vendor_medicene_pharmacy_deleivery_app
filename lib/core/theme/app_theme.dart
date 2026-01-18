@@ -146,6 +146,7 @@ class AppTextStyles {
   static final TextStyle bold22 = TextStyle(
     fontFamily: 'Montserrat',
     fontSize: 22.sp,
+  );
   static final TextStyle bold20 = TextStyle(
     fontFamily: 'Montserrat',
     fontSize: 20.sp,

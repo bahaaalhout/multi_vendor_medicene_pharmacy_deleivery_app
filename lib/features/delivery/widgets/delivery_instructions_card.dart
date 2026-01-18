@@ -7,10 +7,7 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_them
 class DeliveryInstructionsCard extends StatelessWidget {
   final String? instructions;
 
-  const DeliveryInstructionsCard({
-    super.key,
-    this.instructions,
-  });
+  const DeliveryInstructionsCard({super.key, this.instructions});
 
   @override
   Widget build(BuildContext context) {
@@ -19,13 +16,16 @@ class DeliveryInstructionsCard extends StatelessWidget {
     }
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: AppSizes.spacing16.w, vertical: AppSizes.spacing12.h),
+      padding: EdgeInsets.symmetric(
+        horizontal: AppSizes.spacing16.w,
+        vertical: AppSizes.spacing12.h,
+      ),
       decoration: BoxDecoration(
         color: AppColors.warningLightHover,
         borderRadius: BorderRadius.circular(AppSizes.borderRadius12.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.15),
+            color: Colors.black.withValues(alpha: 0.15),
             blurRadius: 2.r,
             offset: Offset(0, 2.h),
           ),
@@ -51,13 +51,12 @@ class DeliveryInstructionsCard extends StatelessWidget {
             ],
           ),
           SizedBox(height: AppSizes.spacing4.h),
-          
+
           Padding(
-            padding: EdgeInsets.only(left: AppSizes.spacing32.w + AppSizes.spacing16.w),
-            child: Text(
-              instructions!,
-              style: AppTextStyles.reqular14,
+            padding: EdgeInsets.only(
+              left: AppSizes.spacing32.w + AppSizes.spacing16.w,
             ),
+            child: Text(instructions!, style: AppTextStyles.reqular14),
           ),
         ],
       ),

@@ -41,6 +41,7 @@ class HomeScreen extends StatelessWidget {
                 NearbyPharmacies(),
                 CategoriesSection(categories: categories),
                 MostSalesSection(sales: sales),
+                108.verticalSpace,
               ],
             ),
           ),

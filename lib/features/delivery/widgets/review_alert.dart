@@ -5,6 +5,8 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
 
 class ReviewAlert extends StatelessWidget {
+  const ReviewAlert({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -13,14 +15,21 @@ class ReviewAlert extends StatelessWidget {
         color: AppColors.errorLight,
         borderRadius: BorderRadius.circular(AppSizes.borderRadius8.r),
         border: Border(
-          left: BorderSide(color: AppColors.errorNormal, width: AppSizes.spacing3.w),
+          left: BorderSide(
+            color: AppColors.errorNormal,
+            width: AppSizes.spacing3.w,
+          ),
         ),
       ),
       child: Column(
         children: [
           Row(
             children: [
-              Icon(Icons.error, color: AppColors.errorNormal, size: AppSizes.iconSize24.sp),
+              Icon(
+                Icons.error,
+                color: AppColors.errorNormal,
+                size: AppSizes.iconSize24.sp,
+              ),
               SizedBox(width: AppSizes.spacing12.w),
               Expanded(
                 child: Text(
@@ -31,7 +40,10 @@ class ReviewAlert extends StatelessWidget {
                 ),
               ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: AppSizes.spacing12.w, vertical: AppSizes.spacing8.h),
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppSizes.spacing12.w,
+                  vertical: AppSizes.spacing8.h,
+                ),
                 decoration: BoxDecoration(
                   color: AppColors.errorLightActive,
                   borderRadius: BorderRadius.circular(AppSizes.borderRadius8.r),
@@ -66,7 +78,7 @@ class ReviewAlert extends StatelessWidget {
                       color: AppColors.neutralDarkActive,
                     ),
                   ),
-                   SizedBox(width: AppSizes.spacing8.w),
+                  SizedBox(width: AppSizes.spacing8.w),
                   Icon(
                     Icons.arrow_forward,
                     size: AppSizes.iconSize16.sp,

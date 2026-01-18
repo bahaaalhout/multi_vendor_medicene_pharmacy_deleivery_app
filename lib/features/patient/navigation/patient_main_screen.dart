@@ -4,6 +4,7 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/navigation/patient_bottom_nav_bar.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/screens/home_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/view/add_reminder_page.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/profile/screens/profile_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key, this.selectedIndex});
@@ -24,10 +25,10 @@ class _MainScreenState extends State<MainScreen> {
 
     data = [
       const HomeScreen(),
-      const Center(child: Text('second page')),
-      const Center(child: AddReminderPage()),
-      const Center(child: Text('fourth page')),
-      const Center(child: Text('fivth page')),
+      const Center(child: Text('order page')),
+      const AddReminderPage(),
+      const Center(child: Text('cart page')),
+      const ProfileScreen(),
     ];
   }
 
@@ -38,6 +39,7 @@ class _MainScreenState extends State<MainScreen> {
       body: Stack(
         children: [
           data[index],
+
           Positioned(
             bottom: 27,
             left: 24,

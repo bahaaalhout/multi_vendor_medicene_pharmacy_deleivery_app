@@ -9,7 +9,8 @@ class UploadPrescriptionScreen extends StatefulWidget {
   const UploadPrescriptionScreen({super.key});
 
   @override
-  State<UploadPrescriptionScreen> createState() => _UploadPrescriptionScreenState();
+  State<UploadPrescriptionScreen> createState() =>
+      _UploadPrescriptionScreenState();
 }
 
 class _UploadPrescriptionScreenState extends State<UploadPrescriptionScreen> {
@@ -24,7 +25,7 @@ class _UploadPrescriptionScreenState extends State<UploadPrescriptionScreen> {
         maxHeight: 2000,
         imageQuality: 85,
       );
-      
+
       if (image != null) {
         setState(() {
           _selectedImage = File(image.path);
@@ -144,7 +145,9 @@ class _UploadPrescriptionScreenState extends State<UploadPrescriptionScreen> {
                                 child: Text(
                                   'Your prescription is secure and only shared with the selected pharmacy.',
                                   style: GoogleFonts.montserrat(
-                                    color: AppColors.textDark.withOpacity(0.6),
+                                    color: AppColors.textDark.withValues(
+                                      alpha: 0.6,
+                                    ),
                                     fontWeight: FontWeight.w500,
                                     fontSize: 12.sp,
                                   ),
