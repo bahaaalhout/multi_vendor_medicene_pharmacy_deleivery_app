@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 
-class ReminderDateLabel extends StatelessWidget {
+class AppDateLabel extends StatelessWidget {
   final DateTime date;
 
-  const ReminderDateLabel({super.key, required this.date});
+  const AppDateLabel({super.key, required this.date});
 
   @override
   Widget build(BuildContext context) {

@@ -8,7 +8,7 @@ List<DayItem> buildDaysStrip(DateTime centerDate, {int range = 3}) {
 
     days.add(
       DayItem(
-        dayLetter: _getdayLetter(date.weekday),
+        dayLetter: getdayLetter(date.weekday),
         dayNumber: date.day,
         date: date,
       ),
@@ -18,7 +18,7 @@ List<DayItem> buildDaysStrip(DateTime centerDate, {int range = 3}) {
   return days;
 }
 
-String _getdayLetter(int weekday) {
+String getdayLetter(int weekday) {
   switch (weekday) {
     case DateTime.monday:
       return 'M';
@@ -36,5 +36,22 @@ String _getdayLetter(int weekday) {
       return 'S';
     default:
       return '';
+  }
+}
+
+String formatTime(DateTime time) {
+  final now = DateTime.now();
+  final diff = now.difference(time);
+
+  if (diff.inMinutes < 1) {
+    return 'Now';
+  } else if (diff.inHours < 1) {
+    return '${diff.inMinutes} min ago';
+  } else if (diff.inHours < 24) {
+    return '${diff.inHours}h ago';
+  } else if (diff.inDays == 1) {
+    return 'Yesterday';
+  } else {
+    return '${diff.inDays}d ago';
   }
 }
