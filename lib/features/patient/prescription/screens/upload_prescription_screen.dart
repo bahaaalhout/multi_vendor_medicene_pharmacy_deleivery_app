@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
 
 class UploadPrescriptionScreen extends StatefulWidget {
   const UploadPrescriptionScreen({super.key});
@@ -51,11 +51,52 @@ class _UploadPrescriptionScreenState extends State<UploadPrescriptionScreen> {
         child: Column(
           children: [
             // Header
-            Padding(
+             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // Back button
+                  Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () => Navigator.of(context).pop(),
+                      borderRadius: BorderRadius.circular(30.w),
+                      child: Container(
+                        width: 60.w,
+                        height: 60.h,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: AppColors.lightBlue,
+                            width: 1.5,
+                          ),
+                          color: Colors.white,
+                        ),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Transform.translate(
+                            offset: Offset(1.5.w, 0),
+                            child: Icon(
+                              Icons.arrow_back_ios,
+                              size: 12.sp,
+                              color: AppColors.primaryBlue,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  // Title
+                  Text(
+                    'Profile',
+                    style: AppTextStyles.bold25.copyWith(
+                      fontSize: 24.sp,
+                      height: 1.5,
+                      color: const Color(0xFF1B1F3C),
+                    ),
+                  ),
+                  // Edit button
                   Container(
                     width: 60.w,
                     height: 60.h,
@@ -67,33 +108,25 @@ class _UploadPrescriptionScreenState extends State<UploadPrescriptionScreen> {
                       ),
                       color: Colors.white,
                     ),
-                    child: IconButton(
-                      padding: EdgeInsets.zero,
-                      icon: Image.asset(
-                        "assets/icons/back.png",
-                        width: 20.w,
-                        height: 20.h,
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () {},
+                        borderRadius: BorderRadius.circular(30.w),
+                        child: Center(
+                          child: Image.asset(
+                            "assets/icons/basil_edit-outline.png",
+                            width: 20.w,
+                            height: 20.h,
+                          ),
+                        ),
                       ),
-                      onPressed: () => Navigator.of(context).pop(),
                     ),
                   ),
-                  // Title
-                  Expanded(
-                    child: Text(
-                      'Upload prescription',
-                      style: GoogleFonts.montserrat(
-                        color: AppColors.textDark,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 22.sp,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  SizedBox(width: 56.w), // Balance the back button width
                 ],
               ),
             ),
-            SizedBox(height: 10.h),
+            10.verticalSpace,
             // Content
             Expanded(
               child: SingleChildScrollView(
@@ -104,13 +137,11 @@ class _UploadPrescriptionScreenState extends State<UploadPrescriptionScreen> {
                     // Instructional text
                     Text(
                       'Upload a clear photo of your prescription to help us prepare your order accurately',
-                      style: GoogleFonts.montserrat(
+                      style: AppTextStyles.medium14.copyWith(
                         color: AppColors.textDark,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14.sp,
                       ),
                     ),
-                    SizedBox(height: 24.h),
+                    24.verticalSpace,
                     // Security Notice Card
                     Container(
                       width: double.infinity,
@@ -125,13 +156,11 @@ class _UploadPrescriptionScreenState extends State<UploadPrescriptionScreen> {
                           // Header text at the top
                           Text(
                             'A licensed pharmacist will review it',
-                            style: GoogleFonts.montserrat(
+                            style: AppTextStyles.semiBold16.copyWith(
                               color: AppColors.textDark,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16.sp,
                             ),
                           ),
-                          SizedBox(height: 12.h),
+                          12.verticalSpace,
                           // Icon and description side by side
                           Row(
                             children: [
@@ -140,16 +169,14 @@ class _UploadPrescriptionScreenState extends State<UploadPrescriptionScreen> {
                                 width: 40.w,
                                 height: 40.h,
                               ),
-                              SizedBox(width: 12.w),
+                              12.horizontalSpace,
                               Expanded(
                                 child: Text(
                                   'Your prescription is secure and only shared with the selected pharmacy.',
-                                  style: GoogleFonts.montserrat(
+                                  style: AppTextStyles.medium12.copyWith(
                                     color: AppColors.textDark.withValues(
                                       alpha: 0.6,
                                     ),
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 12.sp,
                                   ),
                                 ),
                               ),
@@ -158,7 +185,7 @@ class _UploadPrescriptionScreenState extends State<UploadPrescriptionScreen> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 32.h),
+                    32.verticalSpace,
                     // File Upload Area
                     Container(
                       width: double.infinity,
@@ -183,32 +210,28 @@ class _UploadPrescriptionScreenState extends State<UploadPrescriptionScreen> {
                             width: 50.w,
                             height: 50.h,
                           ),
-                          SizedBox(height: 50.h),
+                          50.verticalSpace,
                           // File requirements text in two lines
                           Column(
                             children: [
                               Text(
                                 'JPG or PNG · Max size 10 MB ·',
-                                style: GoogleFonts.montserrat(
+                                style: AppTextStyles.reqular14.copyWith(
                                   color: AppColors.textDark,
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 14.sp,
                                 ),
                                 textAlign: TextAlign.center,
                               ),
-                              SizedBox(height: 4.h),
+                              4.verticalSpace,
                               Text(
                                 'Minimum 600×600 px',
-                                style: GoogleFonts.montserrat(
+                                style: AppTextStyles.reqular14.copyWith(
                                   color: AppColors.textDark,
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 14.sp,
                                 ),
                                 textAlign: TextAlign.center,
                               ),
                             ],
                           ),
-                          SizedBox(height: 60.h),
+                          60.verticalSpace,
                           // Upload file button
                           Container(
                             width: double.infinity,
@@ -227,17 +250,15 @@ class _UploadPrescriptionScreenState extends State<UploadPrescriptionScreen> {
                               ),
                               child: Text(
                                 'Upload file',
-                                style: GoogleFonts.montserrat(
+                                style: AppTextStyles.semiBold16.copyWith(
                                   color: Colors.white,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 16.sp,
                                 ),
                               ),
                             ),
                           ),
                           // Show selected image if available
                           if (_selectedImage != null) ...[
-                            SizedBox(height: 24.h),
+                            24.verticalSpace,
                             Container(
                               width: double.infinity,
                               height: 200.h,
