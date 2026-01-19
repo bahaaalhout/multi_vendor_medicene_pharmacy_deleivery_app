@@ -13,6 +13,8 @@ abstract class BaseMainNavScreen extends StatefulWidget {
   // 👇 You will define these in your actual screen
   List<Widget> get tabScreens;
   List<BottomNavigationItem> get navItems;
+  final int specialItemIndex = -1;
+
 
   @override
   State<BaseMainNavScreen> createState() => _BaseMainNavScreenState();
@@ -56,6 +58,7 @@ class _BaseMainNavScreenState extends State<BaseMainNavScreen> {
               child: BaseBottomNavigationBar(
                 items: widget.navItems,
                 currentIndex: _currentIndex,
+                specialItemIndex: widget.specialItemIndex,
                 onTap: (index) => setState(() => _currentIndex = index),
               ),
             ),

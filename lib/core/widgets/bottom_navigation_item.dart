@@ -28,7 +28,6 @@ class BottomNavigationItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isSpecailItem = tabIndex == isSpecialItem;
 
     final radius = BorderRadius.horizontal(
       left: tabIndex == 0
@@ -52,17 +51,17 @@ class BottomNavigationItem extends StatelessWidget {
           splashColor: AppColors.primaryNormal.withAlphaPercent(0.1),
           highlightColor: AppColors.primaryNormal.withAlphaPercent(0.05),
           child: Container(
-            width: isSpecailItem ? AppSizes.spacing64.w : AppSizes.spacing56.w,
+            width: isSpecialItem ? AppSizes.spacing64.w : AppSizes.spacing56.w,
             alignment: Alignment.center,
             padding: EdgeInsets.symmetric(vertical: AppSizes.spacing8.h),
             child: Column(
               children: [
                 SvgPicture.asset(
                   activeIcon,
-                  width: isSpecailItem
+                  width: isSpecialItem
                       ? AppSizes.iconSize24.w
                       : AppSizes.iconSize18.w,
-                  height: isSpecailItem
+                  height: isSpecialItem
                       ? AppSizes.iconSize27.h
                       : AppSizes.iconSize18.h,
                   colorFilter: ColorFilter.mode(
@@ -77,7 +76,7 @@ class BottomNavigationItem extends StatelessWidget {
                 Text(
                   label,
                   style: AppTextStyles.medium10.copyWith(
-                    fontWeight: isSpecailItem
+                    fontWeight: isSpecialItem
                         ? FontWeight.w800
                         : FontWeight.w500,
                     color: isActive

@@ -9,6 +9,10 @@ class MainScreen extends BaseMainNavScreen {
   const MainScreen({super.key, super.selectedIndex});
 
   @override
+  int get specialItemIndex => 2;
+
+
+  @override
   List<Widget> get tabScreens => [
     const HomeScreen(),
     const Center(child: Text('Orders')),
