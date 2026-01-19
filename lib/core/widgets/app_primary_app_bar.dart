@@ -75,19 +75,6 @@ class AppPrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
 
-              Expanded(
-                child: Center(
-                  child: Text(
-                    title,
-                    style: AppTextStyles.bold25.copyWith(
-                      fontSize: 24.sp,
-                      height: 1.5,
-                      color: const Color(0xFF1B1F3C),
-                    ),
-                  ),
-                ),
-              ),
-
               if (showActionButton)
                 Padding(
                   padding: EdgeInsets.only(right: 16.w),

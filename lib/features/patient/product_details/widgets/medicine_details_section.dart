@@ -109,14 +109,14 @@ class _MedicineDetailsSectionState extends State<MedicineDetailsSection> {
             Row(
               children: [
                 Text(
-                  '\$12.00',
+                  '\$${widget.medicine.salesInfo!.discountedPrice}',
                   style: AppTextStyles.bold25.copyWith(
                     color: AppColors.neutralDarker,
                   ),
                 ),
                 12.horizontalSpace,
                 Text(
-                  '\$15.00',
+                  '\$${widget.medicine.salesInfo!.originalPrice}',
                   style: AppTextStyles.semiBold14.copyWith(
                     color: AppColors.neutralDark,
                     decoration: TextDecoration.lineThrough,
