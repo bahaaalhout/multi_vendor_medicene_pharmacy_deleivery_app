@@ -34,44 +34,34 @@ class AppPrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: true,
       automaticallyImplyLeading: false,
       surfaceTintColor: Colors.transparent,
-      automaticallyImplyLeading: false,
       flexibleSpace: Padding(
         padding: EdgeInsets.only(
           top: MediaQuery.of(context).padding.top + 16.h,
         ),
         child: Padding(
           padding: EdgeInsets.only(bottom: AppSizes.spacing8.h),
-        child: Row(
-          children: [
-            if (showBack)
-              Padding(
-                padding: EdgeInsets.only(left: 16.w),
+          child: Row(
+            children: [
+              if (showBack)
+                Padding(
+                  padding: EdgeInsets.only(left: 16.w),
                   child: IconButton(
                     onPressed: onBack ?? () => Navigator.of(context).pop(),
                     padding: EdgeInsets.zero,
-                    constraints: BoxConstraints(minWidth: 40.w, minHeight: 40.w),
+                    constraints: BoxConstraints(
+                      minWidth: 40.w,
+                      minHeight: 40.w,
+                    ),
                     icon: SvgPicture.asset(
                       'assets/icons/back_icon.svg',
                       width: 60.w,
                       height: 60.w,
                     ),
                   ),
-              )
-            else
-              SizedBox(width: AppSizes.spacing60.w + AppSizes.spacing16.w),
+                )
+              else
+                SizedBox(width: AppSizes.spacing60.w + AppSizes.spacing16.w),
 
-            Expanded(
-              child: Center(
-                child: Text(
-                  title,
-                  style: AppTextStyles.bold25.copyWith(
-                    fontSize: 24.sp,
-                    height: 1.5,
-                    color: const Color(0xFF1B1F3C),
-                  ),
-                ),
-              ),
-          
               Expanded(
                 child: Center(
                   child: Text(
@@ -84,20 +74,36 @@ class AppPrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
                   ),
                 ),
               ),
-          
+
+              Expanded(
+                child: Center(
+                  child: Text(
+                    title,
+                    style: AppTextStyles.bold25.copyWith(
+                      fontSize: 24.sp,
+                      height: 1.5,
+                      color: const Color(0xFF1B1F3C),
+                    ),
+                  ),
+                ),
+              ),
+
               if (showActionButton)
                 Padding(
                   padding: EdgeInsets.only(right: 16.w),
                   child: IconButton(
                     onPressed: onAction,
                     padding: EdgeInsets.zero,
-                    constraints: BoxConstraints(minWidth: 40.w, minHeight: 40.w),
+                    constraints: BoxConstraints(
+                      minWidth: 40.w,
+                      minHeight: 40.w,
+                    ),
                     icon: SvgPicture.asset(
                       actionIconAsset ?? 'assets/icons/more_icon.svg',
                       width: 60.w,
                       height: 60.w,
                     ),
-                  )
+                  ),
                 )
               else
                 SizedBox(width: AppSizes.spacing60.w + AppSizes.spacing16.w),
