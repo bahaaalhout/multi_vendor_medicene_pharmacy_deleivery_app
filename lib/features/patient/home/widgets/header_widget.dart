@@ -2,10 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_sizes.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
 
 class HeaderWidget extends StatelessWidget {
-  const HeaderWidget({super.key});
+  final String name;
+  final String location;
+  final String? imageUrl;
+
+  const HeaderWidget({
+    super.key,
+    required this.name,
+    required this.location,
+    this.imageUrl,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,13 +26,13 @@ class HeaderWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Hi 👋 Mohammed ',
+              'Hi 👋 $name',
               style: AppTextStyles.semiBold21.copyWith(
                 color: AppColors.primaryNormal,
               ),
             ),
             Text(
-              "26 Salah El Din St., Gaza",
+              location,
               style: AppTextStyles.medium14.copyWith(
                 color: AppColors.neutralDarker,
               ),
@@ -44,9 +54,11 @@ class HeaderWidget extends StatelessWidget {
         ),
         SizedBox(width: 12.w),
         CircleAvatar(
-          radius: 30.r,
+          radius: AppSizes.borderRadius30.r,
           backgroundColor: AppColors.neutralLight,
-          foregroundImage: AssetImage('assets/images/girl.png'),
+          foregroundImage: imageUrl != null
+              ? NetworkImage(imageUrl!)
+              : AssetImage('assets/images/girl.png'),
         ),
       ],
     );

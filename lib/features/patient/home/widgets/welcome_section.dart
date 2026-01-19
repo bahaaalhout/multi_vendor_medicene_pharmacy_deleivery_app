@@ -5,7 +5,16 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_them
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/widgets/header_widget.dart';
 
 class WelcomeSection extends StatelessWidget {
-  const WelcomeSection({super.key});
+  final String name;
+  final String location;
+  final String? imageUrl;
+
+  const WelcomeSection({
+    super.key,
+    required this.name,
+    required this.location,
+    this.imageUrl,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +34,7 @@ class WelcomeSection extends StatelessWidget {
       ),
       child: Column(
         children: [
-          HeaderWidget(),
+          HeaderWidget(name: name, location: location, imageUrl: imageUrl,),
 
           SizedBox(height: 20.h),
           SearchBar(

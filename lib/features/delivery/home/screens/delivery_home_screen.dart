@@ -6,9 +6,9 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/data/fake_data.dart
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/order_details/screens/delivery_order_details_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/home/widgets/available_order_card.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/home/widgets/available_orders_header.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/home/widgets/delivery_home_header.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/home/widgets/online_toggle.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/home/widgets/review_alert.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/widgets/header_widget.dart';
 
 class DeliveryHomeScreen extends StatefulWidget {
   const DeliveryHomeScreen({super.key});
@@ -32,16 +32,16 @@ class _DeliveryHomeScreenState extends State<DeliveryHomeScreen> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: AppSizes.spacing16.w),
+          padding: EdgeInsets.only(left: AppSizes.spacing16.w, right: AppSizes.spacing16.w, top: AppSizes.spacing16.h),
           child: CustomScrollView(
             scrollBehavior: const ScrollBehavior().copyWith(scrollbars: false),
             slivers: [
               SliverList(
                 delegate: SliverChildListDelegate([
-                  DeliveyHomeHeader(
-                    driverName: driverName,
-                    driverLocation: driverLocation,
-                    driverImageUrl: driverImageUrl,
+                  HeaderWidget(
+                    name: driverName,
+                    location: driverLocation,
+                    imageUrl: driverImageUrl,
                   ),
                   SizedBox(height: AppSizes.spacing16.h),
                   OnlineToggle(
