@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
 
@@ -26,8 +25,49 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // Back button
+                  Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () => Navigator.of(context).pop(),
+                      borderRadius: BorderRadius.circular(30.w),
+                      child: Container(
+                        width: 60.w,
+                        height: 60.h,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: AppColors.lightBlue,
+                            width: 1.5,
+                          ),
+                          color: Colors.white,
+                        ),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Transform.translate(
+                            offset: Offset(1.5.w, 0),
+                            child: Icon(
+                              Icons.arrow_back_ios,
+                              size: 12.sp,
+                              color: AppColors.primaryBlue,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  // Title
+                  Text(
+                    'Profile',
+                    style: AppTextStyles.bold25.copyWith(
+                      fontSize: 24.sp,
+                      height: 1.5,
+                      color: const Color(0xFF1B1F3C),
+                    ),
+                  ),
+                  // Edit button
                   Container(
                     width: 60.w,
                     height: 60.h,
@@ -39,32 +79,25 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                       ),
                       color: Colors.white,
                     ),
-                    child: IconButton(
-                      padding: EdgeInsets.zero,
-                      icon: Image.asset(
-                        "assets/icons/back.png",
-                        width: 20.w,
-                        height: 20.h,
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () {},
+                        borderRadius: BorderRadius.circular(30.w),
+                        child: Center(
+                          child: Image.asset(
+                            "assets/icons/basil_edit-outline.png",
+                            width: 20.w,
+                            height: 20.h,
+                          ),
+                        ),
                       ),
-                      onPressed: () => Navigator.of(context).pop(),
                     ),
                   ),
-                  // Title
-                  Expanded(
-                    child: Text(
-                      'Terms & Conditions',
-                      style: GoogleFonts.montserrat(
-                        color: AppColors.textDark,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 22.sp,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  SizedBox(width: 56.w), // Balance the back button width
                 ],
               ),
             ),
+            
             // Main Content
             Expanded(
               child: SingleChildScrollView(
@@ -74,13 +107,11 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                   children: [
                     Text(
                       'By using this application, you agree to the Following Terms and Conditions:',
-                      style: GoogleFonts.montserrat(
+                      style: AppTextStyles.semiBold12.copyWith(
                         color: AppColors.textDark,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 12.sp,
                       ),
                     ),
-                    SizedBox(height: 12.h),
+                    12.verticalSpace,
                     // Main Content Area with dotted border
                     Container(
                       decoration: BoxDecoration(
@@ -96,7 +127,7 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             // Introductory Text
-                            SizedBox(height: 1.h),
+                            1.verticalSpace,
                             // Terms List
                             _buildTermItem(
                               number: 1,
@@ -104,49 +135,49 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                               description:
                                   'This application allows you to upload medical prescriptions to licensed pharmacies to check the availability of medicines and receive price offers. The application does not provide medical advice and does not replace consultation with a doctor or pharmacist.',
                             ),
-                            SizedBox(height: 20.h),
+                            20.verticalSpace,
                             _buildTermItem(
                               number: 2,
                               title: 'Medical Prescriptions',
                               description:
                                   'You are responsible for uploading clear, valid, and accurate prescriptions. The application is not responsible for any errors resulting from unclear images or incorrect information provided by you.',
                             ),
-                            SizedBox(height: 20.h),
+                            20.verticalSpace,
                             _buildTermItem(
                               number: 3,
                               title: 'Pharmacy Responsibility',
                               description:
                                   'Pharmacies are responsible for reviewing prescriptions, confirming the availability of medicines, suggesting alternatives if necessary, providing final pricing and preparation time. The final decision to dispense medication rests with the pharmacy.',
                             ),
-                            SizedBox(height: 20.h),
+                            20.verticalSpace,
                             _buildTermItem(
                               number: 4,
                               title: 'Pricing and Payments',
                               description:
                                   'Prices are set by pharmacies and may vary. The application is not responsible for any price changes after an order is confirmed.',
                             ),
-                            SizedBox(height: 20.h),
+                            20.verticalSpace,
                             _buildTermItem(
                               number: 5,
                               title: 'Privacy and Data Protection',
                               description:
                                   'We are committed to protecting your data and medical prescriptions. Your information is shared only with the selected pharmacies for the purpose of fulfilling your request.',
                             ),
-                            SizedBox(height: 20.h),
+                            20.verticalSpace,
                             _buildTermItem(
                               number: 6,
                               title: 'Order Cancellation',
                               description:
                                   'You can cancel your request before the pharmacy confirms it. After confirmation, cancellation is subject to the pharmacy\'s policy.',
                             ),
-                            SizedBox(height: 20.h),
+                            20.verticalSpace,
                             _buildTermItem(
                               number: 7,
                               title: 'Limitation of Liability',
                               description:
                                   'The application is not liable for any misuse of medication or failure to follow medical or pharmaceutical instructions.',
                             ),
-                            SizedBox(height: 20.h),
+                            20.verticalSpace,
                             _buildTermItem(
                               number: 8,
                               title: 'Changes to Terms',
@@ -157,7 +188,7 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 5.h),
+                    5.verticalSpace,
                     // Agreement Section
                     Container(
                       padding: EdgeInsets.all(16.w),
@@ -183,16 +214,15 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                               Expanded(
                                 child: Text(
                                   'By clicking on "I agree to.. " then you follow all the above instructions and information',
-                                  style: GoogleFonts.montserrat(
-                                    color: AppColors.textDark,
-                                    fontWeight: FontWeight.w500,
+                                  style: AppTextStyles.medium14.copyWith(
                                     fontSize: 13.sp,
+                                    color: AppColors.textDark,
                                   ),
                                 ),
                               ),
                             ],
                           ),
-                          SizedBox(height: 16.h),
+                          16.verticalSpace,
                           // Agreement checkbox with text
                           Row(
                             children: [
@@ -212,19 +242,15 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                               Expanded(
                                 child: RichText(
                                   text: TextSpan(
-                                    style: GoogleFonts.montserrat(
+                                    style: AppTextStyles.reqular14.copyWith(
                                       color: AppColors.textDark,
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14.sp,
                                     ),
                                     children: [
                                       TextSpan(
                                         text:
                                             'I agree to the Terms and Conditions',
-                                        style: GoogleFonts.montserrat(
+                                        style: AppTextStyles.medium12.copyWith(
                                           color: AppColors.primaryBlue,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 12.sp,
                                         ),
                                       ),
                                     ],
@@ -236,7 +262,7 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 20.h),
+                    20.verticalSpace,
                   ],
                 ),
               ),
@@ -280,19 +306,15 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
             children: [
               Text(
                 title,
-                style: GoogleFonts.montserrat(
+                style: AppTextStyles.bold14.copyWith(
                   color: AppColors.textDark,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 14.sp,
                 ),
               ),
-              SizedBox(height: 8.h),
+              8.verticalSpace,
               Text(
                 description,
-                style: GoogleFonts.montserrat(
+                style: AppTextStyles.reqular12.copyWith(
                   color: AppColors.textDark,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 12.sp,
                 ),
               ),
             ],

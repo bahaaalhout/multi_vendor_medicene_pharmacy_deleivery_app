@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/profile/widgets/toggle.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -32,34 +32,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // Back button
-                  Container(
-                    width: 60.w,
-                    height: 60.h,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: AppColors.lightBlue,
-                        width: 1.5,
+                  Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () => Navigator.of(context).pop(),
+                      borderRadius: BorderRadius.circular(30.w),
+                      child: Container(
+                        width: 60.w,
+                        height: 60.h,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: AppColors.lightBlue,
+                            width: 1.5,
+                          ),
+                          color: Colors.white,
+                        ),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Transform.translate(
+                            offset: Offset(1.5.w, 0),
+                            child: Icon(
+                              Icons.arrow_back_ios,
+                              size: 12.sp,
+                              color: AppColors.primaryBlue,
+                            ),
+                          ),
+                        ),
                       ),
-                      color: Colors.white,
-                    ),
-                    child: IconButton(
-                      padding: EdgeInsets.zero,
-                      icon: Image.asset(
-                        "assets/icons/back.png",
-                        width: 20.w,
-                        height: 20.h,
-                      ),
-                      onPressed: () => Navigator.of(context).pop(),
                     ),
                   ),
                   // Title
                   Text(
                     'Profile',
-                    style: GoogleFonts.montserrat(
-                      color: AppColors.textDark,
-                      fontWeight: FontWeight.w700,
+                    style: AppTextStyles.bold25.copyWith(
                       fontSize: 24.sp,
+                      height: 1.5,
+                      color: const Color(0xFF1B1F3C),
                     ),
                   ),
                   // Edit button
@@ -74,14 +83,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       color: Colors.white,
                     ),
-                    child: IconButton(
-                      padding: EdgeInsets.zero,
-                      icon: Image.asset(
-                        "assets/icons/basil_edit-outline.png",
-                        width: 20.w,
-                        height: 20.h,
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () {},
+                        borderRadius: BorderRadius.circular(30.w),
+                        child: Center(
+                          child: Image.asset(
+                            "assets/icons/basil_edit-outline.png",
+                            width: 20.w,
+                            height: 20.h,
+                          ),
+                        ),
                       ),
-                      onPressed: () {},
                     ),
                   ),
                 ],
@@ -95,7 +109,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 email: 'mhmd26@email.com',
               ),
             ),
-            SizedBox(height: 10.h),
+            10.verticalSpace,
             // Settings List
             Expanded(
               child: SingleChildScrollView(
@@ -109,7 +123,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       subtitle: 'Orders & Activity',
                       onTap: () {},
                     ),
-                    SizedBox(height: 12.h),
+                    12.verticalSpace,
                     // Saved items
                     _SettingsItem(
                       icon: "assets/icons/saved.png",
@@ -117,7 +131,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       subtitle: 'medicines & Healthy products',
                       onTap: () {},
                     ),
-                    SizedBox(height: 12.h),
+                    12.verticalSpace,
                     // Medicine reminders
                     _SettingsItem(
                       icon: "assets/icons/clock2.png",
@@ -131,7 +145,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         });
                       },
                     ),
-                    SizedBox(height: 12.h),
+                    12.verticalSpace,
                     // Notification Card
                     _NotificationCard(
                       notificationsEnabled: notificationsEnabled,
@@ -159,7 +173,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         });
                       },
                     ),
-                    SizedBox(height: 32.h),
+                    32.verticalSpace,
                     // Log out button
                     Container(
                       width: double.infinity,
@@ -182,10 +196,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         child: Text(
                           'Log out',
-                          style: GoogleFonts.montserrat(
-                            color: AppColors.primaryBlue,
-                            fontWeight: FontWeight.w600,
+                          style: AppTextStyles.bold25.copyWith(
                             fontSize: 14.sp,
+                            height: 1.5,
+                            color: AppColors.primaryBlue,
                           ),
                         ),
                       ),
@@ -236,24 +250,20 @@ class _ProfileCard extends StatelessWidget {
                 height: 120.h,
               ),
             ),
-            SizedBox(height: 16.h),
+            16.verticalSpace,
             // Name
             Text(
               name,
-              style: GoogleFonts.montserrat(
+              style: AppTextStyles.bold20.copyWith(
                 color: AppColors.textDark,
-                fontWeight: FontWeight.w700,
-                fontSize: 20.sp,
               ),
             ),
-            SizedBox(height: 8.h),
+            8.verticalSpace,
             // Email
             Text(
               email,
-              style: GoogleFonts.montserrat(
+              style: AppTextStyles.medium14.copyWith(
                 color: AppColors.textDark,
-                fontWeight: FontWeight.w500,
-                fontSize: 14.sp,
               ),
             ),
           ],
@@ -321,7 +331,7 @@ class _NotificationCard extends StatelessWidget {
                     color: AppColors.primaryBlue,
                   ),
                 ),
-                SizedBox(width: 16.w),
+                16.horizontalSpace,
                 // Text content
                 Expanded(
                   child: Column(
@@ -329,19 +339,15 @@ class _NotificationCard extends StatelessWidget {
                     children: [
                       Text(
                         'Notification',
-                        style: GoogleFonts.montserrat(
+                        style: AppTextStyles.semiBold16.copyWith(
                           color: AppColors.textDark,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16.sp,
                         ),
                       ),
-                      SizedBox(height: 4.h),
+                      4.verticalSpace,
                       Text(
                         'Get access to edit your notifications',
-                        style: GoogleFonts.montserrat(
+                        style: AppTextStyles.reqular12.copyWith(
                           color: AppColors.primaryBlue,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 12.sp,
                         ),
                       ),
                     ],
@@ -368,13 +374,13 @@ class _NotificationCard extends StatelessWidget {
                     value: offersEnabled,
                     onToggle: onOffersToggle,
                   ),
-                  SizedBox(height: 30.h),
+                  30.verticalSpace,
                   _NotificationSubItem(
                     title: 'Order tracking',
                     value: orderTrackingEnabled,
                     onToggle: onOrderTrackingToggle,
                   ),
-                  SizedBox(height: 30.h),
+                  30.verticalSpace,
                   _NotificationSubItem(
                     title: 'Rating requests',
                     value: ratingRequestsEnabled,
@@ -409,10 +415,8 @@ class _NotificationSubItem extends StatelessWidget {
       children: [
         Text(
           title,
-          style: GoogleFonts.montserrat(
+          style: AppTextStyles.reqular16.copyWith(
             color: AppColors.textDark,
-            fontWeight: FontWeight.w400,
-            fontSize: 16.sp,
           ),
         ),
         CustomToggle(value: value, onToggle: onToggle),
@@ -482,7 +486,7 @@ class _SettingsItem extends StatelessWidget {
                       color: AppColors.primaryBlue,
                     ),
                   ),
-                  SizedBox(width: 16.w),
+                  16.horizontalSpace,
                 ],
                 // Text content
                 Expanded(
@@ -491,20 +495,16 @@ class _SettingsItem extends StatelessWidget {
                     children: [
                       Text(
                         title,
-                        style: GoogleFonts.montserrat(
+                        style: AppTextStyles.semiBold16.copyWith(
                           color: AppColors.textDark,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16.sp,
                         ),
                       ),
                       if (subtitle != null && !isSubItem) ...[
-                        SizedBox(height: 8.h),
+                        8.verticalSpace,
                         Text(
                           subtitle!,
-                          style: GoogleFonts.montserrat(
+                          style: AppTextStyles.reqular12.copyWith(
                             color: AppColors.primaryBlue,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12.sp,
                           ),
                         ),
                       ],
