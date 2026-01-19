@@ -1,3 +1,6 @@
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/models/sales_model.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/widgets/sales_item.dart';
+
 class MedicineModel {
   final String id;
   final String brandName;
@@ -16,6 +19,7 @@ class MedicineModel {
   final String effects;
   final String directions;
   final List<String> reviews;
+  final SaleInfo? salesInfo;
 
   MedicineModel({
     required this.id,
@@ -35,7 +39,9 @@ class MedicineModel {
     required this.effects,
     required this.directions,
     required this.reviews,
+    this.salesInfo,
   });
+  bool get isOnSale => salesInfo != null;
 }
 
 enum FormType { tablet, syrup, capsule, injection, cream, ointment }

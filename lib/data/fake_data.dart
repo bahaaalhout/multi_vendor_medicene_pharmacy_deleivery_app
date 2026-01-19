@@ -5,12 +5,13 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/deliver
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/order_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/pharmacy_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_model.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/models/sales_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/models/notification_item.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/pharmacy_offer_model.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/models/notification_item.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/models/reminder_item.dart';
 
 final now = DateTime.now();
+
 final List<AddressModel> address = [
   AddressModel(
     id: "1",
@@ -124,7 +125,7 @@ final pharmacies = [
     distance: 5.2,
   ),
 ];
-
+final saleMedicines = medicineData.where((m) => m.isOnSale).toList();
 final List<MedicineModel> medicineData = [
   MedicineModel(
     id: "1",
@@ -152,6 +153,12 @@ final List<MedicineModel> medicineData = [
     directions:
         "Take 1-2 tablets every 4 to 6 hours as needed. Do not exceed 8 tablets in 24 hours.",
     reviews: ["Great for headaches!", "I rely on this for my pain relief."],
+    salesInfo: SaleInfo(
+      discountPercentage: 20,
+      originalPrice: 10.0,
+      discountedPrice: 8.0,
+      recommendations: ['Hot Deal', 'Limited Time'],
+    ),
   ),
   MedicineModel(
     id: "2",
@@ -182,6 +189,12 @@ final List<MedicineModel> medicineData = [
       "Works wonders for my joint pain!",
       "Effective, but can be a bit greasy.",
     ],
+    salesInfo: SaleInfo(
+      discountPercentage: 20,
+      originalPrice: 10.0,
+      discountedPrice: 8.0,
+      recommendations: ['Hot Deal', 'Limited Time'],
+    ),
   ),
   MedicineModel(
     id: "3",
@@ -209,6 +222,12 @@ final List<MedicineModel> medicineData = [
     directions:
         "Take 1-2 capsules every 4-6 hours as needed. Do not exceed 6 capsules in 24 hours.",
     reviews: ["Helps with my seasonal allergies.", "It makes me very drowsy."],
+    salesInfo: SaleInfo(
+      discountPercentage: 20,
+      originalPrice: 10.0,
+      discountedPrice: 8.0,
+      recommendations: ['Hot Deal', 'Limited Time'],
+    ),
   ),
   MedicineModel(
     id: "4",
@@ -399,7 +418,6 @@ List<NotificationItem> notifications = [
     isRead: true,
   ),
 ];
-
 
 //delivery screen fake data
 const pharmacyAddress = AddressModel(

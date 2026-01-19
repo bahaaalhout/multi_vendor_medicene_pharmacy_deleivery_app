@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/models/sales_model.dart';
 
-class TagsOfMedicine extends StatelessWidget {
-  const TagsOfMedicine({super.key, required this.salesModel});
+class RecommendationsOfMedicine extends StatelessWidget {
+  const RecommendationsOfMedicine({super.key, required this.medicineModel});
 
-  final SalesModel salesModel;
+  final MedicineModel medicineModel;
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +17,10 @@ class TagsOfMedicine extends StatelessWidget {
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),
-        itemCount: salesModel.tags.take(3).length,
+        itemCount: medicineModel.salesInfo?.recommendations.take(3).length ?? 0,
         separatorBuilder: (_, __) => SizedBox(width: 4.w),
         itemBuilder: (context, index) {
-          final tag = salesModel.tags[index];
+          final tag = medicineModel.salesInfo!.recommendations[index];
           return Chip(
             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
             visualDensity: VisualDensity.compact,

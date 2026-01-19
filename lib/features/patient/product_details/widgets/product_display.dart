@@ -41,7 +41,9 @@ class _ProductDisplayState extends State<ProductDisplay> {
             children: [
               CircleIconButton(
                 assetIcon: 'assets/icons/arrow_left.svg',
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
               ),
               Column(
                 children: [

@@ -20,7 +20,6 @@ class NearbyPharmacyWidget extends StatelessWidget {
         Container(
           padding: EdgeInsets.all(12.r),
           width: 300.w,
-          height: 350.h,
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(color: AppColors.primaryLightActive, width: 1),

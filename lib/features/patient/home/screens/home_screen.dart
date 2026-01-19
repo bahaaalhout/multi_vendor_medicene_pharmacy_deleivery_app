@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/data/fake_data.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/models/category_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/models/sales_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/widgets/categories_section.dart';
@@ -44,7 +45,7 @@ class HomeScreen extends StatelessWidget {
                 PharmacyOffers(),
                 NearbyPharmacies(),
                 CategoriesSection(categories: categories),
-                MostSalesSection(sales: sales),
+                MostSalesSection(sales: saleMedicines),
                 108.verticalSpace,
               ],
             ),

@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_model.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/pharmacy_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/models/sales_model.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/widgets/tags_of_medicine.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/widgets/recommendations_of_medicine.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/product_details/screens/product_detail_screen.dart';
 
 class SalesItem extends StatelessWidget {
-  const SalesItem({super.key, required this.salesModel});
-  final SalesModel salesModel;
+  const SalesItem({
+    super.key,
+    required this.medicineModel,
+    required this.pharmacy,
+  });
+  final MedicineModel medicineModel;
+  final PharmacyModel pharmacy;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -15,16 +23,28 @@ class SalesItem extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 36.w),
-              decoration: BoxDecoration(
-                color: AppColors.primaryLight,
-                borderRadius: BorderRadius.circular(12.r),
-              ),
-              child: Image.asset(
-                salesModel.imageUrl,
-                width: 100.w,
-                height: 100.h,
+            InkWell(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ProductDetailScreen(
+                      medicine: medicineModel,
+                      pharmacy: pharmacy,
+                    ),
+                  ),
+                );
+              },
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 36.w),
+                decoration: BoxDecoration(
+                  color: AppColors.primaryLight,
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+                child: Image.network(
+                  medicineModel.imageUrls.first,
+                  width: 100.w,
+                  height: 100.h,
+                ),
               ),
             ),
             SizedBox(height: 8.h),
@@ -35,34 +55,33 @@ class SalesItem extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    salesModel.name,
+                    medicineModel.brandName,
                     style: AppTextStyles.bold14.copyWith(
                       color: AppColors.primaryDarker,
                     ),
                   ),
-                  Icon(
-                    Icons.add_circle_outline,
-                    color: AppColors.primaryNormal,
-                    size: 20.r,
+                  InkWell(
+                    onTap: () {},
+                    child: SvgPicture.asset('assets/icons/Frame.svg'),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 8.h),
-            TagsOfMedicine(salesModel: salesModel),
+            SizedBox(height: 7.h),
+            RecommendationsOfMedicine(medicineModel: medicineModel),
             SizedBox(height: 8.h),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  "\$${salesModel.discountedPrice}",
+                  "\$${medicineModel.salesInfo!.discountedPrice}",
                   style: AppTextStyles.semiBold16.copyWith(
                     color: AppColors.successDark,
                   ),
                 ),
                 SizedBox(width: 8.w),
                 Text(
-                  "\$${salesModel.originalPrice}",
+                  "\$${medicineModel.salesInfo!.originalPrice}",
                   style: AppTextStyles.medium10.copyWith(
                     color: AppColors.neutralDark,
                     decoration: TextDecoration.lineThrough,
@@ -83,7 +102,7 @@ class SalesItem extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(8.r)),
             ),
             child: Text(
-              "${salesModel.discountPercentage}% OFF",
+              "${medicineModel.salesInfo!.discountPercentage}% OFF",
               style: AppTextStyles.medium10.copyWith(
                 color: AppColors.successLight,
               ),

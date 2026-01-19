@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/models/sales_model.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/data/fake_data.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/widgets/sales_item.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/widgets/title_of_headers.dart';
 
@@ -19,9 +19,12 @@ class SimilarSection extends StatelessWidget {
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             separatorBuilder: (context, index) => SizedBox(width: 10.w),
-            itemCount: sales.length,
+            itemCount: saleMedicines.length,
             itemBuilder: (context, index) {
-              return SalesItem(salesModel: sales[index]);
+              return SalesItem(
+                medicineModel: saleMedicines[index],
+                pharmacy: pharmacies[index],
+              );
             },
           ),
         ),
