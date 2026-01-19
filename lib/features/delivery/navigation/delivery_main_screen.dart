@@ -96,31 +96,35 @@ class _DeliveryMainScreenState extends State<DeliveryMainScreen> {
         ),
       ],
     );
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          index = tabIndex;
-        });
-      },
-      child: isActive
-          ? Container(
-              width: AppSizes.spacing56.w,
-              alignment: Alignment.center,
-              padding: EdgeInsets.symmetric(vertical: AppSizes.spacing8.h),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.horizontal(
-                  left: tabIndex == 0
-                      ? Radius.circular(AppSizes.borderRadius16.r)
-                      : Radius.circular(AppSizes.borderRadius8.r),
-                  right: tabIndex == 3
-                      ? Radius.circular(AppSizes.borderRadius16.r)
-                      : Radius.circular(AppSizes.borderRadius8.r),
-                ),
-              ),
-              child: iconTab,
-            )
-          : iconTab,
+
+    final radius = BorderRadius.horizontal(
+      left: tabIndex == 0
+          ? Radius.circular(AppSizes.borderRadius16.r)
+          : Radius.circular(AppSizes.borderRadius8.r),
+      right: tabIndex == 3
+          ? Radius.circular(AppSizes.borderRadius16.r)
+          : Radius.circular(AppSizes.borderRadius8.r),
+    );
+
+    return Material(
+      color: Colors.transparent, // needed for InkWell painting
+      child: InkWell(
+        borderRadius: radius,
+        onTap: () {
+          setState(() {
+            index = tabIndex;
+          });
+        },
+        child: Container(
+          width: AppSizes.spacing56.w,
+          alignment: Alignment.center,
+          padding: EdgeInsets.symmetric(vertical: AppSizes.spacing8.h),
+          decoration: isActive
+              ? BoxDecoration(color: Colors.white, borderRadius: radius)
+              : null,
+          child: iconTab,
+        ),
+      ),
     );
   }
 }

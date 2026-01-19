@@ -33,51 +33,54 @@ class _DeliveryOrderDetailScreenState extends State<DeliveryOrderDetailScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: AppSizes.spacing16.h),
-          child: Column(
-            children: [
-              const DeliveryOrderDetailsHeader(),
-              SizedBox(height: AppSizes.spacing16.h),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      // Progress Stepper
-                      DeliveryProgressStepper(delivery: _currentDelivery),
-                      SizedBox(height: AppSizes.spacing16.h),
-
-                      // Delivery Instructions
-                      if (_currentDelivery.order.deliveryInstructions != null)
-                        DeliveryInstructionsCard(
-                          instructions:
-                              _currentDelivery.order.deliveryInstructions,
-                        ),
-                      SizedBox(height: AppSizes.spacing16.h),
-
-                      // Pharmacy Order Card
-                      PharmacyOrderCard(
-                        delivery: _currentDelivery,
-                        showProductDetails: _showProductDetails,
-                        onToggleProductDetails: () {
-                          setState(() {
-                            _showProductDetails = !_showProductDetails;
-                          });
-                        },
-                      ),
-                      SizedBox(height: AppSizes.spacing12.h),
-
-                      // Customer Info Card
-                      CustomerInfoCard(delivery: _currentDelivery),
-
-                      // Action Button
-                      if (_shouldShowActionButton()) _buildActionButton(),
-                    ],
-                  ),
-                ),
+        child: CustomScrollView(
+          slivers: [
+            SliverPadding(
+              padding: EdgeInsets.symmetric(vertical: AppSizes.spacing16.h),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate([
+                  const DeliveryOrderDetailsHeader(),
+                  SizedBox(height: AppSizes.spacing16.h),
+                ]),
               ),
-            ],
-          ),
+            ),
+            SliverPadding(
+              padding: EdgeInsets.symmetric(horizontal: AppSizes.spacing16.w),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate([
+                  // Progress Stepper
+                  DeliveryProgressStepper(delivery: _currentDelivery),
+                  SizedBox(height: AppSizes.spacing16.h),
+
+                  // Delivery Instructions
+                  if (_currentDelivery.order.deliveryInstructions != null)
+                    DeliveryInstructionsCard(
+                      instructions:
+                          _currentDelivery.order.deliveryInstructions,
+                    ),
+                  SizedBox(height: AppSizes.spacing16.h),
+
+                  // Pharmacy Order Card
+                  PharmacyOrderCard(
+                    delivery: _currentDelivery,
+                    showProductDetails: _showProductDetails,
+                    onToggleProductDetails: () {
+                      setState(() {
+                        _showProductDetails = !_showProductDetails;
+                      });
+                    },
+                  ),
+                  SizedBox(height: AppSizes.spacing12.h),
+
+                  // Customer Info Card
+                  CustomerInfoCard(delivery: _currentDelivery),
+
+                  // Action Button
+                  if (_shouldShowActionButton()) _buildActionButton(),
+                ]),
+              ),
+            ),
+          ],
         ),
       ),
     );
