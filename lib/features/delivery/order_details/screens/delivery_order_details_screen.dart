@@ -2,23 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_sizes.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/delivery_model.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/delivery_progress_stepper.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/delivery_instructions_card.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/customer_info_card.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/delivery_details_header.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/pharmacy_order_card.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/action_button.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/order_details/widgets/delivery_progress_stepper.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/order_details/widgets/delivery_instructions_card.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/order_details/widgets/customer_info_card.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/order_details/widgets/delivery_order_details_header.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/order_details/widgets/pharmacy_order_card.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/order_details/widgets/action_button.dart';
 
-class DeliveryDetailScreen extends StatefulWidget {
+class DeliveryOrderDetailScreen extends StatefulWidget {
   final DeliveryModel delivery;
 
-  const DeliveryDetailScreen({super.key, required this.delivery});
+  const DeliveryOrderDetailScreen({super.key, required this.delivery});
 
   @override
-  State<DeliveryDetailScreen> createState() => _DeliveryDetailScreenState();
+  State<DeliveryOrderDetailScreen> createState() => _DeliveryOrderDetailScreenState();
 }
 
-class _DeliveryDetailScreenState extends State<DeliveryDetailScreen> {
+class _DeliveryOrderDetailScreenState extends State<DeliveryOrderDetailScreen> {
   bool _showProductDetails = false;
   late DeliveryModel _currentDelivery;
 
@@ -37,7 +37,7 @@ class _DeliveryDetailScreenState extends State<DeliveryDetailScreen> {
           padding: EdgeInsets.symmetric(vertical: AppSizes.spacing16.h),
           child: Column(
             children: [
-              const DeliveryDetailsHeader(),
+              const DeliveryOrderDetailsHeader(),
               SizedBox(height: AppSizes.spacing16.h),
               Expanded(
                 child: SingleChildScrollView(

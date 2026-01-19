@@ -4,8 +4,8 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_sizes.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
 
-class DeliveryDetailsHeader extends StatelessWidget {
-  const DeliveryDetailsHeader({super.key});
+class DeliveryOrderDetailsHeader extends StatelessWidget {
+  const DeliveryOrderDetailsHeader({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -5,12 +5,12 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_sizes.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/delivery_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/delivery_info_badge.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/order_header.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/order_id_header.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/card_title_row.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/card_details_tile.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/product_list.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/order_details/widgets/product_list.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/delivery_info_chips.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/status_badge.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/order_details/widgets/status_badge.dart';
 
 /// Card showing pharmacy order details (pickup location, products)
 class PharmacyOrderCard extends StatelessWidget {

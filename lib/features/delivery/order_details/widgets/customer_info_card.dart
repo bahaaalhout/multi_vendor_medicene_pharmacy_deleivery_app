@@ -8,7 +8,7 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/w
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/delivery_info_badge.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/delivery_info_chips.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/card_title_row.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/status_badge.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/order_details/widgets/status_badge.dart';
 
 class CustomerInfoCard extends StatelessWidget {
   final DeliveryModel delivery;
