@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_sizes.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/view/notifications_page.dart';
 
 class HeaderWidget extends StatelessWidget {
   final String name;
@@ -44,7 +45,12 @@ class HeaderWidget extends StatelessWidget {
           radius: 30.r,
           backgroundColor: AppColors.primaryLight,
           child: IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => NotificationsPage()),
+              );
+            },
             icon: SvgPicture.asset(
               'assets/images/notifications.svg',
               height: 20.h,
