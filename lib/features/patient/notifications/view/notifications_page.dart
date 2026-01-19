@@ -56,7 +56,9 @@ class _NotificationsPageState extends State<NotificationsPage> {
       backgroundColor: Colors.white,
       appBar: AppPrimaryAppBar(
         title: 'Notification',
-        onBack: () {},
+        onBack: () {
+          Navigator.of(context).pop();
+        },
         onAction: () {},
       ),
       body: Container(

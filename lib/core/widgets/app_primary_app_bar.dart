@@ -9,12 +9,16 @@ class AppPrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onAction;
   final String? actionIconAsset;
 
+  /// 👈 فلاغ لإظهار / إخفاء زر الباك
+  final bool showBack;
+
   const AppPrimaryAppBar({
     super.key,
     required this.title,
     this.onBack,
     this.onAction,
     this.actionIconAsset,
+    this.showBack = true,
   });
 
   @override
@@ -26,25 +30,29 @@ class AppPrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Colors.white,
       centerTitle: true,
       surfaceTintColor: Colors.transparent,
+      automaticallyImplyLeading: false,
       flexibleSpace: Padding(
         padding: EdgeInsets.only(
           top: MediaQuery.of(context).padding.top + 16.h,
         ),
         child: Row(
           children: [
-            Padding(
-              padding: EdgeInsets.only(left: 16.w),
-              child: IconButton(
-                onPressed: onBack,
-                padding: EdgeInsets.zero,
-                constraints: BoxConstraints(minWidth: 40.w, minHeight: 40.w),
-                icon: SvgPicture.asset(
-                  'assets/icons/back_icon.svg',
-                  width: 60.w,
-                  height: 60.w,
+            if (showBack)
+              Padding(
+                padding: EdgeInsets.only(left: 16.w),
+                child: IconButton(
+                  onPressed: onBack ?? () => Navigator.of(context).pop(),
+                  padding: EdgeInsets.zero,
+                  constraints: BoxConstraints(minWidth: 40.w, minHeight: 40.w),
+                  icon: SvgPicture.asset(
+                    'assets/icons/back_icon.svg',
+                    width: 60.w,
+                    height: 60.w,
+                  ),
                 ),
-              ),
-            ),
+              )
+            else
+              SizedBox(width: 16.w),
 
             Expanded(
               child: Center(
