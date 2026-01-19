@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_sizes.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/delivery_model.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_primary_app_bar.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/order_details/widgets/delivery_progress_stepper.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/order_details/widgets/delivery_instructions_card.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/order_details/widgets/customer_info_card.dart';
@@ -15,7 +18,8 @@ class DeliveryOrderDetailScreen extends StatefulWidget {
   const DeliveryOrderDetailScreen({super.key, required this.delivery});
 
   @override
-  State<DeliveryOrderDetailScreen> createState() => _DeliveryOrderDetailScreenState();
+  State<DeliveryOrderDetailScreen> createState() =>
+      _DeliveryOrderDetailScreenState();
 }
 
 class _DeliveryOrderDetailScreenState extends State<DeliveryOrderDetailScreen> {
@@ -30,20 +34,19 @@ class _DeliveryOrderDetailScreenState extends State<DeliveryOrderDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double bottomPadding = AppSizes.spacing16.h * 2 + AppSizes.spacing80.h;
+
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppPrimaryAppBar(
+        title: 'Delivery Details',
+        onBack: () => Navigator.maybePop(context),
+        onAction: () {},
+        showActionButton: false,
+      ),
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
-            SliverPadding(
-              padding: EdgeInsets.symmetric(vertical: AppSizes.spacing16.h),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate([
-                  const DeliveryOrderDetailsHeader(),
-                  SizedBox(height: AppSizes.spacing16.h),
-                ]),
-              ),
-            ),
             SliverPadding(
               padding: EdgeInsets.symmetric(horizontal: AppSizes.spacing16.w),
               sliver: SliverList(
@@ -55,8 +58,7 @@ class _DeliveryOrderDetailScreenState extends State<DeliveryOrderDetailScreen> {
                   // Delivery Instructions
                   if (_currentDelivery.order.deliveryInstructions != null)
                     DeliveryInstructionsCard(
-                      instructions:
-                          _currentDelivery.order.deliveryInstructions,
+                      instructions: _currentDelivery.order.deliveryInstructions,
                     ),
                   SizedBox(height: AppSizes.spacing16.h),
 
@@ -77,6 +79,8 @@ class _DeliveryOrderDetailScreenState extends State<DeliveryOrderDetailScreen> {
 
                   // Action Button
                   if (_shouldShowActionButton()) _buildActionButton(),
+
+                  SizedBox(height: bottomPadding),
                 ]),
               ),
             ),

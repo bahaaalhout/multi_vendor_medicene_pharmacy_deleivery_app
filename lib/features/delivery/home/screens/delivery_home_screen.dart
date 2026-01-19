@@ -28,33 +28,54 @@ class _DeliveryHomeScreenState extends State<DeliveryHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double bottomPadding = AppSizes.spacing16.h * 2 + AppSizes.spacing80.h;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: AppSizes.spacing16.w),
-          child: Column(
-            children: [
-              DeliveyHomeHeader(
-                driverName: driverName,
-                driverLocation: driverLocation,
-                driverImageUrl: driverImageUrl,
+          child: CustomScrollView(
+            scrollBehavior: const ScrollBehavior().copyWith(scrollbars: false),
+            slivers: [
+              SliverList(
+                delegate: SliverChildListDelegate([
+                  DeliveyHomeHeader(
+                    driverName: driverName,
+                    driverLocation: driverLocation,
+                    driverImageUrl: driverImageUrl,
+                  ),
+                  SizedBox(height: AppSizes.spacing16.h),
+                  OnlineToggle(
+                    isOnline: _isOnline,
+                    onChanged: (value) {
+                      setState(() {
+                        _isOnline = value;
+                      });
+                    },
+                  ),
+                  SizedBox(height: AppSizes.spacing16.h),
+                  if (hasReviewAlert) ReviewAlert(),
+                  if (hasReviewAlert) SizedBox(height: AppSizes.spacing16.h),
+                  _buildAvailableOrdersHeader(),
+                  SizedBox(height: AppSizes.spacing16.h),
+                ]),
               ),
-              SizedBox(height: AppSizes.spacing16.h),
-              OnlineToggle(
-                isOnline: _isOnline,
-                onChanged: (value) {
-                  setState(() {
-                    _isOnline = value;
-                  });
-                },
+              SliverList(
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  return Column(
+                    children: [
+                      AvailableOrderCard(
+                        delivery: availableDeliveries[index],
+                        onAccept: () =>
+                            _handleAcceptOrder(availableDeliveries[index]),
+                      ),
+                      if (index < availableDeliveries.length - 1)
+                        SizedBox(height: AppSizes.spacing16.h),
+                    ],
+                  );
+                }, childCount: availableDeliveries.length),
               ),
-              SizedBox(height: AppSizes.spacing16.h),
-              if (hasReviewAlert) ReviewAlert(),
-              if (hasReviewAlert) SizedBox(height: AppSizes.spacing16.h),
-              _buildAvailableOrdersHeader(),
-              SizedBox(height: AppSizes.spacing16.h),
-              Expanded(child: _buildOrdersList()),
+              SliverToBoxAdapter(child: SizedBox(height: bottomPadding)),
             ],
           ),
         ),

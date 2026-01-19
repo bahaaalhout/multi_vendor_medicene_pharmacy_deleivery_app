@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_sizes.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/utils/formatting_utils.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/home/screens/delivery_home_screen.dart';
 
 class DeliveryMainScreen extends StatefulWidget {
@@ -14,20 +15,20 @@ class DeliveryMainScreen extends StatefulWidget {
 }
 
 class _DeliveryMainScreenState extends State<DeliveryMainScreen> {
-  int index = 0;
+  int _currentIndex = 0;
 
   late final List<Widget> data;
 
   @override
   void initState() {
     super.initState();
-    index = widget.selectedIndex ?? 0;
+    _currentIndex = widget.selectedIndex ?? 0;
 
     data = [
-      const DeliveryHomeScreen(),
-      const Center(child: Text('History')),
-      const Center(child: Text('Deliveries')),
-      const Center(child: Text('Profile')),
+      _buildTabNavigator(0, const DeliveryHomeScreen()),
+      _buildTabNavigator(1, const Center(child: Text('History'))),
+      _buildTabNavigator(2, const Center(child: Text('Deliveries'))),
+      _buildTabNavigator(3, const Center(child: Text('Profile'))),
     ];
   }
 
@@ -37,15 +38,26 @@ class _DeliveryMainScreenState extends State<DeliveryMainScreen> {
       backgroundColor: AppColors.neutralNormal,
       body: Stack(
         children: [
-          Expanded(child: data[index]),
+          IndexedStack(index: _currentIndex, children: data),
           Positioned(
             bottom: AppSizes.spacing16.h,
             left: AppSizes.spacing16.w,
             right: AppSizes.spacing16.w,
-            child: _buildBottomNavigation(),
+            child: SafeArea(top: false, child: _buildBottomNavigation()),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildTabNavigator(int tabIndex, Widget initialScreen) {
+    return Navigator(
+      // Unique key per tab to preserve navigation state
+      key: GlobalObjectKey<NavigatorState>('tab_$tabIndex'),
+      onGenerateRoute: (settings) {
+        // Default route: show the initial screen for this tab
+        return MaterialPageRoute(builder: (context) => initialScreen);
+      },
     );
   }
 
@@ -79,23 +91,7 @@ class _DeliveryMainScreenState extends State<DeliveryMainScreen> {
     required String label,
     required int tabIndex,
   }) {
-    bool isActive = tabIndex == index;
-    Widget iconTab = Column(
-      children: [
-        Icon(
-          icon,
-          size: AppSizes.iconSize18.r,
-          color: isActive ? AppColors.primaryNormal : AppColors.neutralDarker,
-        ),
-        SizedBox(height: AppSizes.spacing8.h),
-        Text(
-          label,
-          style: AppTextStyles.medium10.copyWith(
-            color: isActive ? AppColors.primaryNormal : AppColors.neutralDarker,
-          ),
-        ),
-      ],
-    );
+    bool isActive = tabIndex == _currentIndex;
 
     final radius = BorderRadius.horizontal(
       left: tabIndex == 0
@@ -107,22 +103,42 @@ class _DeliveryMainScreenState extends State<DeliveryMainScreen> {
     );
 
     return Material(
-      color: Colors.transparent, // needed for InkWell painting
-      child: InkWell(
-        borderRadius: radius,
-        onTap: () {
-          setState(() {
-            index = tabIndex;
-          });
-        },
-        child: Container(
-          width: AppSizes.spacing56.w,
-          alignment: Alignment.center,
-          padding: EdgeInsets.symmetric(vertical: AppSizes.spacing8.h),
-          decoration: isActive
-              ? BoxDecoration(color: Colors.white, borderRadius: radius)
-              : null,
-          child: iconTab,
+      color: Colors.transparent,
+      child: Ink(
+        decoration: BoxDecoration(
+          color: isActive ? Colors.white : Colors.transparent,
+          borderRadius: radius,
+        ),
+        child: InkWell(
+          borderRadius: radius,
+          onTap: () => setState(() => _currentIndex = tabIndex),
+          splashColor: AppColors.primaryNormal.withAlphaPercent(0.1),
+          highlightColor: AppColors.primaryNormal.withAlphaPercent(0.05),
+          child: Container(
+            width: AppSizes.spacing56.w,
+            alignment: Alignment.center,
+            padding: EdgeInsets.symmetric(vertical: AppSizes.spacing8.h),
+            child: Column(
+              children: [
+                Icon(
+                  icon,
+                  size: AppSizes.iconSize18.r,
+                  color: isActive
+                      ? AppColors.primaryNormal
+                      : AppColors.neutralDarker,
+                ),
+                SizedBox(height: AppSizes.spacing8.h),
+                Text(
+                  label,
+                  style: AppTextStyles.medium10.copyWith(
+                    color: isActive
+                        ? AppColors.primaryNormal
+                        : AppColors.neutralDarker,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
