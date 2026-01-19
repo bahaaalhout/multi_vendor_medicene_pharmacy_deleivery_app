@@ -21,12 +21,12 @@ class DeliveryInfoChips extends StatelessWidget {
     return Row(
       children: [
         InfoChip(
-          icon: Icons.access_time,
+          icon: 'assets/icons/clock.svg',
           text: FormattingUtils.formatTime(timeMinutes),
         ),
         SizedBox(width: AppSizes.spacing8.w),
         InfoChip(
-          icon: Icons.route,
+          icon: 'assets/icons/distance.svg',
           text: FormattingUtils.formatDistance(distanceKm),
         ),
         const Spacer(),

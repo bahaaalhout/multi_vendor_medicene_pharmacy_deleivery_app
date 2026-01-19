@@ -18,7 +18,11 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: AppColors.neutralNormal,
       body: ListView(
         children: [
-          WelcomeSection(),
+          WelcomeSection(
+            name: 'Mohammed',
+            location: '26 Salah El Din St., Gaza',
+            imageUrl: null,
+          ),
           SizedBox(height: 16.h),
           Container(
             decoration: BoxDecoration(

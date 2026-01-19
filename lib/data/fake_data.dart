@@ -5,6 +5,7 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/deliver
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/order_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/pharmacy_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_model.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/models/notification_item.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/pharmacy_offer_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/models/notification_item.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/models/reminder_item.dart';
@@ -398,6 +399,8 @@ List<NotificationItem> notifications = [
     isRead: true,
   ),
 ];
+
+
 //delivery screen fake data
 const pharmacyAddress = AddressModel(
   id: 'addr_1',
