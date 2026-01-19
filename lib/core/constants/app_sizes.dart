@@ -16,6 +16,7 @@ class AppSizes {
   static const iconSize18 = 18.0;
   static const iconSize20 = 20.0;
   static const iconSize24 = 24.0;
+  static const iconSize27 = 27.0;
   static const iconSize28 = 28.0;
   static const iconSize32 = 32.0;
 

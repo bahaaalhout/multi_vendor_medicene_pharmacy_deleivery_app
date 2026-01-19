@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_sizes.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/delivery_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/data/fake_data.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/order_details/screens/delivery_order_details_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/home/widgets/available_order_card.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/home/widgets/available_orders_header.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/home/widgets/delivery_home_header.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/home/widgets/online_toggle.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/home/widgets/review_alert.dart';
@@ -56,7 +55,7 @@ class _DeliveryHomeScreenState extends State<DeliveryHomeScreen> {
                   SizedBox(height: AppSizes.spacing16.h),
                   if (hasReviewAlert) ReviewAlert(),
                   if (hasReviewAlert) SizedBox(height: AppSizes.spacing16.h),
-                  _buildAvailableOrdersHeader(),
+                  AvailableOrdersHeader(orderCount: availableDeliveries.length),
                   SizedBox(height: AppSizes.spacing16.h),
                 ]),
               ),
@@ -83,43 +82,12 @@ class _DeliveryHomeScreenState extends State<DeliveryHomeScreen> {
     );
   }
 
-  Widget _buildAvailableOrdersHeader() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          'Available Orders',
-          style: AppTextStyles.bold21.copyWith(color: AppColors.primaryDarker),
-        ),
-        Text(
-          '${availableDeliveries.length} orders',
-          style: AppTextStyles.reqular14.copyWith(
-            color: AppColors.primaryNormal,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildOrdersList() {
-    return ListView.separated(
-      itemCount: availableDeliveries.length,
-      separatorBuilder: (_, __) => SizedBox(height: AppSizes.spacing16.h),
-      itemBuilder: (context, index) {
-        return AvailableOrderCard(
-          delivery: availableDeliveries[index],
-          onAccept: () => _handleAcceptOrder(availableDeliveries[index]),
-        );
-      },
-    );
-  }
-
   void _handleAcceptOrder(DeliveryModel delivery) {
     debugPrint('Accept order: ${delivery.id}');
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => DeliveryOrderDetailScreen(delivery: delivery),
+        builder: (context) => DeliveryOrderDetailScreen(delivery: delivery.copyWith(status: DeliveryStatus.accepted)),
       ),
     );
   }
