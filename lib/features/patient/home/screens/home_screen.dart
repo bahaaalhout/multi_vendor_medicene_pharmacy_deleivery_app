@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/data/fake_data.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/models/category_model.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/models/sales_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/widgets/categories_section.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/widgets/most_sales_section.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/widgets/nearby_pharmacies.dart';
@@ -16,7 +15,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.neutralNormal,
+      backgroundColor: AppColors.primaryLight,
       body: ListView(
         children: [
           WelcomeSection(
@@ -24,7 +23,7 @@ class HomeScreen extends StatelessWidget {
             location: '26 Salah El Din St., Gaza',
             imageUrl: null,
           ),
-          SizedBox(height: 16.h),
+          16.verticalSpace,
           Container(
             decoration: BoxDecoration(
               color: Colors.white,
@@ -46,7 +45,7 @@ class HomeScreen extends StatelessWidget {
                 NearbyPharmacies(),
                 CategoriesSection(categories: categories),
                 MostSalesSection(sales: saleMedicines),
-                108.verticalSpace,
+                88.verticalSpace,
               ],
             ),
           ),

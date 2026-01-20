@@ -8,6 +8,7 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_them
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/product_details/widgets/convert_formtype_tostring.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/product_details/widgets/styled_container.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/product_details/widgets/styled_text.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/widgets/medicine_form.dart';
 
 class MedicineDetailsSection extends StatefulWidget {
   const MedicineDetailsSection({super.key, required this.medicine});
@@ -129,42 +130,7 @@ class _MedicineDetailsSectionState extends State<MedicineDetailsSection> {
         16.verticalSpace,
         StyledText(title: 'Form'),
         8.verticalSpace,
-        Row(
-          children: [
-            StyledContainer(
-              horizontalPadding: 12,
-              verticalPadding: 12.5,
-              containerColor: AppColors.warningLightActive,
-              text: widget.medicine.requiresPrescription
-                  ? 'Prescription Required'
-                  : 'OTC',
-              textStyle: AppTextStyles.semiBold12.copyWith(
-                color: AppColors.warningDarker,
-              ),
-            ),
-            4.horizontalSpace,
-            StyledContainer(
-              horizontalPadding: 12,
-              verticalPadding: 12.5,
-              containerColor: AppColors.warningLightActive,
-              text:
-                  '${widget.medicine.quantity} ${ConvertFormtypeTostring.convertForm(widget.medicine.form)}',
-              textStyle: AppTextStyles.semiBold12.copyWith(
-                color: AppColors.warningDarker,
-              ),
-            ),
-            4.horizontalSpace,
-            StyledContainer(
-              horizontalPadding: 12,
-              verticalPadding: 12.5,
-              containerColor: AppColors.warningLightActive,
-              text: widget.medicine.strength,
-              textStyle: AppTextStyles.semiBold12.copyWith(
-                color: AppColors.warningDarker,
-              ),
-            ),
-          ],
-        ),
+        MedicineForm(medicineModel: widget.medicine),
       ],
     );
   }

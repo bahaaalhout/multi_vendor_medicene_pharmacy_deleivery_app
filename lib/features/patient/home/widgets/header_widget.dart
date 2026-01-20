@@ -46,10 +46,10 @@ class HeaderWidget extends StatelessWidget {
           backgroundColor: AppColors.primaryLight,
           child: IconButton(
             onPressed: () {
-              Navigator.push(
+              Navigator.of(
                 context,
-                MaterialPageRoute(builder: (_) => NotificationsPage()),
-              );
+                rootNavigator: true,
+              ).push(MaterialPageRoute(builder: (_) => NotificationsPage()));
             },
             icon: SvgPicture.asset(
               'assets/images/notifications.svg',

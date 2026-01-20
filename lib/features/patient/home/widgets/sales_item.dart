@@ -5,8 +5,8 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/pharmacy_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/widgets/recommendations_of_medicine.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/product_details/screens/product_detail_screen.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/widgets/medicine_form.dart';
 
 class SalesItem extends StatelessWidget {
   const SalesItem({
@@ -25,7 +25,7 @@ class SalesItem extends StatelessWidget {
           children: [
             InkWell(
               onTap: () {
-                Navigator.of(context).push(
+                Navigator.of(context, rootNavigator: true).push(
                   MaterialPageRoute(
                     builder: (context) => ProductDetailScreen(
                       medicine: medicineModel,
@@ -68,7 +68,10 @@ class SalesItem extends StatelessWidget {
               ),
             ),
             SizedBox(height: 7.h),
-            RecommendationsOfMedicine(medicineModel: medicineModel),
+            SizedBox(
+              width: 170.w,
+              child: MedicineForm(medicineModel: medicineModel),
+            ),
             SizedBox(height: 8.h),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,

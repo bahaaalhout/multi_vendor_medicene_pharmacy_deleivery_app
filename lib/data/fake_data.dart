@@ -5,7 +5,7 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/deliver
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/order_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/pharmacy_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_model.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/models/sales_model.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/models/sales_info.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/models/notification_item.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/pharmacy_offer_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/models/reminder_item.dart';
@@ -155,9 +155,8 @@ final List<MedicineModel> medicineData = [
     reviews: ["Great for headaches!", "I rely on this for my pain relief."],
     salesInfo: SaleInfo(
       discountPercentage: 20,
-      originalPrice: 10.0,
-      discountedPrice: 8.0,
-      recommendations: ['Hot Deal', 'Limited Time'],
+      originalPrice: 15.0,
+      discountedPrice: 12.0,
     ),
   ),
   MedicineModel(
@@ -193,7 +192,6 @@ final List<MedicineModel> medicineData = [
       discountPercentage: 20,
       originalPrice: 10.0,
       discountedPrice: 8.0,
-      recommendations: ['Hot Deal', 'Limited Time'],
     ),
   ),
   MedicineModel(
@@ -226,7 +224,6 @@ final List<MedicineModel> medicineData = [
       discountPercentage: 20,
       originalPrice: 10.0,
       discountedPrice: 8.0,
-      recommendations: ['Hot Deal', 'Limited Time'],
     ),
   ),
   MedicineModel(
