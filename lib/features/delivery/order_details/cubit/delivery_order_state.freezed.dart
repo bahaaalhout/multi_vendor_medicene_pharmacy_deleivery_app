@@ -49,7 +49,7 @@ $Res call({
 });
 
 
-
+$DeliveryModelCopyWith<$Res> get delivery;
 
 }
 /// @nodoc
@@ -69,7 +69,16 @@ as bool,delivery: null == delivery ? _self.delivery : delivery // ignore: cast_n
 as DeliveryModel,
   ));
 }
-
+/// Create a copy of DeliveryOrderState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$DeliveryModelCopyWith<$Res> get delivery {
+  
+  return $DeliveryModelCopyWith<$Res>(_self.delivery, (value) {
+    return _then(_self.copyWith(delivery: value));
+  });
+}
 }
 
 
@@ -247,7 +256,7 @@ $Res call({
 });
 
 
-
+@override $DeliveryModelCopyWith<$Res> get delivery;
 
 }
 /// @nodoc
@@ -268,7 +277,16 @@ as DeliveryModel,
   ));
 }
 
-
+/// Create a copy of DeliveryOrderState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$DeliveryModelCopyWith<$Res> get delivery {
+  
+  return $DeliveryModelCopyWith<$Res>(_self.delivery, (value) {
+    return _then(_self.copyWith(delivery: value));
+  });
+}
 }
 
 // dart format on
