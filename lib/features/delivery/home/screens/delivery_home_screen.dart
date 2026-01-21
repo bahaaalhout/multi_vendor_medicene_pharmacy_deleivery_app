@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_sizes.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/delivery_model.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/home/cubit/driver_cubit.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/home/cubit/driver_state.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/home/cubit/delivery_home_cubit.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/home/cubit/delivery_home_state.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/order_details/screens/delivery_order_details_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/home/widgets/available_order_card.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/home/widgets/available_orders_header.dart';
@@ -18,10 +18,10 @@ class DeliveryHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => DriverCubit(),
+      create: (context) => DeliveryHomeCubit(),
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: BlocBuilder<DriverCubit, DriverState>(
+        body: BlocBuilder<DeliveryHomeCubit, DeliveryHomeState>(
           builder: (context, state) {
             double bottomPadding = AppSizes.spacing16.h * 2 + AppSizes.spacing80.h;
             return SafeArea(
@@ -41,7 +41,7 @@ class DeliveryHomeScreen extends StatelessWidget {
                         OnlineToggle(
                           isOnline: state.isOnline,
                           onChanged: (value) {
-                            context.read<DriverCubit>().toggleOnline(value);
+                            context.read<DeliveryHomeCubit>().toggleOnline(value);
                           },
                         ),
                         SizedBox(height: AppSizes.spacing16.h),
@@ -77,7 +77,7 @@ class DeliveryHomeScreen extends StatelessWidget {
   }
 
   void _handleAcceptOrder(BuildContext context, DeliveryModel delivery) {
-    final cubit = context.read<DriverCubit>();
+    final cubit = context.read<DeliveryHomeCubit>();
     cubit.acceptOrder(delivery);
     
     debugPrint('Accept order: ${delivery.id}');

@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'driver_state.dart';
+part of 'delivery_home_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -12,20 +12,20 @@ part of 'driver_state.dart';
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
-mixin _$DriverState {
+mixin _$DeliveryHomeState {
 
  bool get isOnline; String get driverName; String get driverLocation; String? get driverImageUrl; bool get hasReviewAlert; List<DeliveryModel> get availableDeliveries;
-/// Create a copy of DriverState
+/// Create a copy of DeliveryHomeState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$DriverStateCopyWith<DriverState> get copyWith => _$DriverStateCopyWithImpl<DriverState>(this as DriverState, _$identity);
+$DeliveryHomeStateCopyWith<DeliveryHomeState> get copyWith => _$DeliveryHomeStateCopyWithImpl<DeliveryHomeState>(this as DeliveryHomeState, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DriverState&&(identical(other.isOnline, isOnline) || other.isOnline == isOnline)&&(identical(other.driverName, driverName) || other.driverName == driverName)&&(identical(other.driverLocation, driverLocation) || other.driverLocation == driverLocation)&&(identical(other.driverImageUrl, driverImageUrl) || other.driverImageUrl == driverImageUrl)&&(identical(other.hasReviewAlert, hasReviewAlert) || other.hasReviewAlert == hasReviewAlert)&&const DeepCollectionEquality().equals(other.availableDeliveries, availableDeliveries));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DeliveryHomeState&&(identical(other.isOnline, isOnline) || other.isOnline == isOnline)&&(identical(other.driverName, driverName) || other.driverName == driverName)&&(identical(other.driverLocation, driverLocation) || other.driverLocation == driverLocation)&&(identical(other.driverImageUrl, driverImageUrl) || other.driverImageUrl == driverImageUrl)&&(identical(other.hasReviewAlert, hasReviewAlert) || other.hasReviewAlert == hasReviewAlert)&&const DeepCollectionEquality().equals(other.availableDeliveries, availableDeliveries));
 }
 
 
@@ -34,15 +34,15 @@ int get hashCode => Object.hash(runtimeType,isOnline,driverName,driverLocation,d
 
 @override
 String toString() {
-  return 'DriverState(isOnline: $isOnline, driverName: $driverName, driverLocation: $driverLocation, driverImageUrl: $driverImageUrl, hasReviewAlert: $hasReviewAlert, availableDeliveries: $availableDeliveries)';
+  return 'DeliveryHomeState(isOnline: $isOnline, driverName: $driverName, driverLocation: $driverLocation, driverImageUrl: $driverImageUrl, hasReviewAlert: $hasReviewAlert, availableDeliveries: $availableDeliveries)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $DriverStateCopyWith<$Res>  {
-  factory $DriverStateCopyWith(DriverState value, $Res Function(DriverState) _then) = _$DriverStateCopyWithImpl;
+abstract mixin class $DeliveryHomeStateCopyWith<$Res>  {
+  factory $DeliveryHomeStateCopyWith(DeliveryHomeState value, $Res Function(DeliveryHomeState) _then) = _$DeliveryHomeStateCopyWithImpl;
 @useResult
 $Res call({
  bool isOnline, String driverName, String driverLocation, String? driverImageUrl, bool hasReviewAlert, List<DeliveryModel> availableDeliveries
@@ -53,14 +53,14 @@ $Res call({
 
 }
 /// @nodoc
-class _$DriverStateCopyWithImpl<$Res>
-    implements $DriverStateCopyWith<$Res> {
-  _$DriverStateCopyWithImpl(this._self, this._then);
+class _$DeliveryHomeStateCopyWithImpl<$Res>
+    implements $DeliveryHomeStateCopyWith<$Res> {
+  _$DeliveryHomeStateCopyWithImpl(this._self, this._then);
 
-  final DriverState _self;
-  final $Res Function(DriverState) _then;
+  final DeliveryHomeState _self;
+  final $Res Function(DeliveryHomeState) _then;
 
-/// Create a copy of DriverState
+/// Create a copy of DeliveryHomeState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? isOnline = null,Object? driverName = null,Object? driverLocation = null,Object? driverImageUrl = freezed,Object? hasReviewAlert = null,Object? availableDeliveries = null,}) {
   return _then(_self.copyWith(
@@ -77,8 +77,8 @@ as List<DeliveryModel>,
 }
 
 
-/// Adds pattern-matching-related methods to [DriverState].
-extension DriverStatePatterns on DriverState {
+/// Adds pattern-matching-related methods to [DeliveryHomeState].
+extension DeliveryHomeStatePatterns on DeliveryHomeState {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -210,7 +210,7 @@ return $default(_that.isOnline,_that.driverName,_that.driverLocation,_that.drive
 /// @nodoc
 
 
-class _DriverState implements DriverState {
+class _DriverState implements DeliveryHomeState {
   const _DriverState({this.isOnline = true, this.driverName = 'Mohammed', this.driverLocation = '26 Salah El Din St., Gaza', this.driverImageUrl, this.hasReviewAlert = true, final  List<DeliveryModel> availableDeliveries = const <DeliveryModel>[]}): _availableDeliveries = availableDeliveries;
   
 
@@ -227,7 +227,7 @@ class _DriverState implements DriverState {
 }
 
 
-/// Create a copy of DriverState
+/// Create a copy of DeliveryHomeState
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
@@ -246,14 +246,14 @@ int get hashCode => Object.hash(runtimeType,isOnline,driverName,driverLocation,d
 
 @override
 String toString() {
-  return 'DriverState(isOnline: $isOnline, driverName: $driverName, driverLocation: $driverLocation, driverImageUrl: $driverImageUrl, hasReviewAlert: $hasReviewAlert, availableDeliveries: $availableDeliveries)';
+  return 'DeliveryHomeState(isOnline: $isOnline, driverName: $driverName, driverLocation: $driverLocation, driverImageUrl: $driverImageUrl, hasReviewAlert: $hasReviewAlert, availableDeliveries: $availableDeliveries)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$DriverStateCopyWith<$Res> implements $DriverStateCopyWith<$Res> {
+abstract mixin class _$DriverStateCopyWith<$Res> implements $DeliveryHomeStateCopyWith<$Res> {
   factory _$DriverStateCopyWith(_DriverState value, $Res Function(_DriverState) _then) = __$DriverStateCopyWithImpl;
 @override @useResult
 $Res call({
@@ -272,7 +272,7 @@ class __$DriverStateCopyWithImpl<$Res>
   final _DriverState _self;
   final $Res Function(_DriverState) _then;
 
-/// Create a copy of DriverState
+/// Create a copy of DeliveryHomeState
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? isOnline = null,Object? driverName = null,Object? driverLocation = null,Object? driverImageUrl = freezed,Object? hasReviewAlert = null,Object? availableDeliveries = null,}) {
   return _then(_DriverState(

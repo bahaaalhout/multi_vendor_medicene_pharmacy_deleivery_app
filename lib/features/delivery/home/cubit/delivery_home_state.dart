@@ -1,11 +1,11 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../core/models/delivery_model.dart';
 
-part 'driver_state.freezed.dart';
+part 'delivery_home_state.freezed.dart';
 
 @freezed
-abstract class DriverState with _$DriverState {
-  const factory DriverState({
+abstract class DeliveryHomeState with _$DeliveryHomeState {
+  const factory DeliveryHomeState({
     @Default(true) bool isOnline,
     @Default('Mohammed') String driverName,
     @Default('26 Salah El Din St., Gaza') String driverLocation,
