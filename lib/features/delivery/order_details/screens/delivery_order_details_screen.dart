@@ -12,10 +12,10 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/o
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/order_details/widgets/pharmacy_order_card.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/order_details/widgets/action_button.dart';
 
-class DeliveryOrderDetailScreen extends StatelessWidget {
+class DeliveryOrderDetailsScreen extends StatelessWidget {
   final DeliveryModel delivery;
 
-  const DeliveryOrderDetailScreen({super.key, required this.delivery});
+  const DeliveryOrderDetailsScreen({super.key, required this.delivery});
 
   @override
   Widget build(BuildContext context) {

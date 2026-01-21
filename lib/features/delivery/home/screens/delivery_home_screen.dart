@@ -84,7 +84,7 @@ class DeliveryHomeScreen extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => DeliveryOrderDetailScreen(delivery: delivery.copyWith(status: DeliveryStatus.accepted)),
+        builder: (context) => DeliveryOrderDetailsScreen(delivery: delivery.copyWith(status: DeliveryStatus.accepted)),
       ),
     );
   }
