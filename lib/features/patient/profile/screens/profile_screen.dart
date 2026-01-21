@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_buttons/app_bar_buttons/navigate_back_button.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/profile/widgets/toggle.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
@@ -32,36 +33,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // Back button
-                  Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () => Navigator.of(context).pop(),
-                      borderRadius: BorderRadius.circular(30.w),
-                      child: Container(
-                        width: 60.w,
-                        height: 60.h,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: AppColors.lightBlue,
-                            width: 1.5,
-                          ),
-                          color: Colors.white,
-                        ),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Transform.translate(
-                            offset: Offset(1.5.w, 0),
-                            child: Icon(
-                              Icons.arrow_back_ios,
-                              size: 12.sp,
-                              color: AppColors.primaryBlue,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  NavigateBackButton(),
                   // Title
                   Text(
                     'Profile',
@@ -254,17 +226,13 @@ class _ProfileCard extends StatelessWidget {
             // Name
             Text(
               name,
-              style: AppTextStyles.bold20.copyWith(
-                color: AppColors.textDark,
-              ),
+              style: AppTextStyles.bold20.copyWith(color: AppColors.textDark),
             ),
             8.verticalSpace,
             // Email
             Text(
               email,
-              style: AppTextStyles.medium14.copyWith(
-                color: AppColors.textDark,
-              ),
+              style: AppTextStyles.medium14.copyWith(color: AppColors.textDark),
             ),
           ],
         ),
@@ -415,9 +383,7 @@ class _NotificationSubItem extends StatelessWidget {
       children: [
         Text(
           title,
-          style: AppTextStyles.reqular16.copyWith(
-            color: AppColors.textDark,
-          ),
+          style: AppTextStyles.reqular16.copyWith(color: AppColors.textDark),
         ),
         CustomToggle(value: value, onToggle: onToggle),
       ],

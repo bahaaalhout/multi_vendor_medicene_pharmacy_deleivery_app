@@ -8,7 +8,7 @@ class StyledText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       title,
-      style: AppTextStyles.bold22.copyWith(
+      style: AppTextStyles.bold20.copyWith(
         color: Color(0xff17234D), //need to set static color
       ),
     );

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_sizes.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_buttons/app_bar_buttons/more_button.dart';
 
 class AppPrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -66,10 +68,8 @@ class AppPrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
                 child: Center(
                   child: Text(
                     title,
-                    style: AppTextStyles.bold25.copyWith(
-                      fontSize: 24.sp,
-                      height: 1.5,
-                      color: const Color(0xFF1B1F3C),
+                    style: AppTextStyles.bold24.copyWith(
+                      color: AppColors.primaryDarker,
                     ),
                   ),
                 ),
@@ -78,19 +78,7 @@ class AppPrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
               if (showActionButton)
                 Padding(
                   padding: EdgeInsets.only(right: 16.w),
-                  child: IconButton(
-                    onPressed: onAction,
-                    padding: EdgeInsets.zero,
-                    constraints: BoxConstraints(
-                      minWidth: 40.w,
-                      minHeight: 40.w,
-                    ),
-                    icon: SvgPicture.asset(
-                      actionIconAsset ?? 'assets/icons/more_icon.svg',
-                      width: 60.w,
-                      height: 60.w,
-                    ),
-                  ),
+                  child: MoreButton(fun: () {}),
                 )
               else
                 SizedBox(width: AppSizes.spacing60.w + AppSizes.spacing16.w),
