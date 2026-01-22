@@ -26,4 +26,12 @@ class DeliveryOrderCubit extends Cubit<DeliveryOrderState> {
     );
     emit(state.copyWith(delivery: updatedDelivery));
   }
+
+  // Confirm delivery (change status to delivered)
+  void confirmDelivery() {
+    final updatedDelivery = state.delivery.copyWith(
+      status: DeliveryStatus.delivered,
+    );
+    emit(state.copyWith(delivery: updatedDelivery));
+  }
 }

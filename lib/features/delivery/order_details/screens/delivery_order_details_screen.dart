@@ -65,7 +65,7 @@ class DeliveryOrderDetailsScreen extends StatelessWidget {
                         CustomerInfoCard(delivery: state.delivery),
 
                         // Action Button
-                        if (_shouldShowActionButton(state.delivery)) _buildActionButton(context, state.delivery),
+                        _buildActionButton(context, state.delivery),
 
                         SizedBox(height: bottomPadding),
                       ]),
@@ -78,11 +78,6 @@ class DeliveryOrderDetailsScreen extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  bool _shouldShowActionButton(DeliveryModel delivery) {
-    return delivery.status == DeliveryStatus.accepted ||
-        delivery.status == DeliveryStatus.pickedUp;
   }
 
   Widget _buildActionButton(BuildContext context, DeliveryModel delivery) {
@@ -106,6 +101,15 @@ class DeliveryOrderDetailsScreen extends StatelessWidget {
       );
     }
 
+    if (status == DeliveryStatus.enRoute) {
+      return ActionButton(
+        buttonText: 'Confirm Delivery',
+        noticeText:
+            'Confirming the order delivery now will change its status to “Delivered” to the customer\'s location.',
+        onPressed: () => _handleConfirmDelivery(context),
+      );
+    }
+
     return const SizedBox.shrink();
   }
 
@@ -119,5 +123,11 @@ class DeliveryOrderDetailsScreen extends StatelessWidget {
     final cubit = context.read<DeliveryOrderCubit>();
     cubit.startDelivery();
     debugPrint('Delivery started - status changed to enRoute');
+  }
+
+  void _handleConfirmDelivery(BuildContext context) {
+    final cubit = context.read<DeliveryOrderCubit>();
+    cubit.confirmDelivery();
+    debugPrint('Delivery confirmed - status changed to delivered');
   }
 }
