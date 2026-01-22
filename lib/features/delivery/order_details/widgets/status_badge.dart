@@ -4,22 +4,13 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_sizes.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
 
-enum BadgeType {
-  pickingUp,
-  pickedUp,
-  onWay,
-  delivered,
-}
+enum BadgeType { pickingUp, pickedUp, waiting, onWay, delivered, contfirmed }
 
 class StatusBadge extends StatelessWidget {
   final BadgeType type;
   final String? customText;
 
-  const StatusBadge({
-    super.key,
-    required this.type,
-    this.customText,
-  });
+  const StatusBadge({super.key, required this.type, this.customText});
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +29,7 @@ class StatusBadge extends StatelessWidget {
         children: [
           Text(
             customText ?? config.text,
-            style: AppTextStyles.semiBold12.copyWith(
-              color: config.textColor,
-            ),
+            style: AppTextStyles.semiBold12.copyWith(color: config.textColor),
           ),
           if (config.showCheckmark) ...[
             SizedBox(width: AppSizes.spacing4.w),
@@ -71,6 +60,13 @@ class StatusBadge extends StatelessWidget {
           textColor: AppColors.successDarker,
           showCheckmark: true,
         );
+      case BadgeType.waiting:
+        return _BadgeConfig(
+          text: 'Waiting',
+          backgroundColor: AppColors.warningLightActive,
+          textColor: AppColors.warningDarker,
+          showCheckmark: false,
+        );
       case BadgeType.onWay:
         return _BadgeConfig(
           text: 'On way',
@@ -81,6 +77,13 @@ class StatusBadge extends StatelessWidget {
       case BadgeType.delivered:
         return _BadgeConfig(
           text: 'Delivered',
+          backgroundColor: AppColors.warningLightActive,
+          textColor: AppColors.warningDarker,
+          showCheckmark: true,
+        );
+      case BadgeType.contfirmed:
+        return _BadgeConfig(
+          text: 'Confirmed',
           backgroundColor: AppColors.successLightHover,
           textColor: AppColors.successDarker,
           showCheckmark: true,

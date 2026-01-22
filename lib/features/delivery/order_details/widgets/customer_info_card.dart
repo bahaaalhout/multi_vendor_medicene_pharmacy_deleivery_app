@@ -53,10 +53,16 @@ class CustomerInfoCard extends StatelessWidget {
 
   Widget? _getCustomerStatusBadge() {
     switch (delivery.status) {
+      case DeliveryStatus.available:
+      case DeliveryStatus.accepted:
+      case DeliveryStatus.pickedUp:
+        return StatusBadge(type: BadgeType.waiting);
       case DeliveryStatus.enRoute:
         return StatusBadge(type: BadgeType.onWay);
-      default:
-        return null;
+      case DeliveryStatus.delivered:
+        return StatusBadge(type: BadgeType.delivered);
+      case DeliveryStatus.confirmed:
+        return StatusBadge(type: BadgeType.contfirmed);
     }
   }
 
@@ -79,7 +85,9 @@ class CustomerInfoCard extends StatelessWidget {
         CardDetailsTile(
           icon: Icons.phone_outlined,
           label: 'Phone',
-          value: FormattingUtils.formatPhoneNumber(delivery.order.customerPhone),
+          value: FormattingUtils.formatPhoneNumber(
+            delivery.order.customerPhone,
+          ),
         ),
       ],
     );
