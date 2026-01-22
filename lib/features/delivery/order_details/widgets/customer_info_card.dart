@@ -34,6 +34,8 @@ class CustomerInfoCard extends StatelessWidget {
             imageUrl: customerImageUrl,
             fallbackIcon: Icons.person,
             title: delivery.order.customerName,
+            city: delivery.order.deliveryAddress.city,
+            phone: delivery.order.customerPhone,
             statusBadge: _getCustomerStatusBadge(),
           ),
           SizedBox(height: AppSizes.spacing12.h),

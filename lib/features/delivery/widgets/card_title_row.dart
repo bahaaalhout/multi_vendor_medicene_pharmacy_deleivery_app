@@ -8,6 +8,8 @@ class CardTitleRow extends StatelessWidget {
   final String? imageUrl;
   final IconData fallbackIcon;
   final String title;
+  final String city;
+  final String phone;
   final Widget? statusBadge;
 
   const CardTitleRow({
@@ -15,6 +17,8 @@ class CardTitleRow extends StatelessWidget {
     this.imageUrl,
     required this.fallbackIcon,
     required this.title,
+    required this.city,
+    required this.phone,
     this.statusBadge,
   });
 
@@ -55,9 +59,18 @@ class CardTitleRow extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                title,
-                style: AppTextStyles.bold16.copyWith(color: AppColors.primaryDark),
+              Column(
+                children: [
+                  Text(
+                    title,
+                    style: AppTextStyles.bold16.copyWith(color: AppColors.primaryDark),
+                  ),
+                  SizedBox(height: AppSizes.spacing8.h),
+                  Text(
+                    "$city, $phone",
+                    style: AppTextStyles.medium12.copyWith(color: AppColors.neutralDark),
+                  ),
+                ],
               ),
               if (statusBadge != null)
                 statusBadge!,
