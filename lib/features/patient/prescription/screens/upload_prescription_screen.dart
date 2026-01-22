@@ -1,25 +1,34 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
-
-class UploadPrescriptionScreen extends StatefulWidget {
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/prescription/cubit/upload_prescription_cubit.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_buttons/app_bar_buttons/navigate_back_button.dart';
+class UploadPrescriptionScreen extends StatelessWidget {
   const UploadPrescriptionScreen({super.key});
 
   @override
-  State<UploadPrescriptionScreen> createState() =>
-      _UploadPrescriptionScreenState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => UploadPrescriptionCubit(),
+      child: const _UploadPrescriptionView(),
+    );
+  }
 }
 
-class _UploadPrescriptionScreenState extends State<UploadPrescriptionScreen> {
-  File? _selectedImage;
-  final ImagePicker _picker = ImagePicker();
+class _UploadPrescriptionView extends StatelessWidget {
+  const _UploadPrescriptionView();
 
-  Future<void> _pickImage() async {
+  Future<void> _pickImage(BuildContext context) async {
+    final cubit = context.read<UploadPrescriptionCubit>();
+    final ImagePicker picker = ImagePicker();
+
     try {
-      final XFile? image = await _picker.pickImage(
+      cubit.setLoading(true);
+      final XFile? image = await picker.pickImage(
         source: ImageSource.gallery,
         maxWidth: 2000,
         maxHeight: 2000,
@@ -27,12 +36,12 @@ class _UploadPrescriptionScreenState extends State<UploadPrescriptionScreen> {
       );
 
       if (image != null) {
-        setState(() {
-          _selectedImage = File(image.path);
-        });
+        cubit.setSelectedImage(File(image.path));
       }
+      cubit.setLoading(false);
     } catch (e) {
-      if (mounted) {
+      cubit.setError('Error picking image: $e');
+      if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Error picking image: $e'),
@@ -54,42 +63,14 @@ class _UploadPrescriptionScreenState extends State<UploadPrescriptionScreen> {
              Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // Back button
-                  Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () => Navigator.of(context).pop(),
-                      borderRadius: BorderRadius.circular(30.w),
-                      child: Container(
-                        width: 60.w,
-                        height: 60.h,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: AppColors.lightBlue,
-                            width: 1.5,
-                          ),
-                          color: Colors.white,
-                        ),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Transform.translate(
-                            offset: Offset(1.5.w, 0),
-                            child: Icon(
-                              Icons.arrow_back_ios,
-                              size: 12.sp,
-                              color: AppColors.primaryBlue,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  NavigateBackButton(),
+                  
                   // Title
+                  20.horizontalSpace,
                   Text(
-                    'Profile',
+                    'Upload prescription',
                     style: AppTextStyles.bold25.copyWith(
                       fontSize: 24.sp,
                       height: 1.5,
@@ -97,32 +78,7 @@ class _UploadPrescriptionScreenState extends State<UploadPrescriptionScreen> {
                     ),
                   ),
                   // Edit button
-                  Container(
-                    width: 60.w,
-                    height: 60.h,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: AppColors.lightBlue,
-                        width: 1.5,
-                      ),
-                      color: Colors.white,
-                    ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        onTap: () {},
-                        borderRadius: BorderRadius.circular(30.w),
-                        child: Center(
-                          child: Image.asset(
-                            "assets/icons/basil_edit-outline.png",
-                            width: 20.w,
-                            height: 20.h,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  
                 ],
               ),
             ),
@@ -137,7 +93,7 @@ class _UploadPrescriptionScreenState extends State<UploadPrescriptionScreen> {
                     // Instructional text
                     Text(
                       'Upload a clear photo of your prescription to help us prepare your order accurately',
-                      style: AppTextStyles.medium14.copyWith(
+                      style: AppTextStyles.semiBold14.copyWith(
                         color: AppColors.textDark,
                       ),
                     ),
@@ -173,7 +129,7 @@ class _UploadPrescriptionScreenState extends State<UploadPrescriptionScreen> {
                               Expanded(
                                 child: Text(
                                   'Your prescription is secure and only shared with the selected pharmacy.',
-                                  style: AppTextStyles.medium12.copyWith(
+                                  style: AppTextStyles.semiBold10.copyWith(
                                     color: AppColors.textDark.withValues(
                                       alpha: 0.6,
                                     ),
@@ -241,7 +197,7 @@ class _UploadPrescriptionScreenState extends State<UploadPrescriptionScreen> {
                               borderRadius: BorderRadius.circular(12.r),
                             ),
                             child: TextButton(
-                              onPressed: _pickImage,
+                              onPressed: () => _pickImage(context),
                               style: TextButton.styleFrom(
                                 padding: EdgeInsets.zero,
                                 shape: RoundedRectangleBorder(
@@ -257,27 +213,36 @@ class _UploadPrescriptionScreenState extends State<UploadPrescriptionScreen> {
                             ),
                           ),
                           // Show selected image if available
-                          if (_selectedImage != null) ...[
-                            24.verticalSpace,
-                            Container(
-                              width: double.infinity,
-                              height: 200.h,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12.r),
-                                border: Border.all(
-                                  color: AppColors.primaryBlue,
-                                  width: 1,
-                                ),
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(12.r),
-                                child: Image.file(
-                                  _selectedImage!,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                          ],
+                          BlocBuilder<UploadPrescriptionCubit, UploadPrescriptionState>(
+                            builder: (context, state) {
+                              if (state.selectedImage != null) {
+                                return Column(
+                                  children: [
+                                    24.verticalSpace,
+                                    Container(
+                                      width: double.infinity,
+                                      height: 200.h,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(12.r),
+                                        border: Border.all(
+                                          color: AppColors.primaryBlue,
+                                          width: 1,
+                                        ),
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(12.r),
+                                        child: Image.file(
+                                          state.selectedImage!,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }
+                              return const SizedBox.shrink();
+                            },
+                          ),
                         ],
                       ),
                     ),

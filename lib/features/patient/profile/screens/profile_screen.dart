@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_buttons/app_bar_buttons/navigate_back_button.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/profile/widgets/toggle.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/profile/cubit/profile_cubit.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => ProfileCubit(),
+      child: const _ProfileView(),
+    );
+  }
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
-  bool medicineRemindersEnabled = true;
-  bool notificationsEnabled = true;
-  bool offersEnabled = true;
-  bool orderTrackingEnabled = true;
-  bool ratingRequestsEnabled = false;
+class _ProfileView extends StatelessWidget {
+  const _ProfileView();
 
   @override
   Widget build(BuildContext context) {
@@ -105,44 +108,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     12.verticalSpace,
                     // Medicine reminders
-                    _SettingsItem(
-                      icon: "assets/icons/clock2.png",
-                      title: 'Medicine reminders',
-                      subtitle: 'Get reminders to refill your medicines',
-                      hasToggle: true,
-                      toggleValue: medicineRemindersEnabled,
-                      onToggle: (value) {
-                        setState(() {
-                          medicineRemindersEnabled = value;
-                        });
+                    BlocBuilder<ProfileCubit, ProfileState>(
+                      builder: (context, state) {
+                        return _SettingsItem(
+                          icon: "assets/icons/clock2.png",
+                          title: 'Medicine reminders',
+                          subtitle: 'Get reminders to refill your medicines',
+                          hasToggle: true,
+                          toggleValue: state.medicineRemindersEnabled,
+                          onToggle: (value) {
+                            context.read<ProfileCubit>().toggleMedicineReminders(value);
+                          },
+                        );
                       },
                     ),
                     12.verticalSpace,
                     // Notification Card
-                    _NotificationCard(
-                      notificationsEnabled: notificationsEnabled,
-                      offersEnabled: offersEnabled,
-                      orderTrackingEnabled: orderTrackingEnabled,
-                      ratingRequestsEnabled: ratingRequestsEnabled,
-                      onNotificationsToggle: (value) {
-                        setState(() {
-                          notificationsEnabled = value;
-                        });
-                      },
-                      onOffersToggle: (value) {
-                        setState(() {
-                          offersEnabled = value;
-                        });
-                      },
-                      onOrderTrackingToggle: (value) {
-                        setState(() {
-                          orderTrackingEnabled = value;
-                        });
-                      },
-                      onRatingRequestsToggle: (value) {
-                        setState(() {
-                          ratingRequestsEnabled = value;
-                        });
+                    BlocBuilder<ProfileCubit, ProfileState>(
+                      builder: (context, state) {
+                        return _NotificationCard(
+                          notificationsEnabled: state.notificationsEnabled,
+                          offersEnabled: state.offersEnabled,
+                          orderTrackingEnabled: state.orderTrackingEnabled,
+                          ratingRequestsEnabled: state.ratingRequestsEnabled,
+                          onNotificationsToggle: (value) {
+                            context.read<ProfileCubit>().toggleNotifications(value);
+                          },
+                          onOffersToggle: (value) {
+                            context.read<ProfileCubit>().toggleOffers(value);
+                          },
+                          onOrderTrackingToggle: (value) {
+                            context.read<ProfileCubit>().toggleOrderTracking(value);
+                          },
+                          onRatingRequestsToggle: (value) {
+                            context.read<ProfileCubit>().toggleRatingRequests(value);
+                          },
+                        );
                       },
                     ),
                     32.verticalSpace,

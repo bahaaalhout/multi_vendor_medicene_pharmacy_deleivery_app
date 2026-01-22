@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_buttons/app_bar_buttons/navigate_back_button.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/terms/cubit/terms_and_conditions_cubit.dart';
 
-class TermsAndConditionsScreen extends StatefulWidget {
+class TermsAndConditionsScreen extends StatelessWidget {
   const TermsAndConditionsScreen({super.key});
 
   @override
-  State<TermsAndConditionsScreen> createState() =>
-      _TermsAndConditionsScreenState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => TermsAndConditionsCubit(),
+      child: const _TermsAndConditionsView(),
+    );
+  }
 }
 
-class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
-  bool isAgreed = false;
+class _TermsAndConditionsView extends StatelessWidget {
+  const _TermsAndConditionsView();
 
   @override
   Widget build(BuildContext context) {
@@ -26,44 +32,17 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // Back button
                   NavigateBackButton(),
+                  20.horizontalSpace,
                   // Title
                   Text(
-                    'Profile',
+                    'Terms & Conditions',
                     style: AppTextStyles.bold25.copyWith(
-                      fontSize: 24.sp,
+                      fontSize: 20.sp,
                       height: 1.5,
                       color: const Color(0xFF1B1F3C),
-                    ),
-                  ),
-                  // Edit button
-                  Container(
-                    width: 60.w,
-                    height: 60.h,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: AppColors.lightBlue,
-                        width: 1.5,
-                      ),
-                      color: Colors.white,
-                    ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        onTap: () {},
-                        borderRadius: BorderRadius.circular(30.w),
-                        child: Center(
-                          child: Image.asset(
-                            "assets/icons/basil_edit-outline.png",
-                            width: 20.w,
-                            height: 20.h,
-                          ),
-                        ),
-                      ),
                     ),
                   ),
                 ],
@@ -79,7 +58,7 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                   children: [
                     Text(
                       'By using this application, you agree to the Following Terms and Conditions:',
-                      style: AppTextStyles.semiBold12.copyWith(
+                      style: AppTextStyles.semiBold14.copyWith(
                         color: AppColors.textDark,
                       ),
                     ),
@@ -187,7 +166,6 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                                 child: Text(
                                   'By clicking on "I agree to.. " then you follow all the above instructions and information',
                                   style: AppTextStyles.medium14.copyWith(
-                                    fontSize: 13.sp,
                                     color: AppColors.textDark,
                                   ),
                                 ),
@@ -196,40 +174,42 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                           ),
                           16.verticalSpace,
                           // Agreement checkbox with text
-                          Row(
-                            children: [
-                              Checkbox(
-                                value: isAgreed,
-                                onChanged: (value) {
-                                  setState(() {
-                                    isAgreed = value ?? false;
-                                  });
-                                },
-                                activeColor: AppColors.primaryBlue,
-                                side: BorderSide(
-                                  color: AppColors.lightBlue,
-                                  width: 1.5,
-                                ),
-                              ),
-                              Expanded(
-                                child: RichText(
-                                  text: TextSpan(
-                                    style: AppTextStyles.reqular14.copyWith(
-                                      color: AppColors.textDark,
+                          BlocBuilder<TermsAndConditionsCubit, TermsAndConditionsState>(
+                            builder: (context, state) {
+                              return Row(
+                                children: [
+                                  Checkbox(
+                                    value: state.isAgreed,
+                                    onChanged: (value) {
+                                      context.read<TermsAndConditionsCubit>().toggleAgreement(value ?? false);
+                                    },
+                                    activeColor: AppColors.primaryBlue,
+                                    side: BorderSide(
+                                      color: AppColors.lightBlue,
+                                      width: 1.5,
                                     ),
-                                    children: [
-                                      TextSpan(
-                                        text:
-                                            'I agree to the Terms and Conditions',
-                                        style: AppTextStyles.medium12.copyWith(
-                                          color: AppColors.primaryBlue,
-                                        ),
-                                      ),
-                                    ],
                                   ),
-                                ),
-                              ),
-                            ],
+                                  Expanded(
+                                    child: RichText(
+                                      text: TextSpan(
+                                        style: AppTextStyles.reqular14.copyWith(
+                                          color: AppColors.textDark,
+                                        ),
+                                        children: [
+                                          TextSpan(
+                                            text:
+                                                'I agree to the Terms and Conditions',
+                                            style: AppTextStyles.semiBold14.copyWith(
+                                              color: AppColors.primaryBlue,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
                           ),
                         ],
                       ),
