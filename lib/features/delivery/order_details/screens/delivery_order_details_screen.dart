@@ -59,10 +59,11 @@ class DeliveryOrderDetailsScreen extends StatelessWidget {
                             context.read<DeliveryOrderCubit>().toggleProductDetails();
                           },
                         ),
-                        SizedBox(height: AppSizes.spacing12.h),
+                        SizedBox(height: AppSizes.spacing16.h),
 
                         // Customer Info Card
                         CustomerInfoCard(delivery: state.delivery),
+                        SizedBox(height: AppSizes.spacing16.h),
 
                         // Action Button
                         _buildActionButton(context, state.delivery),

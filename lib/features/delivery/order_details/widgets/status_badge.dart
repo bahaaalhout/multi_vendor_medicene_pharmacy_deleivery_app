@@ -79,14 +79,14 @@ class StatusBadge extends StatelessWidget {
           text: 'Delivered',
           backgroundColor: AppColors.warningLightActive,
           textColor: AppColors.warningDarker,
-          showCheckmark: true,
+          showCheckmark: false,
         );
       case BadgeType.contfirmed:
         return _BadgeConfig(
           text: 'Confirmed',
           backgroundColor: AppColors.successLightHover,
           textColor: AppColors.successDarker,
-          showCheckmark: true,
+          showCheckmark: false,
         );
     }
   }
