@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../helpers/reminder_filter.dart';
 import '../models/reminder_item.dart';
 import 'reminder_states.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/utils/helpers.dart';
 
 class ReminderCubit extends Cubit<ReminderStates> {
   //constructor(list of reminders) : super constructor takes intialState
@@ -38,14 +39,16 @@ class ReminderCubit extends Cubit<ReminderStates> {
 
   //when user click on next day icon ->take the current date and plus one day on it
   // ->then call load state to load the new day reminders
-  void nextDay(DateTime currentDate) {
-    loadReminders(date: currentDate.add(const Duration(days: 1)));
+  void nextDayPressed(DateTime currentDate) {
+    //loadReminders(date: currentDate.add(const Duration(days: 1)));
+    loadReminders(date: nextDay(currentDate));
   }
 
   //when user click on prev day icon ->take the current date and minus one day on it
   // ->then call load state to load the new day reminders
-  void prevDay(DateTime currentDate) {
-    loadReminders(date: currentDate.subtract(const Duration(days: 1)));
+  void prevDayPressed(DateTime currentDate) {
+    //loadReminders(date: currentDate.subtract(const Duration(days: 1)));
+    loadReminders(date: prevDay(currentDate));
   }
 
   //when user click on any day on the strip ->create new date have the same date details that user click it(focus -> same year-same month-but not the same day!!)

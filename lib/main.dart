@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/data/fake_data.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/navigation/patient_main_screen.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/cubit/notifications_cubit.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/cubit/reminder_cubit.dart';
 
 void main() {
@@ -21,6 +22,10 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(
             create: (context) => ReminderCubit(reminders)..loadReminders(),
+          ),
+          BlocProvider(
+            create: (context) =>
+                NotificationsCubit(notifications)..loadNotifications(),
           ),
         ],
         child: MaterialApp(
