@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$DeliveryHistoryState {
 
- List<DeliveryModel> get deliveries; HistoryPeriod get selectedPeriod; bool get isLoading;
+ AsyncState<List<DeliveryModel>> get deliveries; HistoryPeriod get selectedPeriod;
 /// Create a copy of DeliveryHistoryState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $DeliveryHistoryStateCopyWith<DeliveryHistoryState> get copyWith => _$DeliveryHi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DeliveryHistoryState&&const DeepCollectionEquality().equals(other.deliveries, deliveries)&&(identical(other.selectedPeriod, selectedPeriod) || other.selectedPeriod == selectedPeriod)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DeliveryHistoryState&&(identical(other.deliveries, deliveries) || other.deliveries == deliveries)&&(identical(other.selectedPeriod, selectedPeriod) || other.selectedPeriod == selectedPeriod));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(deliveries),selectedPeriod,isLoading);
+int get hashCode => Object.hash(runtimeType,deliveries,selectedPeriod);
 
 @override
 String toString() {
-  return 'DeliveryHistoryState(deliveries: $deliveries, selectedPeriod: $selectedPeriod, isLoading: $isLoading)';
+  return 'DeliveryHistoryState(deliveries: $deliveries, selectedPeriod: $selectedPeriod)';
 }
 
 
@@ -45,11 +45,11 @@ abstract mixin class $DeliveryHistoryStateCopyWith<$Res>  {
   factory $DeliveryHistoryStateCopyWith(DeliveryHistoryState value, $Res Function(DeliveryHistoryState) _then) = _$DeliveryHistoryStateCopyWithImpl;
 @useResult
 $Res call({
- List<DeliveryModel> deliveries, HistoryPeriod selectedPeriod, bool isLoading
+ AsyncState<List<DeliveryModel>> deliveries, HistoryPeriod selectedPeriod
 });
 
 
-
+$AsyncStateCopyWith<List<DeliveryModel>, $Res> get deliveries;
 
 }
 /// @nodoc
@@ -62,15 +62,23 @@ class _$DeliveryHistoryStateCopyWithImpl<$Res>
 
 /// Create a copy of DeliveryHistoryState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? deliveries = null,Object? selectedPeriod = null,Object? isLoading = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? deliveries = null,Object? selectedPeriod = null,}) {
   return _then(_self.copyWith(
 deliveries: null == deliveries ? _self.deliveries : deliveries // ignore: cast_nullable_to_non_nullable
-as List<DeliveryModel>,selectedPeriod: null == selectedPeriod ? _self.selectedPeriod : selectedPeriod // ignore: cast_nullable_to_non_nullable
-as HistoryPeriod,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
-as bool,
+as AsyncState<List<DeliveryModel>>,selectedPeriod: null == selectedPeriod ? _self.selectedPeriod : selectedPeriod // ignore: cast_nullable_to_non_nullable
+as HistoryPeriod,
   ));
 }
-
+/// Create a copy of DeliveryHistoryState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$AsyncStateCopyWith<List<DeliveryModel>, $Res> get deliveries {
+  
+  return $AsyncStateCopyWith<List<DeliveryModel>, $Res>(_self.deliveries, (value) {
+    return _then(_self.copyWith(deliveries: value));
+  });
+}
 }
 
 
@@ -152,10 +160,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<DeliveryModel> deliveries,  HistoryPeriod selectedPeriod,  bool isLoading)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( AsyncState<List<DeliveryModel>> deliveries,  HistoryPeriod selectedPeriod)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DeliveryHistoryState() when $default != null:
-return $default(_that.deliveries,_that.selectedPeriod,_that.isLoading);case _:
+return $default(_that.deliveries,_that.selectedPeriod);case _:
   return orElse();
 
 }
@@ -173,10 +181,10 @@ return $default(_that.deliveries,_that.selectedPeriod,_that.isLoading);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<DeliveryModel> deliveries,  HistoryPeriod selectedPeriod,  bool isLoading)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( AsyncState<List<DeliveryModel>> deliveries,  HistoryPeriod selectedPeriod)  $default,) {final _that = this;
 switch (_that) {
 case _DeliveryHistoryState():
-return $default(_that.deliveries,_that.selectedPeriod,_that.isLoading);case _:
+return $default(_that.deliveries,_that.selectedPeriod);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -193,10 +201,10 @@ return $default(_that.deliveries,_that.selectedPeriod,_that.isLoading);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<DeliveryModel> deliveries,  HistoryPeriod selectedPeriod,  bool isLoading)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( AsyncState<List<DeliveryModel>> deliveries,  HistoryPeriod selectedPeriod)?  $default,) {final _that = this;
 switch (_that) {
 case _DeliveryHistoryState() when $default != null:
-return $default(_that.deliveries,_that.selectedPeriod,_that.isLoading);case _:
+return $default(_that.deliveries,_that.selectedPeriod);case _:
   return null;
 
 }
@@ -208,18 +216,11 @@ return $default(_that.deliveries,_that.selectedPeriod,_that.isLoading);case _:
 
 
 class _DeliveryHistoryState implements DeliveryHistoryState {
-  const _DeliveryHistoryState({final  List<DeliveryModel> deliveries = const [], this.selectedPeriod = HistoryPeriod.all, this.isLoading = true}): _deliveries = deliveries;
+  const _DeliveryHistoryState({this.deliveries = const AsyncState.initial(), this.selectedPeriod = HistoryPeriod.all});
   
 
- final  List<DeliveryModel> _deliveries;
-@override@JsonKey() List<DeliveryModel> get deliveries {
-  if (_deliveries is EqualUnmodifiableListView) return _deliveries;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_deliveries);
-}
-
+@override@JsonKey() final  AsyncState<List<DeliveryModel>> deliveries;
 @override@JsonKey() final  HistoryPeriod selectedPeriod;
-@override@JsonKey() final  bool isLoading;
 
 /// Create a copy of DeliveryHistoryState
 /// with the given fields replaced by the non-null parameter values.
@@ -231,16 +232,16 @@ _$DeliveryHistoryStateCopyWith<_DeliveryHistoryState> get copyWith => __$Deliver
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DeliveryHistoryState&&const DeepCollectionEquality().equals(other._deliveries, _deliveries)&&(identical(other.selectedPeriod, selectedPeriod) || other.selectedPeriod == selectedPeriod)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DeliveryHistoryState&&(identical(other.deliveries, deliveries) || other.deliveries == deliveries)&&(identical(other.selectedPeriod, selectedPeriod) || other.selectedPeriod == selectedPeriod));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_deliveries),selectedPeriod,isLoading);
+int get hashCode => Object.hash(runtimeType,deliveries,selectedPeriod);
 
 @override
 String toString() {
-  return 'DeliveryHistoryState(deliveries: $deliveries, selectedPeriod: $selectedPeriod, isLoading: $isLoading)';
+  return 'DeliveryHistoryState(deliveries: $deliveries, selectedPeriod: $selectedPeriod)';
 }
 
 
@@ -251,11 +252,11 @@ abstract mixin class _$DeliveryHistoryStateCopyWith<$Res> implements $DeliveryHi
   factory _$DeliveryHistoryStateCopyWith(_DeliveryHistoryState value, $Res Function(_DeliveryHistoryState) _then) = __$DeliveryHistoryStateCopyWithImpl;
 @override @useResult
 $Res call({
- List<DeliveryModel> deliveries, HistoryPeriod selectedPeriod, bool isLoading
+ AsyncState<List<DeliveryModel>> deliveries, HistoryPeriod selectedPeriod
 });
 
 
-
+@override $AsyncStateCopyWith<List<DeliveryModel>, $Res> get deliveries;
 
 }
 /// @nodoc
@@ -268,16 +269,24 @@ class __$DeliveryHistoryStateCopyWithImpl<$Res>
 
 /// Create a copy of DeliveryHistoryState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? deliveries = null,Object? selectedPeriod = null,Object? isLoading = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? deliveries = null,Object? selectedPeriod = null,}) {
   return _then(_DeliveryHistoryState(
-deliveries: null == deliveries ? _self._deliveries : deliveries // ignore: cast_nullable_to_non_nullable
-as List<DeliveryModel>,selectedPeriod: null == selectedPeriod ? _self.selectedPeriod : selectedPeriod // ignore: cast_nullable_to_non_nullable
-as HistoryPeriod,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
-as bool,
+deliveries: null == deliveries ? _self.deliveries : deliveries // ignore: cast_nullable_to_non_nullable
+as AsyncState<List<DeliveryModel>>,selectedPeriod: null == selectedPeriod ? _self.selectedPeriod : selectedPeriod // ignore: cast_nullable_to_non_nullable
+as HistoryPeriod,
   ));
 }
 
-
+/// Create a copy of DeliveryHistoryState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$AsyncStateCopyWith<List<DeliveryModel>, $Res> get deliveries {
+  
+  return $AsyncStateCopyWith<List<DeliveryModel>, $Res>(_self.deliveries, (value) {
+    return _then(_self.copyWith(deliveries: value));
+  });
+}
 }
 
 // dart format on

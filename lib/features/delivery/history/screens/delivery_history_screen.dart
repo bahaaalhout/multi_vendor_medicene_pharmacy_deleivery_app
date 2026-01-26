@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_sizes.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/async_state.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/delivery_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_primary_app_bar.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/history/cubit/delivery_history_cubit.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/history/cubit/delivery_history_state.dart';
@@ -27,22 +29,26 @@ class DeliveryHistoryScreen extends StatelessWidget {
         ),
         body: BlocBuilder<DeliveryHistoryCubit, DeliveryHistoryState>(
           builder: (context, state) {
-            if (state.isLoading) {
-              return const HistoryLoadingView();
-            }
-
-            if (state.deliveries.isEmpty) {
-              return const HistoryEmptyView();
-            }
-
-            return _buildHistoryContent(state);
+            return state.deliveries.maybeWhen(
+              loading: () => const HistoryLoadingView(),
+              success: (deliveries) {
+                if (deliveries.isEmpty) {
+                  return const HistoryEmptyView();
+                }
+                return _buildHistoryContent(deliveries);
+              },
+              error: (message) => Center(
+                child: Text('Error: $message'),
+              ),
+              orElse: () => const HistoryLoadingView(),
+            );
           },
         ),
       ),
     );
   }
 
-  Widget _buildHistoryContent(DeliveryHistoryState state) {
+  Widget _buildHistoryContent(List<DeliveryModel> deliveries) {
     double bottomPadding = AppSizes.spacing16.h * 2 + AppSizes.spacing80.h;
 
     return Padding(
@@ -64,12 +70,12 @@ class DeliveryHistoryScreen extends StatelessWidget {
             delegate: SliverChildBuilderDelegate((context, index) {
               return Column(
                 children: [
-                  HistoryDeliveryCard(delivery: state.deliveries[index]),
-                  if (index < state.deliveries.length - 1)
+                  HistoryDeliveryCard(delivery: deliveries[index]),
+                  if (index < deliveries.length - 1)
                     SizedBox(height: AppSizes.spacing16.h),
                 ],
               );
-            }, childCount: state.deliveries.length),
+            }, childCount: deliveries.length),
           ),
           SliverToBoxAdapter(child: SizedBox(height: bottomPadding)),
         ],
