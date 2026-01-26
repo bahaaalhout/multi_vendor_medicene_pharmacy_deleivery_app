@@ -58,7 +58,7 @@ class StatusBadge extends StatelessWidget {
           text: 'Picked up',
           backgroundColor: AppColors.successLightHover,
           textColor: AppColors.successDarker,
-          showCheckmark: true,
+          showCheckmark: false,
         );
       case BadgeType.waiting:
         return _BadgeConfig(

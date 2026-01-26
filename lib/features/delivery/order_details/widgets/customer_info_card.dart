@@ -12,12 +12,10 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/o
 
 class CustomerInfoCard extends StatelessWidget {
   final DeliveryModel delivery;
-  final String? customerImageUrl;
 
   const CustomerInfoCard({
     super.key,
     required this.delivery,
-    this.customerImageUrl,
   });
 
   @override
@@ -31,7 +29,7 @@ class CustomerInfoCard extends StatelessWidget {
       child: Column(
         children: [
           CardTitleRow(
-            imageUrl: customerImageUrl,
+            imageUrl: delivery.order.customerImageUrl,
             fallbackIcon: Icons.person,
             title: delivery.order.customerName,
             city: delivery.order.deliveryAddress.city,

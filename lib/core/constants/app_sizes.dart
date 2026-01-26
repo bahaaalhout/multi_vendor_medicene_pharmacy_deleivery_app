@@ -4,6 +4,7 @@ class AppSizes {
   static const borderRadius8 = 8.0;
   static const borderRadius12 = 12.0;
   static const borderRadius16 = 16.0;
+  static const borderRadius20 = 20.0;
   static const borderRadius24 = 24.0;
   static const borderRadius28 = 28.0;
   static const borderRadius30 = 30.0;
