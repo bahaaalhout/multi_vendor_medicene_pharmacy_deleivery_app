@@ -4,7 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/data/fake_data.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/navigation/patient_main_screen.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/cubit/notifications_cubit.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/cubit/reminder_cubit.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/routes/app_pages.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,12 +24,16 @@ class MyApp extends StatelessWidget {
           BlocProvider(
             create: (context) => ReminderCubit(reminders)..loadReminders(),
           ),
+          BlocProvider(
+            create: (context) =>
+                NotificationsCubit(notifications)..loadNotifications(),
+          ),
         ],
-        child: MaterialApp(
+        child: MaterialApp.router(
           debugShowCheckedModeBanner: false,
           title: 'Multi Vendor Medicene Pharmacy Deleivery App',
           theme: ThemeData(primaryColor: AppColors.primaryNormal),
-          home: MainScreen(),
+          routerConfig: AppPages.router,
         ),
       ),
     );

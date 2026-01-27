@@ -1,5 +1,6 @@
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/models/notification_item.dart';
+import '../models/notification_item.dart';
 
+//filter notifications by category
 List<NotificationItem> filterNotificationsByCategory(
   List<NotificationItem> items,
   NotificationCategory category,
@@ -8,8 +9,4 @@ List<NotificationItem> filterNotificationsByCategory(
     return items;
   }
   return items.where((n) => n.category == category).toList();
-}
-
-bool isSameDay(DateTime a, DateTime b) {
-  return a.year == b.year && a.month == b.month && a.day == b.day;
 }

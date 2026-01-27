@@ -34,23 +34,24 @@ class _AddReminderPageState extends State<AddReminderPage> {
       ),
       body: Padding(
         padding: EdgeInsets.all(16.w),
-        child: BlocBuilder<ReminderCubit, ReminderStates>(
+        child: BlocConsumer<ReminderCubit, ReminderStates>(
+          listener: (context, state) {
+            // //when error -> show scafold
+            if (state is ReminderErrorState) {
+              //   ScaffoldMessenger.of(context).showSnackBar(
+              //     SnackBar(
+              //       content: Text(state.errorMsg),
+              //       backgroundColor: Colors.redAccent,
+              //       behavior: SnackBarBehavior.floating,
+              //     ),
+              //   );
+            }
+          },
           builder: (context, state) {
             // //when loading -> for example show progress
-            // if (state is ReminderLoadingState) {
-            //   return const Center(child: CircularProgressIndicator());
-            // }
-
-            // //when error -> show scafold
-            // if (state is ReminderErrorState) {
-            //   ScaffoldMessenger.of(context).showSnackBar(
-            //     SnackBar(
-            //       content: Text(state.errorMsg),
-            //       backgroundColor: Colors.redAccent,
-            //       behavior: SnackBarBehavior.floating,
-            //     ),
-            //   );
-            // }
+            if (state is ReminderLoadingState) {
+              //   return const Center(child: CircularProgressIndicator());
+            }
 
             //when success -> build header + list based on selected date
             if (state is ReminderSuccessState) {
@@ -88,10 +89,10 @@ class _AddReminderPageState extends State<AddReminderPage> {
           dateWidget: AppDateLabel(date: state.selectedDate),
 
           //when user click prev day -> cubit loads previous date reminders
-          onPrev: () => cubit.prevDay(state.selectedDate),
+          onPrev: () => cubit.prevDayPressed(state.selectedDate),
 
           //when user click next day -> cubit loads next date reminders
-          onNext: () => cubit.nextDay(state.selectedDate),
+          onNext: () => cubit.nextDayPressed(state.selectedDate),
         ),
         SizedBox(height: 12.h),
         ReminderDayStrip(
