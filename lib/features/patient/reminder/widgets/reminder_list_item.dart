@@ -50,7 +50,7 @@ class ReminderListItem extends StatelessWidget {
               color: const Color.fromRGBO(255, 255, 255, 1),
               borderRadius: BorderRadius.circular(8.r),
             ),
-            child: Image.asset(
+            child: Image.network(
               item.medicine.imageUrls.first,
               width: 50,
               height: 50,
