@@ -21,6 +21,7 @@ class OrderModel {
   final String customerName;
   final String customerPhone;
   final String customerEmail;
+  final String? customerImageUrl;
   final double estimatedTimeMinutes;
   final String paymentMethod;
   final String? paymentDetails;
@@ -34,6 +35,7 @@ class OrderModel {
     required this.customerName,
     required this.customerPhone,
     required this.customerEmail,
+    this.customerImageUrl,
     required this.estimatedTimeMinutes,
     required this.paymentMethod,
     this.deliveryInstructions,

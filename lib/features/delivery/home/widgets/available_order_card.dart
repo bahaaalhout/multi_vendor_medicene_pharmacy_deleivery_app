@@ -10,6 +10,7 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/w
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/delivery_info_chips.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/order_id_header.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/card_title_row.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/widgets/rating_badge.dart';
 
 class AvailableOrderCard extends StatelessWidget {
   final DeliveryModel delivery;
@@ -43,7 +44,9 @@ class AvailableOrderCard extends StatelessWidget {
           CardTitleRow(
             title: pharmacy.name,
             fallbackIcon: Icons.local_pharmacy,
-            statusBadge: _ratingBadge(),
+            city: pharmacy.address.city,
+            phone: pharmacy.phone,
+            statusBadge: RatingBadge(rating: delivery.order.pharmacy.rating),
           ),
 
           SizedBox(height: AppSizes.spacing12.h),
@@ -106,33 +109,5 @@ class AvailableOrderCard extends StatelessWidget {
     );
   }
 
-  Widget _ratingBadge() {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: AppSizes.spacing12.w,
-        vertical: AppSizes.spacing8.h,
-      ),
-      decoration: BoxDecoration(
-        color: AppColors.neutralLightHover,
-        borderRadius: BorderRadius.circular(AppSizes.borderRadius8.r),
-      ),
-      child: Row(
-        children: [
-          Icon(
-            Icons.star,
-            color: const Color(0xFFFFCC00),
-            size: AppSizes.iconSize20.sp,
-          ),
-          SizedBox(width: AppSizes.spacing4.w),
-          Text(
-            "${delivery.order.pharmacy.rating}",
-            style: AppTextStyles.semiBold14.copyWith(
-              color: AppColors.neutralDarker,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
 }

@@ -4,6 +4,7 @@ class AppSizes {
   static const borderRadius8 = 8.0;
   static const borderRadius12 = 12.0;
   static const borderRadius16 = 16.0;
+  static const borderRadius20 = 20.0;
   static const borderRadius24 = 24.0;
   static const borderRadius28 = 28.0;
   static const borderRadius30 = 30.0;
@@ -19,6 +20,8 @@ class AppSizes {
   static const iconSize27 = 27.0;
   static const iconSize28 = 28.0;
   static const iconSize32 = 32.0;
+  static const iconSize40 = 40.0;
+  static const iconSize80 = 80.0;
 
   //spacing constants
   static const spacing2 = 2.0;

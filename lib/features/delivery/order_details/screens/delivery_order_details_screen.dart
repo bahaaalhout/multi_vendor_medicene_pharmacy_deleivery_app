@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_sizes.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/delivery_model.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/order_details/cubit/delivery_order_cubit.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/order_details/cubit/delivery_order_state.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_primary_app_bar.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/order_details/widgets/delivery_progress_stepper.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/order_details/widgets/delivery_instructions_card.dart';
@@ -9,98 +12,84 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/o
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/order_details/widgets/pharmacy_order_card.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/order_details/widgets/action_button.dart';
 
-class DeliveryOrderDetailScreen extends StatefulWidget {
+class DeliveryOrderDetailsScreen extends StatelessWidget {
   final DeliveryModel delivery;
 
-  const DeliveryOrderDetailScreen({super.key, required this.delivery});
-
-  @override
-  State<DeliveryOrderDetailScreen> createState() =>
-      _DeliveryOrderDetailScreenState();
-}
-
-class _DeliveryOrderDetailScreenState extends State<DeliveryOrderDetailScreen> {
-  bool _showProductDetails = false;
-  late DeliveryModel _currentDelivery;
-
-  @override
-  void initState() {
-    super.initState();
-    _currentDelivery = widget.delivery;
-  }
+  const DeliveryOrderDetailsScreen({super.key, required this.delivery});
 
   @override
   Widget build(BuildContext context) {
-    double bottomPadding = AppSizes.spacing16.h * 2 + AppSizes.spacing80.h;
+    return BlocProvider(
+      create: (context) => DeliveryOrderCubit(delivery),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppPrimaryAppBar(
+          title: 'Delivery Details',
+          onBack: () => Navigator.maybePop(context),
+          onAction: () {},
+          showActionButton: false,
+        ),
+        body: BlocBuilder<DeliveryOrderCubit, DeliveryOrderState>(
+          builder: (context, state) {
+            double bottomPadding = AppSizes.spacing16.h * 2 + AppSizes.spacing80.h;
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppPrimaryAppBar(
-        title: 'Delivery Details',
-        onBack: () => Navigator.maybePop(context),
-        onAction: () {},
-        showActionButton: false,
-      ),
-      body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            SliverPadding(
-              padding: EdgeInsets.symmetric(horizontal: AppSizes.spacing16.w),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate([
-                  // Progress Stepper
-                  DeliveryProgressStepper(delivery: _currentDelivery),
-                  SizedBox(height: AppSizes.spacing16.h),
+            return SafeArea(
+              child: CustomScrollView(
+                slivers: [
+                  SliverPadding(
+                    padding: EdgeInsets.symmetric(horizontal: AppSizes.spacing16.w),
+                    sliver: SliverList(
+                      delegate: SliverChildListDelegate([
+                        // Progress Stepper
+                        DeliveryProgressStepper(delivery: state.delivery),
+                        SizedBox(height: AppSizes.spacing16.h),
 
-                  // Delivery Instructions
-                  if (_currentDelivery.order.deliveryInstructions != null)
-                    DeliveryInstructionsCard(
-                      instructions: _currentDelivery.order.deliveryInstructions,
+                        // Delivery Instructions
+                        if (state.delivery.order.deliveryInstructions != null)
+                          DeliveryInstructionsCard(
+                            instructions: state.delivery.order.deliveryInstructions,
+                          ),
+                        SizedBox(height: AppSizes.spacing16.h),
+
+                        // Pharmacy Order Card
+                        PharmacyOrderCard(
+                          delivery: state.delivery,
+                          showProductDetails: state.showProductDetails,
+                          onToggleProductDetails: () {
+                            context.read<DeliveryOrderCubit>().toggleProductDetails();
+                          },
+                        ),
+                        SizedBox(height: AppSizes.spacing16.h),
+
+                        // Customer Info Card
+                        CustomerInfoCard(delivery: state.delivery),
+                        SizedBox(height: AppSizes.spacing16.h),
+
+                        // Action Button
+                        _buildActionButton(context, state.delivery),
+
+                        SizedBox(height: bottomPadding),
+                      ]),
                     ),
-                  SizedBox(height: AppSizes.spacing16.h),
-
-                  // Pharmacy Order Card
-                  PharmacyOrderCard(
-                    delivery: _currentDelivery,
-                    showProductDetails: _showProductDetails,
-                    onToggleProductDetails: () {
-                      setState(() {
-                        _showProductDetails = !_showProductDetails;
-                      });
-                    },
                   ),
-                  SizedBox(height: AppSizes.spacing12.h),
-
-                  // Customer Info Card
-                  CustomerInfoCard(delivery: _currentDelivery),
-
-                  // Action Button
-                  if (_shouldShowActionButton()) _buildActionButton(),
-
-                  SizedBox(height: bottomPadding),
-                ]),
+                ],
               ),
-            ),
-          ],
+            );
+          },
         ),
       ),
     );
   }
 
-  bool _shouldShowActionButton() {
-    return _currentDelivery.status == DeliveryStatus.accepted ||
-        _currentDelivery.status == DeliveryStatus.pickedUp;
-  }
-
-  Widget _buildActionButton() {
-    final status = _currentDelivery.status;
+  Widget _buildActionButton(BuildContext context, DeliveryModel delivery) {
+    final status = delivery.status;
 
     if (status == DeliveryStatus.accepted) {
       return ActionButton(
         buttonText: 'Accept Order',
         noticeText:
             'By agreeing now to deliver this order, you will be required to wait for a completion notification from the pharmacy.',
-        onPressed: () => _handleAcceptOrder(),
+        onPressed: () => _handleAcceptOrder(context),
       );
     }
 
@@ -109,28 +98,37 @@ class _DeliveryOrderDetailScreenState extends State<DeliveryOrderDetailScreen> {
         buttonText: 'Start Delivery',
         noticeText:
             'Confirming the order now will change its status to "On the way" to the customer\'s location.',
-        onPressed: () => _handleStartDelivery(),
+        onPressed: () => _handleStartDelivery(context),
+      );
+    }
+
+    if (status == DeliveryStatus.enRoute) {
+      return ActionButton(
+        buttonText: 'Confirm Delivery',
+        noticeText:
+            'Confirming the order delivery now will change its status to “Delivered” to the customer\'s location.',
+        onPressed: () => _handleConfirmDelivery(context),
       );
     }
 
     return const SizedBox.shrink();
   }
 
-  void _handleAcceptOrder() {
-    setState(() {
-      _currentDelivery = _currentDelivery.copyWith(
-        status: DeliveryStatus.pickedUp,
-      );
-    });
+  void _handleAcceptOrder(BuildContext context) {
+    final cubit = context.read<DeliveryOrderCubit>();
+    cubit.acceptOrder();
     debugPrint('Order accepted - status changed to pickedUp');
   }
 
-  void _handleStartDelivery() {
-    setState(() {
-      _currentDelivery = _currentDelivery.copyWith(
-        status: DeliveryStatus.enRoute,
-      );
-    });
+  void _handleStartDelivery(BuildContext context) {
+    final cubit = context.read<DeliveryOrderCubit>();
+    cubit.startDelivery();
     debugPrint('Delivery started - status changed to enRoute');
+  }
+
+  void _handleConfirmDelivery(BuildContext context) {
+    final cubit = context.read<DeliveryOrderCubit>();
+    cubit.confirmDelivery();
+    debugPrint('Delivery confirmed - status changed to delivered');
   }
 }
