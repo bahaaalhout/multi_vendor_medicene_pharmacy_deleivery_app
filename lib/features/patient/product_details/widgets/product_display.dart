@@ -2,12 +2,13 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/pharmacy_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/product_details/widgets/circle_icon_button.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/product_details/widgets/styled_text.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_buttons/app_bar_buttons/navigate_back_button.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_buttons/app_bar_buttons/upload_button.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/product_details/widgets/product_appbar.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/product_details/widgets/product_title.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class ProductDisplay extends StatefulWidget {
@@ -36,67 +37,7 @@ class _ProductDisplayState extends State<ProductDisplay> {
       padding: EdgeInsets.all(16),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CircleIconButton(
-                assetIcon: 'assets/icons/arrow_left.svg',
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              Column(
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(3),
-                        width: 15,
-                        height: 15,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(60),
-                          border: Border.all(
-                            width: 1,
-                            color: AppColors.successLightActive,
-                          ),
-                        ),
-                        child: Container(
-                          width: 9,
-                          height: 9,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(60),
-                            color: AppColors.successDarkHover,
-                          ),
-                        ),
-                      ),
-                      4.horizontalSpace,
-                      StyledText(title: 'Available'),
-                      4.horizontalSpace,
-                      Text(
-                        '(in stock)',
-                        style: AppTextStyles.medium16.copyWith(
-                          color: AppColors.primaryNormal,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    widget.pharmacy.name,
-                    style: AppTextStyles.reqular16.copyWith(
-                      color: AppColors.primaryDark,
-                      decoration: TextDecoration.underline,
-                      decorationStyle: TextDecorationStyle.dotted,
-                      decorationColor: AppColors.primaryDark,
-                    ),
-                  ),
-                ],
-              ),
-              CircleIconButton(
-                assetIcon: 'assets/icons/upload.svg',
-                onPressed: () {},
-              ),
-            ],
-          ),
+          ProductAppbar(title: ProductTitle(name: widget.pharmacy.name)),
           20.verticalSpace,
           Container(
             padding: EdgeInsets.all(16),

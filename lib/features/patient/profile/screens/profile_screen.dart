@@ -34,36 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // Back button
-                  Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () => Navigator.of(context).pop(),
-                      borderRadius: BorderRadius.circular(30.w),
-                      child: Container(
-                        width: 60.w,
-                        height: 60.h,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: AppColors.lightBlue,
-                            width: 1.5,
-                          ),
-                          color: Colors.white,
-                        ),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Transform.translate(
-                            offset: Offset(1.5.w, 0),
-                            child: Icon(
-                              Icons.arrow_back_ios,
-                              size: 12.sp,
-                              color: AppColors.primaryBlue,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  NavigateBackButton(),
                   // Title
                   Text(
                     'Profile',

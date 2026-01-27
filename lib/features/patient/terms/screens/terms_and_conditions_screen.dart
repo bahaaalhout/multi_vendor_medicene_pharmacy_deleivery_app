@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_buttons/app_bar_buttons/navigate_back_button.dart';
 
 class TermsAndConditionsScreen extends StatefulWidget {
   const TermsAndConditionsScreen({super.key});
@@ -17,7 +18,7 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.neutralLight,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           children: [
@@ -28,36 +29,7 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // Back button
-                  Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () => Navigator.of(context).pop(),
-                      borderRadius: BorderRadius.circular(30.w),
-                      child: Container(
-                        width: 60.w,
-                        height: 60.h,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: AppColors.lightBlue,
-                            width: 1.5,
-                          ),
-                          color: Colors.white,
-                        ),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Transform.translate(
-                            offset: Offset(1.5.w, 0),
-                            child: Icon(
-                              Icons.arrow_back_ios,
-                              size: 12.sp,
-                              color: AppColors.primaryBlue,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  NavigateBackButton(),
                   // Title
                   Text(
                     'Profile',
@@ -97,7 +69,7 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
                 ],
               ),
             ),
-            
+
             // Main Content
             Expanded(
               child: SingleChildScrollView(
@@ -306,14 +278,12 @@ class _TermsAndConditionsScreenState extends State<TermsAndConditionsScreen> {
             children: [
               Text(
                 title,
-                style: AppTextStyles.bold14.copyWith(
-                  color: AppColors.textDark,
-                ),
+                style: AppTextStyles.bold14.copyWith(color: AppColors.textDark),
               ),
               8.verticalSpace,
               Text(
                 description,
-                style: AppTextStyles.reqular12.copyWith(
+                style: AppTextStyles.reqular14.copyWith(
                   color: AppColors.textDark,
                 ),
               ),
