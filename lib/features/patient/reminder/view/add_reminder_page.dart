@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_buttons/app_bar_buttons/more_button.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_date_label.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_date_selector.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_primary_app_bar.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/cubit/reminder_cubit.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/cubit/reminder_states.dart';
-import '../widgets/reminder_day_strip.dart';
-import '../widgets/reminder_list_item.dart';
+import '../widgets/add_reminder_widgets/reminder_day_strip.dart';
+import '../widgets/add_reminder_widgets/reminder_list_item.dart';
 
 class AddReminderPage extends StatefulWidget {
   const AddReminderPage({super.key});
@@ -29,8 +30,11 @@ class _AddReminderPageState extends State<AddReminderPage> {
       backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
       appBar: AppPrimaryAppBar(
         title: 'Add Reminder',
-        onBack: () {},
-        onAction: () {},
+        actionWidget: MoreButton(
+          fun: () {
+            //open  menu / bottom sheet / dialog etc
+          },
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.w),

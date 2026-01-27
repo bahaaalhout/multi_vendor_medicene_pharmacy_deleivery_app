@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_buttons/app_bar_buttons/edit_button.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_primary_app_bar.dart';
 
 class UploadPrescriptionScreen extends StatefulWidget {
   const UploadPrescriptionScreen({super.key});
@@ -47,85 +49,13 @@ class _UploadPrescriptionScreenState extends State<UploadPrescriptionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppPrimaryAppBar(
+        title: 'Upload Prescription',
+        actionWidget: EditButton(fun: () {}),
+      ),
       body: SafeArea(
         child: Column(
           children: [
-            // Header
-             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // Back button
-                  Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () => Navigator.of(context).pop(),
-                      borderRadius: BorderRadius.circular(30.w),
-                      child: Container(
-                        width: 60.w,
-                        height: 60.h,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: AppColors.lightBlue,
-                            width: 1.5,
-                          ),
-                          color: Colors.white,
-                        ),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Transform.translate(
-                            offset: Offset(1.5.w, 0),
-                            child: Icon(
-                              Icons.arrow_back_ios,
-                              size: 12.sp,
-                              color: AppColors.primaryBlue,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  // Title
-                  Text(
-                    'Profile',
-                    style: AppTextStyles.bold25.copyWith(
-                      fontSize: 24.sp,
-                      height: 1.5,
-                      color: const Color(0xFF1B1F3C),
-                    ),
-                  ),
-                  // Edit button
-                  Container(
-                    width: 60.w,
-                    height: 60.h,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: AppColors.lightBlue,
-                        width: 1.5,
-                      ),
-                      color: Colors.white,
-                    ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        onTap: () {},
-                        borderRadius: BorderRadius.circular(30.w),
-                        child: Center(
-                          child: Image.asset(
-                            "assets/icons/basil_edit-outline.png",
-                            width: 20.w,
-                            height: 20.h,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
             10.verticalSpace,
             // Content
             Expanded(
