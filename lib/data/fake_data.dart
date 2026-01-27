@@ -577,3 +577,32 @@ final fakeAvailableDeliveries = [
     rating: 0.0,
   ),
 ];
+
+// === Sample Orders for Help/Report Issue ===
+final sampleOrders = [
+  order,
+  OrderModel(
+    id: 'O326',
+    status: OrderStatus.delivered,
+    items: cartItems,
+    deliveryAddress: customerAddress,
+    createdAt: DateTime.now().subtract(const Duration(days: 2)),
+    customerName: 'Mohammed Bassam',
+    customerPhone: '+970 59-244-9634',
+    customerEmail: 'example20@gmail.com',
+    estimatedTimeMinutes: 15,
+    paymentMethod: 'Cash',
+  ),
+  OrderModel(
+    id: 'O327',
+    status: OrderStatus.pickedUp,
+    items: cartItems,
+    deliveryAddress: customerAddress,
+    createdAt: DateTime.now().subtract(const Duration(days: 5)),
+    customerName: 'Mohammed Bassam',
+    customerPhone: '+970 59-244-9634',
+    customerEmail: 'example20@gmail.com',
+    estimatedTimeMinutes: 20,
+    paymentMethod: 'Visa',
+  ),
+];
