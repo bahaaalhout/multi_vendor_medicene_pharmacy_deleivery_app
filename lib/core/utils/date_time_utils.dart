@@ -7,7 +7,7 @@
 
 //format time into human readable text
 //example: Now, 5 min ago, 2h ago, Yesterday, 3d ago
-String formatTime(DateTime time) {
+String timeAgo(DateTime time) {
   final now = DateTime.now();
   final diff = now.difference(time);
 
@@ -49,8 +49,15 @@ bool isSameDay(DateTime a, DateTime b) {
 
 //check if given date is today (real current day)
 bool isToday(DateTime date) {
-  final now = DateTime.now();
-  return date.year == now.year &&
-      date.month == now.month &&
-      date.day == now.day;
+  return isSameDay(date, DateTime.now());
+}
+
+///----------------------------
+/// DATE LABELS
+///----------------------------
+
+//weekday label: Mon, Tue, Wed...
+String weekdayLabel(DateTime d) {
+  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  return days[d.weekday - 1];
 }

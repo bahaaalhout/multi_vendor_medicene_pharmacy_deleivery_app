@@ -1,6 +1,5 @@
 class AppRoutes {
   static const home = '/';
   static const notifications = '/notifications';
-  static const reminders = '/reminders';
-  static const profile = '/profile';
+  static const medicationReminder = '/medication-reminder';
 }

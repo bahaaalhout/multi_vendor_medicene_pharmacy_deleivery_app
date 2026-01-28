@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_model.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/reminder_badge_group.dart';
-import '../models/reminder_item.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/add_reminder_widgets/reminder_badge_group.dart';
+import '../../models/reminder_item.dart';
 
 class ReminderListItem extends StatelessWidget {
   final ReminderItem item;

@@ -1,5 +1,5 @@
-import '../models/day_item.dart';
-import '../models/reminder_item.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/models/day_item.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/models/reminder_item.dart';
 
 abstract class ReminderStates {}
 

@@ -7,14 +7,14 @@ class FormattingUtils {
     if (minutes < 60) {
       return '${minutes.toInt()} minutes';
     }
-    
+
     final hours = minutes ~/ 60;
     final mins = minutes % 60;
-    
+
     if (mins == 0) {
       return '$hours ${hours == 1 ? 'hour' : 'hours'}';
     }
-    
+
     return '$hours ${hours == 1 ? 'hour' : 'hours'} ${mins.toInt()} minutes';
   }
 
@@ -23,10 +23,10 @@ class FormattingUtils {
     if (minMinutes < 60 && maxMinutes < 60) {
       return '${minMinutes.toInt()}-${maxMinutes.toInt()} minutes';
     }
-    
+
     final minHours = minMinutes ~/ 60;
     final maxHours = maxMinutes ~/ 60;
-    
+
     return '$minHours-$maxHours hours';
   }
 
@@ -85,19 +85,19 @@ class FormattingUtils {
 /// Extension on Color to add alpha percentage functionality
 extension ColorAlphaPercent on Color {
   /// Create a new Color with the specified alpha percentage
-  /// 
+  ///
   /// Takes a percentage value (0.0 to 1.0) and applies it as the alpha channel
   /// to create a new Color with the specified opacity level.
-  /// 
+  ///
   /// Examples:
   /// - Colors.red.withAlphaPercent(1.0) -> Fully opaque red
   /// - Colors.blue.withAlphaPercent(0.5) -> 50% transparent blue
   /// - Colors.black.withAlphaPercent(0.0) -> Fully transparent black
-  /// 
+  ///
   /// @param percentage The alpha percentage as a decimal (0.0 to 1.0)
   /// @return A new Color with the specified alpha value
   Color withAlphaPercent(double percentage) {
-     final clampedPercentage = percentage.clamp(0.0, 1.0);
+    final clampedPercentage = percentage.clamp(0.0, 1.0);
     // Convert to 0-255 range and round to nearest integer
     final alpha = (clampedPercentage * 255).round();
     return withAlpha(alpha);
