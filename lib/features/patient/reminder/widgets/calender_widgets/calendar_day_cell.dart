@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
 
 class CalendarDayCell extends StatelessWidget {
   final DateTime date;
@@ -19,25 +20,27 @@ class CalendarDayCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textColor = !isInMonth
-        ? AppColors.primaryLightActive
-        : (isSelected ? Colors.white : AppColors.primaryDarkActive);
+        ? AppColors.neutralDarker
+        : (isSelected
+              ? Color.fromRGBO(255, 255, 255, 1)
+              : AppColors.primaryNormal);
 
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(999.r),
+      borderRadius: BorderRadius.circular(32.r),
       child: Container(
+        width: 47.w,
+        height: 40.w,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.primaryDarker : Colors.transparent,
+          color: isSelected ? AppColors.secondaryNormal : Colors.transparent,
           shape: BoxShape.circle,
         ),
         child: Text(
           '${date.day}',
-          style: TextStyle(
-            fontSize: 12.sp,
-            fontWeight: FontWeight.w600,
-            color: textColor,
-          ),
+          style: isSelected
+              ? AppTextStyles.semiBold16.copyWith(color: textColor)
+              : AppTextStyles.medium16.copyWith(color: textColor),
         ),
       ),
     );

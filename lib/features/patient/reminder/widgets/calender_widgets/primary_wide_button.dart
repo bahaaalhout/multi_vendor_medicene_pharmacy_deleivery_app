@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
 
 class PrimaryWideButton extends StatelessWidget {
   final String text;
@@ -14,19 +15,18 @@ class PrimaryWideButton extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(12.r),
       child: Container(
-        height: 48.h,
+        height: 60.h,
+        padding: EdgeInsets.all(12.w),
         width: double.infinity,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: AppColors.primaryDark,
+          color: AppColors.primaryNormal,
           borderRadius: BorderRadius.circular(12.r),
         ),
         child: Text(
           text,
-          style: TextStyle(
-            fontSize: 14.sp,
-            fontWeight: FontWeight.w700,
-            color: Colors.white,
+          style: AppTextStyles.semiBold16.copyWith(
+            color: AppColors.primaryLight,
           ),
         ),
       ),

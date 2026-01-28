@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_buttons/app_bar_buttons/more_button.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_buttons/app_bar_buttons/add_button.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_primary_app_bar.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/data/fake_data.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/helpers/calendar_helpers.dart';
@@ -9,7 +9,9 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/re
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/calender_widgets/calendar_month_top_bar.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/calender_widgets/calendar_tabs.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/calender_widgets/my_calendar_card.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/calender_widgets/primary_wide_button.dart';
+import 'package:go_router/go_router.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/routes/app_pages.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/routes/app_routes.dart';
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({super.key});
@@ -38,9 +40,9 @@ class _CalendarPageState extends State<CalendarPage> {
     return Scaffold(
       appBar: AppPrimaryAppBar(
         title: 'Calendar',
-        actionWidget: MoreButton(
+        actionWidget: AddButton(
           fun: () {
-            //open  menu / bottom sheet / dialog etc
+            context.push(AppRoutes.medicationReminder);
           },
         ),
       ),
@@ -61,41 +63,34 @@ class _CalendarPageState extends State<CalendarPage> {
               onChanged: (v) => setState(() => tab = v),
             ),
             SizedBox(height: 16.h),
+
+            //my calendar card (month grid)
             MyCalendarCard(
               title: 'My Calendar',
               searchController: search,
               currentMonth: currentMonth,
               selectedDate: selectedDate,
+
+              //when user select day
               onSelectDate: (d) => setState(() {
                 selectedDate = d;
                 currentMonth = DateTime(d.year, d.month, 1);
               }),
-            ),
-            SizedBox(height: 12.h),
 
-            PrimaryWideButton(text: '+ Add new calendar', onTap: () {}),
+              //when user change month only
+              onChangeMonth: (m) => setState(() {
+                currentMonth = m;
+                selectedDate = clampSelectedToMonth(selectedDate, currentMonth);
+              }),
+            ),
+
+            SizedBox(height: 12.h),
             SizedBox(height: 14.h),
 
-            CalendarEventsSection(
-              date: selectedDate,
-              items: dayItems,
-              onPrevDay: () => setState(() {
-                selectedDate = selectedDate.subtract(const Duration(days: 1));
-                currentMonth = DateTime(
-                  selectedDate.year,
-                  selectedDate.month,
-                  1,
-                );
-              }),
-              onNextDay: () => setState(() {
-                selectedDate = selectedDate.add(const Duration(days: 1));
-                currentMonth = DateTime(
-                  selectedDate.year,
-                  selectedDate.month,
-                  1,
-                );
-              }),
-            ),
+            //events section
+            CalendarEventsSection(date: selectedDate, items: dayItems),
+
+            SizedBox(height: 118.h + 16),
           ],
         ),
       ),
@@ -104,14 +99,14 @@ class _CalendarPageState extends State<CalendarPage> {
 
   void _prevMonth() {
     setState(() {
-      currentMonth = DateTime(currentMonth.year, currentMonth.month - 1, 1);
+      currentMonth = prevMonthStart(currentMonth);
       selectedDate = clampSelectedToMonth(selectedDate, currentMonth);
     });
   }
 
   void _nextMonth() {
     setState(() {
-      currentMonth = DateTime(currentMonth.year, currentMonth.month + 1, 1);
+      currentMonth = nextMonthStart(currentMonth);
       selectedDate = clampSelectedToMonth(selectedDate, currentMonth);
     });
   }
