@@ -22,7 +22,7 @@ class CalendarEventsSection extends StatelessWidget {
       decoration: BoxDecoration(
         color: const Color.fromRGBO(248, 250, 254, 1),
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(width: 1.5, color: AppColors.successLightActive),
+        border: Border.all(width: 1.5, color: AppColors.secondaryLightActive),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

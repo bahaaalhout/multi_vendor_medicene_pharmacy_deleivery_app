@@ -30,7 +30,7 @@ class AppPrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.transparent,
       centerTitle: true,
       automaticallyImplyLeading: false,
       surfaceTintColor: Colors.transparent,
@@ -52,7 +52,7 @@ class AppPrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
               //else -> keep spacing to keep title centered
               if (showBack)
                 Padding(
-                  padding: EdgeInsets.only(left: 16.w),
+                  padding: EdgeInsets.only(left: 16.w, right: 16.w),
                   child: const NavigateBackButton(),
                 )
               else
@@ -66,7 +66,9 @@ class AppPrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
                 child: Center(
                   child: Text(
                     title,
-                    style: AppTextStyles.bold24.copyWith(
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTextStyles.semiBold20.copyWith(
                       color: AppColors.primaryDarker,
                     ),
                   ),
@@ -79,7 +81,7 @@ class AppPrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
               //shown only if enabled AND widget is provided
               if (showAction && actionWidget != null)
                 Padding(
-                  padding: EdgeInsets.only(right: 16.w),
+                  padding: EdgeInsets.only(right: 16.w, left: 16.w),
                   child: actionWidget!,
                 )
               else

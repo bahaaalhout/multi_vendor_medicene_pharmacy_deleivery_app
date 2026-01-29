@@ -10,7 +10,6 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/re
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/calender_widgets/calendar_tabs.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/calender_widgets/my_calendar_card.dart';
 import 'package:go_router/go_router.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/routes/app_pages.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/routes/app_routes.dart';
 
 class CalendarPage extends StatefulWidget {
