@@ -32,10 +32,13 @@ class DeliveryHistoryScreen extends StatelessWidget {
             return state.deliveries.maybeWhen(
               loading: () => const HistoryLoadingView(),
               success: (deliveries) {
-                if (deliveries.isEmpty) {
+                // Show filtered deliveries
+                final filteredDeliveries = state.filteredDeliveries;
+                
+                if (filteredDeliveries.isEmpty) {
                   return const HistoryEmptyView();
                 }
-                return _buildHistoryContent(deliveries);
+                return _buildHistoryContent(filteredDeliveries);
               },
               error: (message) => Center(
                 child: Text('Error: $message'),

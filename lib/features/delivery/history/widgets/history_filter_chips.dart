@@ -29,7 +29,6 @@ class HistoryFilterChips extends StatelessWidget {
             context,
             HistoryPeriod.all,
             'All',
-            isFirst: true,
           ),
           _buildChip(
             context,
@@ -45,7 +44,6 @@ class HistoryFilterChips extends StatelessWidget {
             context,
             HistoryPeriod.thisMonth,
             'This Month',
-            isLast: true,
           ),
         ],
       ),
@@ -55,30 +53,22 @@ class HistoryFilterChips extends StatelessWidget {
   Widget _buildChip(
     BuildContext context,
     HistoryPeriod period,
-    String label, {
-    bool isFirst = false,
-    bool isLast = false,
-  }) {
+    String label,
+  ) {
     final isSelected = selectedPeriod == period;
     
     return Expanded(
       child: InkWell(
         onTap: () => onPeriodChanged(period),
-        borderRadius: BorderRadius.only(
-          topLeft: isFirst ? Radius.circular(AppSizes.borderRadius20.r) : Radius.zero,
-          bottomLeft: isFirst ? Radius.circular(AppSizes.borderRadius20.r) : Radius.zero,
-          topRight: isLast ? Radius.circular(AppSizes.borderRadius20.r) : Radius.zero,
-          bottomRight: isLast ? Radius.circular(AppSizes.borderRadius20.r) : Radius.zero,
+        borderRadius: BorderRadius.all(
+          Radius.circular(AppSizes.borderRadius20.r),
         ),
         child: Container(
           padding: EdgeInsets.symmetric(vertical: AppSizes.spacing16.h),
           decoration: BoxDecoration(
             color: isSelected ? AppColors.primaryNormal : Colors.white,
-            borderRadius: BorderRadius.only(
-              topLeft: isFirst ? Radius.circular(AppSizes.borderRadius20.r) : Radius.zero,
-              bottomLeft: isFirst ? Radius.circular(AppSizes.borderRadius20.r) : Radius.zero,
-              topRight: isLast ? Radius.circular(AppSizes.borderRadius20.r) : Radius.zero,
-              bottomRight: isLast ? Radius.circular(AppSizes.borderRadius20.r) : Radius.zero,
+            borderRadius: BorderRadius.all(
+              Radius.circular(AppSizes.borderRadius20.r),
             ),
           ),
           child: Center(
