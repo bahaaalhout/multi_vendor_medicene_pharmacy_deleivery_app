@@ -30,16 +30,19 @@ class HistoryFilterChips extends StatelessWidget {
             HistoryPeriod.all,
             'All',
           ),
+          SizedBox(width: AppSizes.spacing8,),
           _buildChip(
             context,
             HistoryPeriod.today,
             'Today',
           ),
+          SizedBox(width: AppSizes.spacing8,),
           _buildChip(
             context,
             HistoryPeriod.thisWeek,
             'This Week',
           ),
+          SizedBox(width: AppSizes.spacing8,),
           _buildChip(
             context,
             HistoryPeriod.thisMonth,
@@ -61,14 +64,14 @@ class HistoryFilterChips extends StatelessWidget {
       child: InkWell(
         onTap: () => onPeriodChanged(period),
         borderRadius: BorderRadius.all(
-          Radius.circular(AppSizes.borderRadius20.r),
+          Radius.circular(AppSizes.borderRadius24.r),
         ),
         child: Container(
           padding: EdgeInsets.symmetric(vertical: AppSizes.spacing16.h),
           decoration: BoxDecoration(
-            color: isSelected ? AppColors.primaryNormal : Colors.white,
+            color: isSelected ? AppColors.primaryNormal : AppColors.primaryLight,
             borderRadius: BorderRadius.all(
-              Radius.circular(AppSizes.borderRadius20.r),
+              Radius.circular(AppSizes.borderRadius24.r),
             ),
           ),
           child: Center(
