@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
-
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_primary_app_bar.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/data/fake_data.dart';
-
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/helpers/medicine_selection_helpers.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/medication_reminder_widgets/medication_list_section.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/medication_reminder_widgets/medication_reminder_header.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/medication_reminder_widgets/medication_reminder_tabs.dart';
@@ -19,19 +18,23 @@ class MedicationReminderPage extends StatefulWidget {
 }
 
 class _MedicationReminderPageState extends State<MedicationReminderPage> {
-  /// 1) active tab
+  //1) active tab
   MedicationReminderTab tab = MedicationReminderTab.prescriptions;
 
-  /// 2) store selected medicine id (keep it simple)
-  String? selectedMedicineId;
+  //2) selected medicines ids (multi-select)
+  final Set<String> selectedMedicineIds = {};
 
   @override
   Widget build(BuildContext context) {
-    /// A) load list based on tab
+    //load list based on tab
     final items = _getItemsByTab(tab);
 
-    /// B) get selected medicine model (if any)
-    final selectedMedicine = _getSelectedMedicine(items, selectedMedicineId);
+    //get selected medicines (keep selected even when switching tabs)
+    final selectedMedicines = getSelectedMedicinesFromTwoLists(
+      selectedIds: selectedMedicineIds,
+      listA: prescriptionMedicines,
+      listB: recentOrderMedicines,
+    );
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -48,11 +51,11 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  /// 1) header
+                  //1) header
                   const MedicationReminderHeader(),
                   SizedBox(height: 25.h),
 
-                  /// 2) tabs
+                  //2) tabs
                   MedicationReminderTabs(
                     selected: tab,
                     prescriptionsCount: prescriptionMedicines.length,
@@ -60,29 +63,28 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> {
                   ),
                   SizedBox(height: 12.h),
 
-                  /// 3) list section
+                  //3) list section (card tap toggle / set reminder add)
                   MedicationListSection(
                     items: items,
-                    selectedId: selectedMedicineId,
-                    onSelect: _onSelectMedicine,
-                    onSetReminder: _onSetReminderPressed,
+                    selectedIds: selectedMedicineIds,
+                    onToggleSelect: _toggleSelectMedicine,
+                    onSetReminder: _addToSelected,
                   ),
                   SizedBox(height: 16.h),
                 ],
               ),
             ),
 
-            /// 4) selected block (figma)
-            if (selectedMedicine != null) ...[
+            //4) selected block (show only if there is selection)
+            if (selectedMedicines.isNotEmpty) ...[
               SizedBox(height: 16.h),
-              SelectedMedicationSection(
-                medicine: selectedMedicine,
-                onClearSelection: () =>
-                    setState(() => selectedMedicineId = null),
+              SelectedMedicationsSection(
+                medicines: selectedMedicines,
+                onRemoveMedicine: (id) =>
+                    setState(() => selectedMedicineIds.remove(id)),
+                onClearAll: () => setState(() => selectedMedicineIds.clear()),
+                onCreateReminders: _createRemindersForSelected,
                 onAdjustReminder: () => _showToast('Adjust reminder tapped'),
-                onCreateReminder: () => _showToast(
-                  'Create reminder for: ${selectedMedicine.brandName}',
-                ),
               ),
               SizedBox(height: 24.h),
             ],
@@ -92,43 +94,37 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> {
     );
   }
 
-  /// -----------------------------
-  /// logic helpers
-  /// -----------------------------
-
+  //get list based on active tab
   List<MedicineModel> _getItemsByTab(MedicationReminderTab tab) {
     return (tab == MedicationReminderTab.prescriptions)
         ? prescriptionMedicines
         : recentOrderMedicines;
   }
 
-  MedicineModel? _getSelectedMedicine(List<MedicineModel> items, String? id) {
-    if (id == null) return null;
-
-    /// safe search (avoid crash if id not found)
-    for (final m in items) {
-      if (m.id == id) return m;
-    }
-    return null;
-  }
-
-  /// -----------------------------
-  /// ui actions
-  /// -----------------------------
-
+  //when user change tab -> keep selection (do not clear)
   void _onTabChanged(MedicationReminderTab v) {
     setState(() {
       tab = v;
-      selectedMedicineId = null; // reset selection when switching tab
     });
   }
 
-  void _onSelectMedicine(String id) {
-    setState(() => selectedMedicineId = id);
+  //when user tap on card -> toggle selection
+  void _toggleSelectMedicine(String id) {
+    setState(() => toggleSelectedId(selectedMedicineIds, id));
   }
 
-  void _onSetReminderPressed(MedicineModel medicine) {
-    _showToast('Set reminder for: ${medicine.brandName}');
+  //when user click set reminder -> add to selected list
+  void _addToSelected(MedicineModel medicine) {
+    setState(() => selectedMedicineIds.add(medicine.id));
+    _showToast('Added: ${medicine.brandName}');
+  }
+
+  //when user click create reminder -> create for all selected
+  void _createRemindersForSelected(List<MedicineModel> meds) {
+    for (final m in meds) {
+      //createReminderForMedicine(m);
+    }
+    _showToast('Created ${meds.length} reminder(s)');
   }
 
   void _showToast(String msg) {
@@ -136,7 +132,7 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> {
   }
 }
 
-/// Outer frame container (same style you use)
+//outer frame container (same style you use)
 class _MainFrame extends StatelessWidget {
   final Widget child;
   const _MainFrame({required this.child});

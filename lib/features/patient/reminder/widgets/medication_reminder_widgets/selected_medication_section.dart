@@ -1,37 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/medication_reminder_widgets/selected_medication_panel.dart';
 
-/// 4) Selected medication block (matches figma)
-/// - Outer card (white + border)
-/// - Inner panel (light blue background)
-/// - Header: image + title + subtitle + close (X)
-/// - Info rows: Time / Days / Frequently with chips
-/// - Actions: Create Reminder button + Adjust reminder text button
-class SelectedMedicationSection extends StatelessWidget {
-  final MedicineModel medicine;
+class SelectedMedicationsSection extends StatelessWidget {
+  final List<MedicineModel> medicines;
 
-  /// actions
-  final VoidCallback onCreateReminder;
-  final VoidCallback onClearSelection;
+  //actions
+  final ValueChanged<List<MedicineModel>> onCreateReminders;
+  final VoidCallback onClearAll;
   final VoidCallback onAdjustReminder;
 
-  /// temporary fixed data (you can connect later)
+  //remove one medicine by id
+  final ValueChanged<String> onRemoveMedicine;
+
+  //temp fixed data (connect later per medicine)
   final List<String> times;
   final List<String> days;
   final String frequency;
   final String frequencyHint;
 
-  const SelectedMedicationSection({
+  const SelectedMedicationsSection({
     super.key,
-    required this.medicine,
-    required this.onCreateReminder,
-    required this.onClearSelection,
+    required this.medicines,
+    required this.onCreateReminders,
+    required this.onClearAll,
     required this.onAdjustReminder,
+    required this.onRemoveMedicine,
     this.times = const ['8:00am', '2:00pm', '9:00am'],
     this.days = const ['Saturday', 'Monday', 'Wednesday'],
     this.frequency = 'Daily',
@@ -40,6 +38,11 @@ class SelectedMedicationSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //if empty -> do nothing
+    if (medicines.isEmpty) return const SizedBox.shrink();
+
+    final count = medicines.length;
+
     return Container(
       padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
@@ -49,169 +52,71 @@ class SelectedMedicationSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          /// title
-          Text(
-            'Selected medication',
-            style: AppTextStyles.medium14.copyWith(
-              color: AppColors.neutralDarkActive,
-            ),
-          ),
+          //title + clear all
+          _TitleRow(onClearAll: onClearAll),
+
           SizedBox(height: 16.h),
 
-          /// inner light panel
-          Container(
-            width: double.infinity,
-            padding: EdgeInsets.all(16.w),
-            decoration: BoxDecoration(
-              color: AppColors.secondaryLight,
-              borderRadius: BorderRadius.circular(12.r),
-            ),
-            child: Column(
-              children: [
-                /// header row: image + texts + close button
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    _MedicineThumb(imageUrl: medicine.imageUrls.first),
-                    SizedBox(width: 16.w),
-                    Expanded(
-                      child: _MedicineTitle(
-                        title: medicine.brandName,
-                        subTitle: medicine.genericName,
-                      ),
-                    ),
-
-                    SizedBox(width: 16.w),
-
-                    _CloseButton(onTap: onClearSelection),
-                  ],
+          //panels list (one per medicine)
+          Column(
+            children: medicines.map((medicine) {
+              return Padding(
+                padding: EdgeInsets.only(bottom: 12.h),
+                child: SelectedMedicationPanel(
+                  medicine: medicine,
+                  times: times,
+                  days: days,
+                  frequency: frequency,
+                  frequencyHint: frequencyHint,
+                  onRemove: () => onRemoveMedicine(medicine.id),
                 ),
-
-                SizedBox(height: 12.h),
-
-                /// info rows
-                _InfoRow(icon: Icons.access_time, label: 'Time:', chips: times),
-                SizedBox(height: 12.h),
-
-                _InfoRow(
-                  icon: Icons.calendar_today_outlined,
-                  label: 'Days:',
-                  chips: days,
-                ),
-                SizedBox(height: 12.h),
-
-                _FrequencyRow(frequency: frequency, hint: frequencyHint),
-              ],
-            ),
+              );
+            }).toList(),
           ),
 
           SizedBox(height: 16.h),
 
-          /// create reminder button (
-          ///
-          SizedBox(
-            width: double.infinity,
-            height: 40.h,
-            child: Material(
-              color: AppColors.primaryNormal,
-              borderRadius: BorderRadius.circular(16.r),
-              child: InkWell(
-                onTap: onCreateReminder,
-                borderRadius: BorderRadius.circular(12.r),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 8.h,
-                    horizontal: 12.w,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Create Reminder',
-                        style: AppTextStyles.semiBold14.copyWith(
-                          color: Colors.white,
-                        ),
-                      ),
-                      SizedBox(width: 12.w),
-                      SvgPicture.asset("assets/icons/add_reminder_icon.svg"),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+          //create reminder button for all
+          _CreateButton(
+            count: count,
+            onTap: () => onCreateReminders(medicines),
           ),
 
           SizedBox(height: 13.h),
 
-          /// adjust reminder
-          Center(
-            child: InkWell(
-              onTap: onAdjustReminder,
-              child: Text(
-                'Adjust reminder',
-                style: AppTextStyles.semiBold12.copyWith(
-                  color: AppColors.primaryNormal,
-                ),
-              ),
-            ),
-          ),
+          //adjust reminder
+          _AdjustButton(count: count, onTap: onAdjustReminder),
         ],
       ),
     );
   }
 }
 
-/// ------------------------------------------------------------
-/// small ui pieces (refactor-friendly)
-/// ------------------------------------------------------------
-
-class _MedicineThumb extends StatelessWidget {
-  final String imageUrl;
-  const _MedicineThumb({required this.imageUrl});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 64.w,
-      height: 64.w,
-      padding: EdgeInsets.all(12.w),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12.r),
-      ),
-      child: Image.network(
-        imageUrl,
-        fit: BoxFit.contain,
-        errorBuilder: (_, __, ___) => const Icon(Icons.medication_outlined),
-      ),
-    );
-  }
-}
-
-class _MedicineTitle extends StatelessWidget {
-  final String title;
-  final String subTitle;
-
-  const _MedicineTitle({required this.title, required this.subTitle});
+//----------------------------------
+//title row
+//----------------------------------
+class _TitleRow extends StatelessWidget {
+  final VoidCallback onClearAll;
+  const _TitleRow({required this.onClearAll});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Row(
       children: [
         Text(
-          title,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: AppTextStyles.semiBold16.copyWith(color: Colors.black),
+          'Selected medication',
+          style: AppTextStyles.medium14.copyWith(
+            color: AppColors.neutralDarkActive,
+          ),
         ),
-        SizedBox(height: 4.h),
-        Text(
-          subTitle,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: AppTextStyles.reqular12.copyWith(
-            color: AppColors.primaryDarkActive,
+        const Spacer(),
+        InkWell(
+          onTap: onClearAll,
+          child: Text(
+            'Clear',
+            style: AppTextStyles.semiBold12.copyWith(
+              color: AppColors.primaryNormal,
+            ),
           ),
         ),
       ],
@@ -219,145 +124,63 @@ class _MedicineTitle extends StatelessWidget {
   }
 }
 
-class _CloseButton extends StatelessWidget {
+//----------------------------------
+//create reminders button
+//----------------------------------
+class _CreateButton extends StatelessWidget {
+  final int count;
   final VoidCallback onTap;
-  const _CloseButton({required this.onTap});
+  const _CreateButton({required this.count, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(999.r),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          shape: BoxShape.circle,
-          border: Border.all(color: AppColors.neutralLightActive, width: 1),
+    final label = count == 1
+        ? 'Create Reminder'
+        : 'Create Reminder for $count Medications';
+
+    return SizedBox(
+      width: double.infinity,
+      height: 40.h,
+      child: Material(
+        color: AppColors.primaryNormal,
+        borderRadius: BorderRadius.circular(16.r),
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(12.r),
+          child: Center(
+            child: Text(
+              label,
+              style: AppTextStyles.semiBold14.copyWith(color: Colors.white),
+            ),
+          ),
         ),
-        child: SvgPicture.asset("assets/icons/close_icon.svg"),
       ),
     );
   }
 }
 
-class _InfoRow extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final List<String> chips;
-
-  const _InfoRow({
-    required this.icon,
-    required this.label,
-    required this.chips,
-  });
+//----------------------------------
+//adjust button
+//----------------------------------
+class _AdjustButton extends StatelessWidget {
+  final int count;
+  final VoidCallback onTap;
+  const _AdjustButton({required this.count, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Container(
-          width: 90.w,
-          child: Row(
-            children: [
-              SvgPicture.asset(
-                "assets/icons/alarm_icon.svg",
-                width: 20.w,
-                height: 20.w,
-              ),
-              SizedBox(width: 4.w),
-              Text(
-                label,
-                style: AppTextStyles.medium10.copyWith(
-                  color: AppColors.secondaryDarker,
-                ),
-              ),
-            ],
+    final label = count == 1
+        ? 'Adjust reminder'
+        : 'Adjust reminder time for $count Medications';
+
+    return Center(
+      child: InkWell(
+        onTap: onTap,
+        child: Text(
+          label,
+          style: AppTextStyles.semiBold12.copyWith(
+            color: AppColors.primaryNormal,
           ),
-        ),
-        Expanded(
-          child: Wrap(
-            spacing: 4.w,
-            children: chips.map((t) => _Chip(text: t)).toList(),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _FrequencyRow extends StatelessWidget {
-  final String frequency;
-  final String hint;
-
-  const _FrequencyRow({required this.frequency, required this.hint});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          width: 90.w,
-          child: Row(
-            children: [
-              SvgPicture.asset(
-                "assets/icons/alarm_icon.svg",
-                width: 20.w,
-                height: 20.w,
-              ),
-              SizedBox(width: 4.w),
-              Text(
-                "Frequently:",
-                style: AppTextStyles.medium10.copyWith(
-                  color: AppColors.secondaryDarker,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          color: Colors.white,
-          child: Row(
-            children: [
-              _Chip(text: frequency),
-              Container(
-                padding: EdgeInsets.all(8.w),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(4.r),
-                ),
-                child: Text(
-                  ' •  $hint',
-                  overflow: TextOverflow.ellipsis,
-                  style: AppTextStyles.reqular8.copyWith(
-                    color: AppColors.successDark,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _Chip extends StatelessWidget {
-  final String text;
-  const _Chip({required this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(8.w),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(4.r),
-      ),
-      child: Text(
-        text,
-        style: AppTextStyles.medium10.copyWith(
-          color: AppColors.secondaryDarker,
         ),
       ),
     );

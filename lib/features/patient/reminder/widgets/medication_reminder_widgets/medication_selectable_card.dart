@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/medication_reminder_widgets/medication_badges.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/medication_reminder_widgets/medication_selected_button.dart';
 
 class MedicationSelectableCard extends StatelessWidget {
   final MedicineModel medicine;
   final bool isSelected;
 
-  /// Badge 1 (Type): "Prescription" / "Ordered"
+  //badge 1 (Type): "Prescription" / "Ordered"
   final String? badgeText;
 
   final VoidCallback onTap;
   final VoidCallback onSetReminder;
 
-  /// Reminder fixed info (later you can make it dynamic)
-  final String doseText; // e.g. "Dose: 1 tablet"
-  final String scheduleText; // e.g. "Schedule: 3 times/day"
-  final String frequencyText; // e.g. "Frequency: Daily"
+  //fixed info (later connect with real reminder data)
+  final String doseText;
+  final String scheduleText;
+  final String frequencyText;
 
   const MedicationSelectableCard({
     super.key,
@@ -48,73 +49,13 @@ class MedicationSelectableCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            /// TOP: Image + Text
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 100.w,
-                  height: 100.w,
-                  padding: EdgeInsets.all(12.w),
-                  decoration: BoxDecoration(
-                    color: AppColors.secondaryLight,
-                    borderRadius: BorderRadius.circular(12.r),
-                  ),
-                  child: Image.network(
-                    medicine.imageUrls.first,
-                    fit: BoxFit.contain,
-                    errorBuilder: (_, __, ___) =>
-                        const Icon(Icons.medication_outlined),
-                  ),
-                ),
-
-                SizedBox(width: 16.w),
-
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        medicine.brandName,
-                        style: AppTextStyles.semiBold16.copyWith(
-                          color: Colors.black,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-
-                      SizedBox(height: 4.h),
-
-                      Text(
-                        medicine.genericName,
-                        style: AppTextStyles.reqular12.copyWith(
-                          color: AppColors.primaryDarkActive,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-
-                      SizedBox(height: 10.h),
-
-                      /// 3 BADGES (Type / Strength / Form)
-                      Wrap(
-                        spacing: 4.w,
-                        children: [
-                          if (badgeText != null) _Badge(text: badgeText!),
-                          _Badge(text: medicine.strength),
-                          _Badge(text: _formLabel(medicine.form)),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+            //top: image + text
+            _HeaderRow(medicine: medicine, badgeText: badgeText),
 
             SizedBox(height: 8.h),
 
-            /// REMINDER INFO BADGES (Dose / Schedule / Frequency)
-            _ReminderInfoBadges(
+            //reminder info badges
+            ReminderInfoBadges(
               doseText: doseText,
               scheduleText: scheduleText,
               frequencyText: frequencyText,
@@ -122,42 +63,15 @@ class MedicationSelectableCard extends StatelessWidget {
 
             SizedBox(height: 16.h),
 
+            //action button
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
               child: SizedBox(
                 width: double.infinity,
                 height: 40.h,
                 child: isSelected
-                    ? const _SelectedFullWidth()
-                    : Material(
-                        color: Colors.transparent,
-                        borderRadius: BorderRadius.circular(12.r),
-                        child: InkWell(
-                          onTap: onSetReminder,
-                          borderRadius: BorderRadius.circular(12.r),
-                          child: Ink(
-                            decoration: BoxDecoration(
-                              color: AppColors.primaryNormal,
-                              borderRadius: BorderRadius.circular(12.r),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Set reminder',
-                                  style: AppTextStyles.semiBold12.copyWith(
-                                    color: AppColors.primaryLight,
-                                  ),
-                                ),
-                                SizedBox(width: 12.w),
-                                SvgPicture.asset(
-                                  "assets/icons/add_reminder_icon.svg",
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
+                    ? MedicationSelectedButton(onTap: onTap)
+                    : _SetReminderButton(onTap: onSetReminder),
               ),
             ),
           ],
@@ -165,7 +79,73 @@ class MedicationSelectableCard extends StatelessWidget {
       ),
     );
   }
+}
 
+//header row: image + title + badges
+class _HeaderRow extends StatelessWidget {
+  final MedicineModel medicine;
+  final String? badgeText;
+
+  const _HeaderRow({required this.medicine, required this.badgeText});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          width: 100.w,
+          height: 100.w,
+          padding: EdgeInsets.all(12.w),
+          decoration: BoxDecoration(
+            color: AppColors.secondaryLight,
+            borderRadius: BorderRadius.circular(12.r),
+          ),
+          child: Image.network(
+            medicine.imageUrls.first,
+            fit: BoxFit.contain,
+            errorBuilder: (_, __, ___) => const Icon(Icons.medication_outlined),
+          ),
+        ),
+        SizedBox(width: 16.w),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                medicine.brandName,
+                style: AppTextStyles.semiBold16.copyWith(color: Colors.black),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              SizedBox(height: 4.h),
+              Text(
+                medicine.genericName,
+                style: AppTextStyles.reqular12.copyWith(
+                  color: AppColors.primaryDarkActive,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              SizedBox(height: 10.h),
+
+              //3 badges (type/strength/form)
+              Wrap(
+                spacing: 4.w,
+                children: [
+                  if (badgeText != null) MedicationBadge(text: badgeText!),
+                  MedicationBadge(text: medicine.strength),
+                  MedicationBadge(text: _formLabel(medicine.form)),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  //convert enum to label
   String _formLabel(FormType form) {
     switch (form) {
       case FormType.tablet:
@@ -184,93 +164,38 @@ class MedicationSelectableCard extends StatelessWidget {
   }
 }
 
-class _Badge extends StatelessWidget {
-  final String text;
-  const _Badge({required this.text});
+//set reminder button
+class _SetReminderButton extends StatelessWidget {
+  final VoidCallback onTap;
+  const _SetReminderButton({required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(8.w),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.r),
-        border: Border.all(color: AppColors.neutralLightActive, width: 1),
-      ),
-      child: Text(
-        text,
-        style: AppTextStyles.medium8.copyWith(color: AppColors.neutralDarker),
-      ),
-    );
-  }
-}
-
-class _ReminderInfoBadges extends StatelessWidget {
-  final String doseText;
-  final String scheduleText;
-  final String frequencyText;
-
-  const _ReminderInfoBadges({
-    required this.doseText,
-    required this.scheduleText,
-    required this.frequencyText,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 4.w,
-      children: [
-        _InfoBadge(text: doseText),
-        _InfoBadge(text: scheduleText),
-        _InfoBadge(text: frequencyText),
-      ],
-    );
-  }
-}
-
-class _InfoBadge extends StatelessWidget {
-  final String text;
-  const _InfoBadge({required this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF1F5FF), // background light like figma
+    return Material(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(12.r),
+      child: InkWell(
+        onTap: onTap,
         borderRadius: BorderRadius.circular(12.r),
-      ),
-      child: Text(
-        text,
-        style: AppTextStyles.medium8.copyWith(color: AppColors.secondaryDarker),
-      ),
-    );
-  }
-}
-
-class _SelectedFullWidth extends StatelessWidget {
-  const _SelectedFullWidth();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-      decoration: BoxDecoration(
-        color: AppColors.successLight,
-        borderRadius: BorderRadius.circular(12.r),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset("assets/icons/selected_icon.svg"),
-          SizedBox(width: 12.w),
-          Text(
-            'Selected',
-            style: AppTextStyles.semiBold12.copyWith(
-              color: AppColors.successDarker,
-            ),
+        child: Ink(
+          decoration: BoxDecoration(
+            color: AppColors.primaryNormal,
+            borderRadius: BorderRadius.circular(12.r),
           ),
-        ],
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Set reminder',
+                style: AppTextStyles.semiBold12.copyWith(
+                  color: AppColors.primaryLight,
+                ),
+              ),
+              SizedBox(width: 12.w),
+              SvgPicture.asset("assets/icons/add_reminder_icon.svg"),
+            ],
+          ),
+        ),
       ),
     );
   }

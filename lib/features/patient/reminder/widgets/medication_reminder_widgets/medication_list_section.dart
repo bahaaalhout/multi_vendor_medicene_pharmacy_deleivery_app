@@ -6,15 +6,18 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/re
 /// list of selectable medication cards (matches figma)
 class MedicationListSection extends StatelessWidget {
   final List<MedicineModel> items;
-  final String? selectedId;
-  final ValueChanged<String> onSelect;
+
+  /// ✅ multi
+  final Set<String> selectedIds;
+
+  final ValueChanged<String> onToggleSelect;
   final ValueChanged<MedicineModel> onSetReminder;
 
   const MedicationListSection({
     super.key,
     required this.items,
-    required this.selectedId,
-    required this.onSelect,
+    required this.selectedIds,
+    required this.onToggleSelect,
     required this.onSetReminder,
   });
 
@@ -22,7 +25,7 @@ class MedicationListSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: items.map((m) {
-        final bool isSelected = m.id == selectedId;
+        final bool isSelected = selectedIds.contains(m.id);
 
         return Padding(
           padding: EdgeInsets.only(bottom: 12.h),
@@ -30,7 +33,11 @@ class MedicationListSection extends StatelessWidget {
             medicine: m,
             isSelected: isSelected,
             badgeText: m.requiresPrescription ? 'Prescription' : 'Ordered',
-            onTap: () => onSelect(m.id),
+
+            /// ✅ card tap toggles selection
+            onTap: () => onToggleSelect(m.id),
+
+            /// ✅ button adds (or you can toggle too)
             onSetReminder: () => onSetReminder(m),
           ),
         );
