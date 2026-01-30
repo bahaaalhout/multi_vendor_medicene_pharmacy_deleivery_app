@@ -5,8 +5,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/pharmacy_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_buttons/app_bar_buttons/navigate_back_button.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_buttons/app_bar_buttons/upload_button.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/product_details/widgets/product_appbar.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/product_details/widgets/product_title.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';

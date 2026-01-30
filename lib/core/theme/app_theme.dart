@@ -254,4 +254,15 @@ class AppTextStyles {
     fontSize: 8.sp,
     fontWeight: FontWeight.w600,
   );
+
+    static final TextStyle interRegular14 = TextStyle(
+      fontFamily: 'Inter',
+      fontSize: 14.sp,
+      fontWeight: FontWeight.w400,
+    );
+    static final TextStyle interRegular12 = TextStyle(
+      fontFamily: 'Inter',
+      fontSize: 12.sp,
+      fontWeight: FontWeight.w400,
+    );
 }

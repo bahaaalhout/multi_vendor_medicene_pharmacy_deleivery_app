@@ -29,7 +29,6 @@ class AppDateSelector extends StatelessWidget {
         ),
         Expanded(
           child: Container(
-            width: 265.w,
             height: 40.h,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16.r),

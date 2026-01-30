@@ -1,44 +1,12 @@
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/models/day_item.dart';
+//this file contains shared date & time utility functions
+//used across the app (notifications, reminders, logs, etc)
 
-List<DayItem> buildDaysStrip(DateTime centerDate, {int range = 3}) {
-  final List<DayItem> days = [];
+///----------------------------
+/// TIME FORMATTING
+///----------------------------
 
-  for (int i = -range; i <= range; i++) {
-    final date = centerDate.add(Duration(days: i));
-
-    days.add(
-      DayItem(
-        dayLetter: getdayLetter(date.weekday),
-        dayNumber: date.day,
-        date: date,
-      ),
-    );
-  }
-
-  return days;
-}
-
-String getdayLetter(int weekday) {
-  switch (weekday) {
-    case DateTime.monday:
-      return 'M';
-    case DateTime.tuesday:
-      return 'T';
-    case DateTime.wednesday:
-      return 'W';
-    case DateTime.thursday:
-      return 'T';
-    case DateTime.friday:
-      return 'F';
-    case DateTime.saturday:
-      return 'S';
-    case DateTime.sunday:
-      return 'S';
-    default:
-      return '';
-  }
-}
-
+//format time into human readable text
+//example: Now, 5 min ago, 2h ago, Yesterday, 3d ago
 String formatTime(DateTime time) {
   final now = DateTime.now();
   final diff = now.difference(time);
@@ -54,4 +22,35 @@ String formatTime(DateTime time) {
   } else {
     return '${diff.inDays}d ago';
   }
+}
+
+///----------------------------
+/// DATE NAVIGATION
+///----------------------------
+
+//return next day from given date
+DateTime nextDay(DateTime currentDate) {
+  return currentDate.add(const Duration(days: 1));
+}
+
+//return previous day from given date
+DateTime prevDay(DateTime currentDate) {
+  return currentDate.subtract(const Duration(days: 1));
+}
+
+///----------------------------
+/// DATE COMPARISON
+///----------------------------
+
+//check if two dates are the same day (ignore time)
+bool isSameDay(DateTime a, DateTime b) {
+  return a.year == b.year && a.month == b.month && a.day == b.day;
+}
+
+//check if given date is today (real current day)
+bool isToday(DateTime date) {
+  final now = DateTime.now();
+  return date.year == now.year &&
+      date.month == now.month &&
+      date.day == now.day;
 }
