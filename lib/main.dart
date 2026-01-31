@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
                 NotificationsCubit(notifications)..loadNotifications(),
           ),
         ],
+        // child: MaterialApp(home: Histroscr,)
         child: MaterialApp.router(
           debugShowCheckedModeBanner: false,
           title: 'Multi Vendor Medicene Pharmacy Deleivery App',
@@ -39,4 +40,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-  
