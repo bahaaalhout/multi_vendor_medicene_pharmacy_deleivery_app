@@ -80,11 +80,11 @@ class DeliveryHomeScreen extends StatelessWidget {
     final cubit = context.read<DeliveryHomeCubit>();
     cubit.acceptOrder(delivery);
     
-    debugPrint('Accept order: ${delivery.id}');
+    debugPrint('View order: ${delivery.id}');
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => DeliveryOrderDetailsScreen(delivery: delivery.copyWith(status: DeliveryStatus.accepted)),
+        builder: (context) => DeliveryOrderDetailsScreen(delivery: delivery),
       ),
     );
   }
