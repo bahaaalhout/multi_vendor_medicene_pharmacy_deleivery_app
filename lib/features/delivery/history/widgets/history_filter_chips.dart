@@ -18,7 +18,7 @@ class HistoryFilterChips extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: AppSizes.spacing4.w),
+      padding: EdgeInsets.all(AppSizes.spacing4.w),
       decoration: BoxDecoration(
         color: AppColors.primaryLight,
         borderRadius: BorderRadius.circular(AppSizes.borderRadius24.r),
@@ -30,19 +30,16 @@ class HistoryFilterChips extends StatelessWidget {
             HistoryPeriod.all,
             'All',
           ),
-          SizedBox(width: AppSizes.spacing8,),
           _buildChip(
             context,
             HistoryPeriod.today,
             'Today',
           ),
-          SizedBox(width: AppSizes.spacing8,),
           _buildChip(
             context,
             HistoryPeriod.thisWeek,
             'This Week',
           ),
-          SizedBox(width: AppSizes.spacing8,),
           _buildChip(
             context,
             HistoryPeriod.thisMonth,
@@ -64,21 +61,21 @@ class HistoryFilterChips extends StatelessWidget {
       child: InkWell(
         onTap: () => onPeriodChanged(period),
         borderRadius: BorderRadius.all(
-          Radius.circular(AppSizes.borderRadius24.r),
+          Radius.circular(AppSizes.borderRadius20.r),
         ),
         child: Container(
           padding: EdgeInsets.symmetric(vertical: AppSizes.spacing16.h),
           decoration: BoxDecoration(
-            color: isSelected ? AppColors.primaryNormal : AppColors.primaryLight,
+            color: isSelected ? Colors.white : AppColors.primaryLight,
             borderRadius: BorderRadius.all(
-              Radius.circular(AppSizes.borderRadius24.r),
+              Radius.circular(AppSizes.borderRadius20.r),
             ),
           ),
           child: Center(
             child: Text(
               label,
               style: AppTextStyles.semiBold14.copyWith(
-                color: isSelected ? Colors.white : AppColors.primaryNormal,
+                color: isSelected ? AppColors.primaryNormal : AppColors.neutralDarker,
               ),
             ),
           ),

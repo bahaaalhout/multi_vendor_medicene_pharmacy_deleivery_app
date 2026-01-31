@@ -99,7 +99,7 @@ class AvailableOrderCard extends StatelessWidget {
                 ),
               ),
               child: Text(
-                "Accept Order",
+                "View order",
                 style: AppTextStyles.semiBold14.copyWith(color: Colors.white),
               ),
             ),
