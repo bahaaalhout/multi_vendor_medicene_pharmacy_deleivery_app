@@ -107,18 +107,21 @@ class DeliveryOrderDetailsScreen extends StatelessWidget {
         buttonText: 'Confirm picking up',
         noticeText: //todo: it will change to "picked up" maybe?
             'Confirming the order now will change its status to picked up.',
-        onPressed: () => _handleStatusTransition(context),
+        onPressed: () =>{
+          _handleStatusTransition(context),
+          _handleStatusTransition(context)
+        } 
       );
     }
 
-    if (status == DeliveryStatus.pickedUp) {
-      return ActionButton(
-        buttonText: 'Start Delivery',
-        noticeText:
-            'Confirming the order now will change its status to "On the way" to the customer\'s location.',
-        onPressed: () => _handleStatusTransition(context),
-      );
-    }
+    // if (status == DeliveryStatus.pickedUp) {
+    //   return ActionButton(
+    //     buttonText: 'Start Delivery',
+    //     noticeText:
+    //         'Confirming the order now will change its status to "On the way" to the customer\'s location.',
+    //     onPressed: () => _handleStatusTransition(context),
+    //   );
+    // }
 
     if (status == DeliveryStatus.enRoute) {
       return ActionButton(

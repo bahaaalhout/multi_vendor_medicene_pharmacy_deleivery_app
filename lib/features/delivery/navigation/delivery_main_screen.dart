@@ -14,7 +14,7 @@ class DeliveryMainScreen extends BaseMainNavScreen {
   List<Widget> get tabScreens => [
     const DeliveryHomeScreen(),
     const DeliveryHistoryScreen(),
-    DeliveryOrderDetailsScreen(delivery: deliveryAccepted),
+    DeliveryOrderDetailsScreen(delivery: deliveryAvailable),
     const Center(child: Text('Profile')),
   ];
 
