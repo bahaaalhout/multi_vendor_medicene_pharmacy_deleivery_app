@@ -20,63 +20,68 @@ class ReminderDayStrip extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r)),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        // ✅ مهم: لا تستخدم spaceBetween مع Expanded
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: days.map((d) {
           final isSelected = d.dayNumber == selectedDay;
 
-          return InkWell(
-            onTap: () => onSelectDay(d.dayNumber),
-            borderRadius: BorderRadius.circular(4.r),
-            child: SizedBox(
-              width: 51.w,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    d.dayLetter,
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      color: isSelected
-                          ? AppColors.primaryDarker
-                          : AppColors.primaryLightActive,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  SizedBox(height: 12.h),
-                  Container(
-                    width: 30.w,
-                    height: 20.w,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: isSelected
-                          ? AppColors.primaryDarker
-                          : Colors.transparent,
-                      borderRadius: BorderRadius.circular(4.r),
-                    ),
-                    child: Text(
-                      '${d.dayNumber}',
+          return Expanded(
+            child: InkWell(
+              onTap: () => onSelectDay(d.dayNumber),
+              borderRadius: BorderRadius.circular(4.r),
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 2.h), // ✅ أقل
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      d.dayLetter,
                       style: TextStyle(
-                        fontSize: 14.sp,
+                        fontSize: 12.sp,
                         color: isSelected
-                            ? AppColors.primaryLight
-                            : AppColors.primaryNormal,
+                            ? AppColors.primaryDarker
+                            : AppColors.primaryLightActive,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                  ),
-                  SizedBox(height: 6.h),
-                  AnimatedContainer(
-                    duration: const Duration(milliseconds: 150),
-                    height: 3.h,
-                    width: 16.w,
-                    decoration: BoxDecoration(
-                      color: isSelected
-                          ? const Color.fromRGBO(0, 0, 0, 1)
-                          : Colors.transparent,
-                      borderRadius: BorderRadius.circular(999.r),
+                    SizedBox(height: 8.h), // ✅ أقل
+
+                    Container(
+                      width: 30.w,
+                      height: 20.w,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? AppColors.primaryDarker
+                            : Colors.transparent,
+                        borderRadius: BorderRadius.circular(4.r),
+                      ),
+                      child: Text(
+                        '${d.dayNumber}',
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          color: isSelected
+                              ? AppColors.primaryLight
+                              : AppColors.primaryNormal,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
+
+                    SizedBox(height: 4.h), // ✅ أقل
+                    AnimatedContainer(
+                      duration: const Duration(milliseconds: 150),
+                      height: 3.h,
+                      width: 16.w,
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? const Color.fromRGBO(0, 0, 0, 1)
+                            : Colors.transparent,
+                        borderRadius: BorderRadius.circular(999.r),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           );

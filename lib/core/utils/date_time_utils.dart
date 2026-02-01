@@ -31,12 +31,12 @@ String timeAgo(DateTime time) {
 
 //return next day from given date
 DateTime nextDay(DateTime currentDate) {
-  return currentDate.add(const Duration(days: 1));
+  return currentDate.add(const Duration(days: 7));
 }
 
 //return previous day from given date
 DateTime prevDay(DateTime currentDate) {
-  return currentDate.subtract(const Duration(days: 1));
+  return currentDate.subtract(const Duration(days: 7));
 }
 
 ///----------------------------
