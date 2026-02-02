@@ -25,6 +25,7 @@ class AppColors {
   static const Color secondaryDarkActive = Color(0xFF2b3c63);
   static const Color secondaryDarker = Color(0xFF212f4d);
   static const Color secondaryDarker1 = Color(0xFF111111);
+  static const Color secondaryDarker2 = Color(0xFF17234D);
 
   /// error colors
   static const Color errorLight = Color(0xFFfbecec);
