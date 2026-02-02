@@ -13,10 +13,7 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/w
 class HistoryDeliveryCard extends StatelessWidget {
   final DeliveryModel delivery;
 
-  const HistoryDeliveryCard({
-    super.key,
-    required this.delivery,
-  });
+  const HistoryDeliveryCard({super.key, required this.delivery});
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +46,7 @@ class HistoryDeliveryCard extends StatelessWidget {
             subTitle: '${fromAddress.area}, ${fromAddress.city}',
           ),
           SizedBox(height: AppSizes.spacing8.h),
-         CardTitleRow(
+          CardTitleRow(
             imageUrl: delivery.order.customerImageUrl,
             fallbackIcon: Icons.person,
             title: delivery.order.customerName,
@@ -59,11 +56,11 @@ class HistoryDeliveryCard extends StatelessWidget {
           ),
           SizedBox(height: AppSizes.spacing12.h),
           CardDetailsTile(
-          label: 'To',
-          value: delivery.order.deliveryAddress.street,
-          subTitle:
-              '${delivery.order.deliveryAddress.area}, ${delivery.order.deliveryAddress.city}',
-        ),
+            label: 'To',
+            value: delivery.order.deliveryAddress.street,
+            subTitle:
+                '${delivery.order.deliveryAddress.area}, ${delivery.order.deliveryAddress.city}',
+          ),
           SizedBox(height: AppSizes.spacing12.h),
 
           DeliveryInfoChips(
@@ -71,7 +68,7 @@ class HistoryDeliveryCard extends StatelessWidget {
             distanceKm: delivery.distanceKm,
             deliveryInfoBadge: DeliveryInfoBadge(
               paymentMethod: delivery.order.paymentMethod,
-            )
+            ),
           ),
         ],
       ),
