@@ -64,7 +64,9 @@ class HistoryCubit extends Cubit<HistoryState> {
     emit(state.copyWith(isLoading: true));
     // Simulate loading
     Future.delayed(const Duration(milliseconds: 500), () {
-      emit(state.copyWith(orders: [], isLoading: false));
+      // Load sample orders from fake_data
+      final loadedOrders = sampleOrders;
+      emit(state.copyWith(orders: loadedOrders, isLoading: false));
     });
   }
 

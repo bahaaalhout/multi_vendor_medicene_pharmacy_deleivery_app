@@ -1,23 +1,90 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/order_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/utils/formatting_utils.dart';
 
 class OrderCard extends StatelessWidget {
-  final String id, pharmacyName, street, area, statusText, price;
-  final Color statusColor, statusTextColor;
+  final OrderModel order;
+  final VoidCallback? onCopyId;
+  final VoidCallback? onReorder;
 
   const OrderCard({
     super.key,
-    required this.id,
-    required this.pharmacyName,
-    required this.street,
-    required this.area,
-    required this.statusText,
-    required this.price,
-    required this.statusColor,
-    required this.statusTextColor,
+    required this.order,
+    this.onCopyId,
+    this.onReorder,
   });
+
+  String get _formattedId => FormattingUtils.formatOrderId(order.id);
+  
+  String get _statusText {
+    final date = order.createdAt;
+    final month = _getMonthName(date.month);
+    final day = date.day;
+    final year = date.year;
+    final hour = date.hour;
+    final minute = date.minute;
+    final period = hour >= 12 ? 'PM' : 'AM';
+    final displayHour = hour > 12 ? hour - 12 : (hour == 0 ? 12 : hour);
+    final displayMinute = minute.toString().padLeft(2, '0');
+    
+    switch (order.status) {
+      case OrderStatus.delivered:
+      case OrderStatus.receiveConfirmed:
+        return 'Delivered on $month $day, $year at $displayHour:$displayMinute $period';
+      case OrderStatus.pickedUp:
+        return 'Picked up on $month $day, $year at $displayHour:$displayMinute $period';
+      case OrderStatus.enRoute:
+        return 'On the way on $month $day, $year at $displayHour:$displayMinute $period';
+      case OrderStatus.placed:
+        return 'Placed on $month $day, $year at $displayHour:$displayMinute $period';
+    }
+  }
+  
+  String _getMonthName(int month) {
+    const months = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Des'
+    ];
+    return months[month - 1];
+  }
+  
+  Color get _statusColor {
+    switch (order.status) {
+      case OrderStatus.delivered:
+      case OrderStatus.receiveConfirmed:
+        return AppColors.successLight;
+      case OrderStatus.pickedUp:
+      case OrderStatus.enRoute:
+        return AppColors.warningLightActive;
+      case OrderStatus.placed:
+        return AppColors.primaryLight;
+    }
+  }
+  
+  Color get _statusTextColor {
+    switch (order.status) {
+      case OrderStatus.delivered:
+      case OrderStatus.receiveConfirmed:
+        return AppColors.successDarker;
+      case OrderStatus.pickedUp:
+      case OrderStatus.enRoute:
+        return AppColors.warningDarker;
+      case OrderStatus.placed:
+        return AppColors.primaryDarker;
+    }
+  }
+  
+  String get _totalPrice {
+    final total = order.items.fold<double>(
+      0.0,
+      (sum, item) => sum + (item.pharmacyOffer.discountedPrice ?? item.pharmacyOffer.price) * item.quantity,
+    );
+    return FormattingUtils.formatPrice(total);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +112,7 @@ class OrderCard extends StatelessWidget {
                       ),
                     ),
                     TextSpan(
-                      text: id,
+                      text: _formattedId,
                       style: AppTextStyles.semiBold14.copyWith(
                         color: AppColors.primaryBlue,
                         letterSpacing: 0.5,
@@ -55,10 +122,16 @@ class OrderCard extends StatelessWidget {
                 ),
               ),
 
-              Text(
-                "Copy",
-                style: AppTextStyles.medium10.copyWith(
-                  color: AppColors.neutralNormalActive,
+              GestureDetector(
+                onTap: () {
+                  Clipboard.setData(ClipboardData(text: order.id));
+                  onCopyId?.call();
+                },
+                child: Text(
+                  "Copy",
+                  style: AppTextStyles.medium10.copyWith(
+                    color: AppColors.neutralNormalActive,
+                  ),
                 ),
               ),
             ],
@@ -81,14 +154,14 @@ class OrderCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      pharmacyName,
+                      order.pharmacyName,
                       style: AppTextStyles.bold16.copyWith(
                         color: AppColors.primaryDark,
                       ),
                     ),
                     SizedBox(height: 2.h),
                     Text(
-                      "Gaza, (+970) 59-244-9634",
+                      "${order.pharmacyAddress.city}, ${order.pharmacy.phone}",
                       style: AppTextStyles.medium12.copyWith(
                         color: AppColors.neutralDark,
                       ),
@@ -116,7 +189,7 @@ class OrderCard extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        street,
+                        order.deliveryAddress.street,
                         style: AppTextStyles.semiBold14.copyWith(
                           color: AppColors.neutralDarker,
                         ),
@@ -124,7 +197,7 @@ class OrderCard extends StatelessWidget {
                       ),
                       2.verticalSpace,
                       Text(
-                        area,
+                        "${order.deliveryAddress.area}, ${order.deliveryAddress.city}",
                         style: AppTextStyles.reqular12.copyWith(
                           color: AppColors.neutralDarkHover,
                         ),
@@ -141,14 +214,14 @@ class OrderCard extends StatelessWidget {
             width: double.infinity,
             padding: EdgeInsets.symmetric(vertical: 8.h),
             decoration: BoxDecoration(
-              color: statusColor,
+              color: _statusColor,
               borderRadius: BorderRadius.circular(8.r),
             ),
             child: Center(
               child: Text(
-                statusText,
+                _statusText,
                 style: AppTextStyles.semiBold10.copyWith(
-                  color: statusTextColor,
+                  color: _statusTextColor,
                 ),
               ),
             ),
@@ -186,7 +259,7 @@ class OrderCard extends StatelessWidget {
                               ),
                             ),
                             TextSpan(
-                              text: "(4 items)",
+                              text: "(${order.totalItems} ${order.totalItems == 1 ? 'item' : 'items'})",
                               style: AppTextStyles.medium10.copyWith(
                                 color: AppColors.neutralDark,
                               ),
@@ -228,7 +301,7 @@ class OrderCard extends StatelessWidget {
                     ),
 
                     Text(
-                      "x4",
+                      "x${order.totalItems}",
                       style: AppTextStyles.semiBold14.copyWith(
                         color: AppColors.neutralDarker,
                       ),
@@ -247,7 +320,7 @@ class OrderCard extends StatelessWidget {
               SizedBox(
                 height: 36.h,
                 child: OutlinedButton(
-                  onPressed: () {},
+                  onPressed: onReorder,
                   style: OutlinedButton.styleFrom(
                     side: BorderSide(color: AppColors.secondaryLightActive),
                     shape: RoundedRectangleBorder(
@@ -264,7 +337,7 @@ class OrderCard extends StatelessWidget {
                 ),
               ),
               Text(
-                price,
+                _totalPrice,
                 style: AppTextStyles.semiBold20.copyWith(
                   color: AppColors.successDark,
                 ),

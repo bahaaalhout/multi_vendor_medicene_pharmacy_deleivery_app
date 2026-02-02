@@ -1,83 +1,206 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/pharmacy_offer_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/utils/formatting_utils.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/product_details/widgets/convert_formtype_tostring.dart';
 
 class SavedProductCard extends StatelessWidget {
-  final dynamic product; // استخدم SavedProduct model هنا
+  final PharmacyOfferModel offer;
+  final VoidCallback? onAddToCart;
+  final VoidCallback? onRemove;
 
-  const SavedProductCard({super.key, required this.product});
+  const SavedProductCard({
+    super.key,
+    required this.offer,
+    this.onAddToCart,
+    this.onRemove,
+  });
+
+  String get _productName => offer.medicine.brandName;
+  
+  String get _formType {
+    final form = ConvertFormtypeTostring.convertForm(offer.medicine.form);
+    final formString = (form as String?) ?? 'tablets';
+    final capitalizedForm = formString.isNotEmpty
+        ? '${formString[0].toUpperCase()}${formString.substring(1)}'
+        : formString;
+    return '${offer.medicine.quantity} $capitalizedForm';
+  }
+  
+  String get _strength => offer.medicine.strength;
+  
+  String get _type => offer.medicine.type;
+  
+  String get _currentPrice {
+    final price = offer.discountedPrice ?? offer.price;
+    return FormattingUtils.formatPrice(price);
+  }
+  
+  String? get _originalPrice {
+    if (offer.discountedPrice != null && offer.discountedPrice! < offer.price) {
+      return FormattingUtils.formatPrice(offer.price);
+    }
+    return null;
+  }
+  
+  String get _imageUrl {
+    if (offer.medicine.imageUrls.isNotEmpty) {
+      return offer.medicine.imageUrls.first;
+    }
+    return '';
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(bottom: 16.h),
-      padding: EdgeInsets.all(12.w),
+      padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20.r),
-        border: Border.all(color: Colors.grey.shade100),
+        border: Border.all(color: AppColors.neutralLightActive, width: 1.5),
       ),
       child: Column(
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // صورة المنتج داخل حاوية رمادية فاتحة
+              // Product Image
               Container(
-                width: 100.w, height: 100.h,
+                width: 120.w,
+                height: 120.h,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFF9FAFB),
-                  borderRadius: BorderRadius.circular(15.r),
+                  color: AppColors.neutralLight,
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
-                child: Image.asset(product.image, fit: BoxFit.contain),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12.r),
+                  child: _imageUrl.isNotEmpty
+                      ? Image.network(
+                          _imageUrl,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Image.asset(
+                              'assets/images/product-history.png',
+                              fit: BoxFit.cover,
+                            );
+                          },
+                        )
+                      : Image.asset(
+                          'assets/images/product-history.png',
+                          fit: BoxFit.cover,
+                        ),
+                ),
               ),
-              SizedBox(width: 12.w),
-              // تفاصيل النص والبادجات
+              16.horizontalSpace,
+              // Product Details
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(product.name, style: AppTextStyles.bold16),
-                        Icon(Icons.bookmark, color: AppColors.primaryNormal.withOpacity(0.2)),
+                        Expanded(
+                          child: Text(
+                            _productName,
+                            style: AppTextStyles.bold16.copyWith(
+                              color: AppColors.primaryDarker,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        8.horizontalSpace,
+                        Image.asset('assets/images/saved.png')
                       ],
                     ),
-                    SizedBox(height: 8.h),
-                    Row( // البادجات الصفراء (OTC, 12 Tablets...)
+                    12.verticalSpace,
+                    // Badges
+                    Wrap(
+                      spacing: 6.w,
+                      runSpacing: 6.h,
                       children: [
-                        _buildBadge(product.type),
-                        SizedBox(width: 4.w),
-                        _buildBadge(product.tablets),
+                        _buildBadge(_type), // OTC
+                        _buildBadge(_formType), // 12 Tablets
+                        _buildBadge(_strength), // 400 mg
                       ],
                     ),
-                    SizedBox(height: 12.h),
-                    Text("\$${product.price}", style: AppTextStyles.semiBold20.copyWith(color: AppColors.successDark)),
+                    12.verticalSpace,
+                    // Price
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          _currentPrice,
+                          style: AppTextStyles.semiBold16.copyWith(
+                            color: AppColors.successDark,
+                          ),
+                        ),
+                        if (_originalPrice != null) ...[
+                          8.horizontalSpace,
+                          Text(
+                            _originalPrice!,
+                            style: AppTextStyles.medium10.copyWith(
+                              color: AppColors.neutralDark,
+                              decoration: TextDecoration.lineThrough,
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
                   ],
                 ),
               ),
             ],
           ),
-          SizedBox(height: 16.h),
-          // صف الأزرار (Add to Cart & Remove)
+          16.verticalSpace,
+          // Action Buttons
           Row(
             children: [
               Expanded(
-                flex: 2,
                 child: ElevatedButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(Icons.shopping_cart_outlined, color: Colors.white),
-                  label: const Text("Add to Cart"),
-                  style: ElevatedButton.styleFrom(backgroundColor: AppColors.primaryDark),
+                  onPressed: onAddToCart,
+                  label: Text(
+                    "Add to Cart",
+                    style: AppTextStyles.semiBold10.copyWith(
+                      color: Colors.white,
+                    ),
+                  ),
+                  icon: Icon(
+                    Icons.shopping_cart_outlined,
+                    color: Colors.white,
+                    size: 14.sp,
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primaryBlue,
+                    padding: EdgeInsets.symmetric(vertical: 14.h),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                  ),
                 ),
               ),
-              SizedBox(width: 10.w),
+              12.horizontalSpace,
               Expanded(
                 child: OutlinedButton(
-                  onPressed: () {},
-                  child: const Text("Remove"),
+                  onPressed: onRemove,
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide(color: AppColors.primaryLightActive),
+                    padding: EdgeInsets.symmetric(vertical: 14.h),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                  ),
+                  child: Text(
+                    "Remove",
+                    style: AppTextStyles.semiBold10.copyWith(
+                      color: AppColors.primaryBlue,
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -91,11 +214,20 @@ class SavedProductCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
       decoration: BoxDecoration(
-        color: const Color(0xFFFEF9EB), // لون خلفية البادج
+        color: AppColors.warningLightActive,
         borderRadius: BorderRadius.circular(6.r),
-        border: Border.all(color: const Color(0xFFFBE8B3)),
+        border: Border.all(
+          color: AppColors.warningDarkHover2,
+          width: 1,
+        ),
       ),
-      child: Text(text, style: AppTextStyles.medium10.copyWith(color: const Color(0xFF8B6E0B))),
+      child: Text(
+        text,
+        style: AppTextStyles.semiBold10.copyWith(
+          color: AppColors.warningDarker,
+        ),
+      ),
     );
   }
 }
+
