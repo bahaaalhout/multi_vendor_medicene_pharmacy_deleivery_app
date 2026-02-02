@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_sizes.dart';
 
 class CircleIconButton extends StatelessWidget {
   const CircleIconButton({
@@ -14,11 +15,10 @@ class CircleIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 60.w,
-      height: 60.h,
-      padding: EdgeInsets.all(8),
+      height: AppSizes.iconSize60.r,
+      width: AppSizes.iconSize60.r,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(60),
+        shape: BoxShape.circle,
         border: Border.all(width: 1, color: AppColors.primaryLightActive),
       ),
       child: IconButton(

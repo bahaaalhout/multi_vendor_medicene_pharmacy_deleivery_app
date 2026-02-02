@@ -23,7 +23,6 @@ class DeliveryHomeScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         body: BlocBuilder<DeliveryHomeCubit, DeliveryHomeState>(
           builder: (context, state) {
-            double bottomPadding = AppSizes.spacing16.h * 2 + AppSizes.spacing80.h;
             return SafeArea(
               child: Padding(
                 padding: EdgeInsets.only(left: AppSizes.spacing16.w, right: AppSizes.spacing16.w, top: AppSizes.spacing16.h),
@@ -57,7 +56,7 @@ class DeliveryHomeScreen extends StatelessWidget {
                           children: [
                             AvailableOrderCard(
                               delivery: state.availableDeliveries[index],
-                              onAccept: () => _handleAcceptOrder(context, state.availableDeliveries[index]),
+                              onViewPressed: () => _navigateToOrderDetails(context, state.availableDeliveries[index]),
                             ),
                             if (index < state.availableDeliveries.length - 1)
                               SizedBox(height: AppSizes.spacing16.h),
@@ -65,7 +64,7 @@ class DeliveryHomeScreen extends StatelessWidget {
                         );
                       }, childCount: state.availableDeliveries.length),
                     ),
-                    SliverToBoxAdapter(child: SizedBox(height: bottomPadding)),
+                    SliverToBoxAdapter(child: SizedBox(height: AppSizes.bottomPadding.h)),
                   ],
                 ),
               ),
@@ -76,10 +75,7 @@ class DeliveryHomeScreen extends StatelessWidget {
     );
   }
 
-  void _handleAcceptOrder(BuildContext context, DeliveryModel delivery) {
-    final cubit = context.read<DeliveryHomeCubit>();
-    cubit.acceptOrder(delivery);
-    
+  void _navigateToOrderDetails(BuildContext context, DeliveryModel delivery) {
     debugPrint('View order: ${delivery.id}');
     Navigator.push(
       context,

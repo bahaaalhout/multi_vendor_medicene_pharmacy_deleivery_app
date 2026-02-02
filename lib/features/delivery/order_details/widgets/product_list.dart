@@ -97,16 +97,12 @@ class ProductListWidget extends StatelessWidget {
                                   width: 0.5.w,
                                 ),
                               ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(AppSizes.borderRadius4.r),
-                                child: Image.network(
-                                  items[index].pharmacyOffer.medicine.imageUrls.first,
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (_, __, ___) => Icon(
-                                    Icons.medication,
-                                    size: AppSizes.iconSize20.sp,
-                                    color: AppColors.primaryNormal,
-                                  ),
+                              child: Image.network(
+                                items[index].pharmacyOffer.medicine.imageUrls.first,
+                                fit: BoxFit.cover,
+                                errorBuilder: (_, __, ___) => Icon(
+                                  Icons.medication,
+                                  color: AppColors.primaryNormal,
                                 ),
                               ),
                             ),

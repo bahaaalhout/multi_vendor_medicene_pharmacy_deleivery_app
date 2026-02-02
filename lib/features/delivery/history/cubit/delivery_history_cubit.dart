@@ -6,7 +6,7 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/data/fake_data.dart
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/history/cubit/delivery_history_state.dart';
 
 class DeliveryHistoryCubit extends Cubit<DeliveryHistoryState> {
-  DeliveryHistoryCubit() : super(DeliveryHistoryState.initial());
+  DeliveryHistoryCubit() : super(DeliveryHistoryState());
 
   void loadHistory() => tryExecute(
     call: () async {

@@ -25,14 +25,10 @@ class DeliveryOrderDetailsScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         appBar: AppPrimaryAppBar(
           title: 'Delivery Details',
-          onBack: () => Navigator.maybePop(context),
-          onAction: () {},
           showActionButton: false,
         ),
         body: BlocBuilder<DeliveryOrderCubit, DeliveryOrderState>(
           builder: (context, state) {
-            double bottomPadding =
-                AppSizes.spacing16.h * 2 + AppSizes.spacing80.h;
 
             return SafeArea(
               child: CustomScrollView(
@@ -76,7 +72,7 @@ class DeliveryOrderDetailsScreen extends StatelessWidget {
                         // Action Button
                         _buildActionButton(context, state.delivery),
 
-                        SizedBox(height: bottomPadding),
+                        SizedBox(height: AppSizes.bottomPadding.h),
                       ]),
                     ),
                   ),

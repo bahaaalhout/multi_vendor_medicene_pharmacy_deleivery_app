@@ -6,6 +6,7 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/h
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/history/screens/delivery_history_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/bottom_navigation_item.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/order_details/screens/delivery_order_details_screen.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/profile/screens/delivery_profile_screen.dart';
 
 class DeliveryMainScreen extends BaseMainNavScreen {
   const DeliveryMainScreen({super.key, super.selectedIndex});
@@ -15,7 +16,7 @@ class DeliveryMainScreen extends BaseMainNavScreen {
     const DeliveryHomeScreen(),
     const DeliveryHistoryScreen(),
     DeliveryOrderDetailsScreen(delivery: deliveryAvailable),
-    const Center(child: Text('Profile')),
+    const DeliveryProfileScreen(),
   ];
 
   @override

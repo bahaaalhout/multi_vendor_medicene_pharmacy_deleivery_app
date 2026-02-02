@@ -7,9 +7,10 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/deliver
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_primary_app_bar.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/history/cubit/delivery_history_cubit.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/history/cubit/delivery_history_state.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/error_view.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/history/widgets/history_filter_chips.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/history/widgets/history_delivery_card.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/history/widgets/history_loading_view.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/loading_view.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/history/widgets/history_empty_view.dart';
 
 class DeliveryHistoryScreen extends StatelessWidget {
@@ -23,14 +24,13 @@ class DeliveryHistoryScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         appBar: AppPrimaryAppBar(
           title: 'History',
-          onBack: () => Navigator.maybePop(context),
-          onAction: () {},
           showActionButton: false,
         ),
         body: BlocBuilder<DeliveryHistoryCubit, DeliveryHistoryState>(
           builder: (context, state) {
-            return state.deliveries.maybeWhen(
-              loading: () => const HistoryLoadingView(),
+            return state.deliveries.when(
+              initial: () => const LoadingView(),
+              loading: () => const LoadingView(),
               success: (deliveries) {
                 // Show filtered deliveries
                 final filteredDeliveries = state.filteredDeliveries;
@@ -40,10 +40,7 @@ class DeliveryHistoryScreen extends StatelessWidget {
                 }
                 return _buildHistoryContent(filteredDeliveries);
               },
-              error: (message) => Center(
-                child: Text('Error: $message'),
-              ),
-              orElse: () => const HistoryLoadingView(),
+              error: (message) => ErrorView(message: message)
             );
           },
         ),
@@ -52,7 +49,6 @@ class DeliveryHistoryScreen extends StatelessWidget {
   }
 
   Widget _buildHistoryContent(List<DeliveryModel> deliveries) {
-    double bottomPadding = AppSizes.spacing16.h * 2 + AppSizes.spacing80.h;
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: AppSizes.spacing16.w),
@@ -80,7 +76,7 @@ class DeliveryHistoryScreen extends StatelessWidget {
               );
             }, childCount: deliveries.length),
           ),
-          SliverToBoxAdapter(child: SizedBox(height: bottomPadding)),
+          SliverToBoxAdapter(child: SizedBox(height: AppSizes.bottomPadding.h)),
         ],
       ),
     );

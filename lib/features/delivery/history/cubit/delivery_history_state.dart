@@ -11,8 +11,6 @@ abstract class DeliveryHistoryState with _$DeliveryHistoryState {
     @Default(HistoryPeriod.all) HistoryPeriod selectedPeriod,
     @Default([]) List<DeliveryModel> filteredDeliveries,
   }) = _DeliveryHistoryState;
-
-  factory DeliveryHistoryState.initial() => const DeliveryHistoryState();
 }
 
 enum HistoryPeriod {
