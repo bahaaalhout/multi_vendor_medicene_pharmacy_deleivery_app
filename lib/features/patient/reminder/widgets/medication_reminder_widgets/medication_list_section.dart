@@ -7,7 +7,7 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/re
 class MedicationListSection extends StatelessWidget {
   final List<MedicineModel> items;
 
-  /// ✅ multi
+  ///  multi
   final Set<String> selectedIds;
 
   final ValueChanged<String> onToggleSelect;
@@ -34,10 +34,10 @@ class MedicationListSection extends StatelessWidget {
             isSelected: isSelected,
             badgeText: m.requiresPrescription ? 'Prescription' : 'Ordered',
 
-            /// ✅ card tap toggles selection
+            ///  card tap toggles selection
             onTap: () => onToggleSelect(m.id),
 
-            /// ✅ button adds (or you can toggle too)
+            ///  button adds (or you can toggle too)
             onSetReminder: () => onSetReminder(m),
           ),
         );

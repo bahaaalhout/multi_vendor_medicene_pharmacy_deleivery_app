@@ -3,8 +3,8 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
 
 /// header text above tabs (matches figma)
-class MedicationReminderHeader extends StatelessWidget {
-  const MedicationReminderHeader({super.key});
+class MedicationHeaderSection extends StatelessWidget {
+  const MedicationHeaderSection({super.key});
 
   @override
   Widget build(BuildContext context) {

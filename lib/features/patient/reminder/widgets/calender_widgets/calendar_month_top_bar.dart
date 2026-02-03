@@ -6,8 +6,8 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_them
 
 class CalendarMonthTopBar extends StatelessWidget {
   final String monthLabel;
-  final VoidCallback onPrev;
-  final VoidCallback onNext;
+  final VoidCallback? onPrev;
+  final VoidCallback? onNext;
   final VoidCallback onToday;
 
   const CalendarMonthTopBar({
@@ -39,17 +39,25 @@ class CalendarMonthTopBar extends StatelessWidget {
           ),
           SizedBox(width: 8.h),
 
+          //today button (always visible)
           _PillButton(text: 'Today', onTap: onToday),
+
           const Spacer(),
-          _IconCircleBtn(
-            iconpath: "assets/icons/arrow_left_icon.svg",
-            onTap: onPrev,
-          ),
-          SizedBox(width: 10.w),
-          _IconCircleBtn(
-            iconpath: "assets/icons/arrow_right_icon.svg",
-            onTap: onNext,
-          ),
+
+          //arrows (show only when callbacks are not null)
+          if (onPrev != null) ...[
+            _IconCircleBtn(
+              iconpath: "assets/icons/arrow_left_icon.svg",
+              onTap: onPrev,
+            ),
+            SizedBox(width: 10.w),
+          ],
+
+          if (onNext != null)
+            _IconCircleBtn(
+              iconpath: "assets/icons/arrow_right_icon.svg",
+              onTap: onNext,
+            ),
         ],
       ),
     );
@@ -86,13 +94,14 @@ class _PillButton extends StatelessWidget {
 
 class _IconCircleBtn extends StatelessWidget {
   final String iconpath;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   const _IconCircleBtn({required this.iconpath, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      //if null => disabled
       onTap: onTap,
       borderRadius: BorderRadius.circular(8.r),
       child: Container(

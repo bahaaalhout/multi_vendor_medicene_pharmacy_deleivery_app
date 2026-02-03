@@ -3,7 +3,7 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/navigation/bas
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/screens/home_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/profile/screens/profile_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/bottom_navigation_item.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/view/calendar_page.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/view/calender/calendar_page.dart';
 
 class MainScreen extends BaseMainNavScreen {
   const MainScreen({super.key, super.selectedIndex});
