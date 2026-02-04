@@ -6,6 +6,7 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_buttons/app_bar_buttons/navigate_back_button.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/profile/cubit/edit_profile_cubit.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/profile/screens/change_password_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/profile/widgets/custom_text_field.dart';
 
 class EditProfileScreen extends StatelessWidget {
@@ -231,6 +232,7 @@ class _EditProfileView extends StatelessWidget {
                             20.verticalSpace,
                             // Password
                             _buildPasswordField(
+                              context: context,
                               value: state.password,
                               onChanged: (value) {
                                 context.read<EditProfileCubit>().updatePassword(
@@ -499,15 +501,16 @@ class _EditProfileView extends StatelessWidget {
   }
 
   Widget _buildPasswordField({
+    required BuildContext context,
     required String value,
     required ValueChanged<String> onChanged,
   }) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       decoration: BoxDecoration(
-        color: AppColors.neutralLight, // الخلفية الرمادية الموحدة
+        color: AppColors.neutralLight, 
         border: Border.all(
-          color: AppColors.neutralLightActive, // الإطار الموحد
+          color: AppColors.neutralLightActive, 
           width: 1.5,
         ),
         borderRadius: BorderRadius.circular(12.r),
@@ -515,14 +518,13 @@ class _EditProfileView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // العنوان العلوي الصغير
           Text(
             'Password',
             style: AppTextStyles.semiBold10.copyWith(
               color: AppColors.neutralDark,
             ),
           ),
-          16.verticalSpace, // المسافة الموحدة بين العنوان والحقل
+          16.verticalSpace, 
           Row(
             children: [
               Expanded(
@@ -544,9 +546,15 @@ class _EditProfileView extends StatelessWidget {
                   onChanged: onChanged,
                 ),
               ),
-              // زر تغيير كلمة المرور
               ElevatedButton(
-                onPressed: () => () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ChangePasswordScreen(),
+                    ),
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.secondaryLight,
                   padding: EdgeInsets.symmetric(
