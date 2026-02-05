@@ -6,42 +6,52 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicin
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/medication_reminder_widgets/selected_medication_panel.dart';
 
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/data/fake_data.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/helpers/reminder_schedule_helper.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/models/adjusted_schedule_result.dart';
+
 class SelectedMedicationsSection extends StatelessWidget {
   final List<MedicineModel> medicines;
 
-  //actions
   final ValueChanged<List<MedicineModel>> onCreateReminders;
   final VoidCallback onClearAll;
-  final VoidCallback onAdjustReminder;
 
-  //remove one medicine by id
+  final ValueChanged<MedicineModel> onAdjustSingle;
+  final ValueChanged<List<MedicineModel>> onAdjustMulti;
+
   final ValueChanged<String> onRemoveMedicine;
 
-  //temp fixed data (connect later per medicine)
-  final List<String> times;
-  final List<String> days;
-  final String frequency;
   final String frequencyHint;
+  final bool sameSchedule;
+
+  final Map<String, AdjustedScheduleResult> singleOverrides;
+
+  final List<String> groupTimes;
+  final List<String> groupDays;
+  final String groupFrequency;
 
   const SelectedMedicationsSection({
     super.key,
     required this.medicines,
     required this.onCreateReminders,
     required this.onClearAll,
-    required this.onAdjustReminder,
+    required this.onAdjustSingle,
+    required this.onAdjustMulti,
     required this.onRemoveMedicine,
-    this.times = const ['8:00am', '2:00pm', '9:00am'],
-    this.days = const ['Saturday', 'Monday', 'Wednesday'],
-    this.frequency = 'Daily',
+    required this.sameSchedule,
+    required this.singleOverrides,
+    required this.groupTimes,
+    required this.groupDays,
+    required this.groupFrequency,
     this.frequencyHint = 'until you finish the tablet',
   });
 
   @override
   Widget build(BuildContext context) {
-    //if empty -> do nothing
     if (medicines.isEmpty) return const SizedBox.shrink();
 
     final count = medicines.length;
+    final isDifferent = count > 1 && !sameSchedule;
 
     return Container(
       padding: EdgeInsets.all(12.w),
@@ -52,49 +62,76 @@ class SelectedMedicationsSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          //title + clear all
           _TitleRow(onClearAll: onClearAll),
+          SizedBox(height: 12.h),
 
-          SizedBox(height: 16.h),
+          if (isDifferent) ...[
+            _DifferentScheduleNote(),
+            SizedBox(height: 12.h),
+          ],
 
-          //panels list (one per medicine)
           Column(
             children: medicines.map((medicine) {
+              // default from fake_data per medicine
+              final base = getScheduleForOneMedicine(
+                medicine: medicine,
+                reminders: reminders,
+              );
+
+              // single override if exists
+              final ov = singleOverrides[medicine.id];
+
+              // if sameSchedule and multi group is provided, you can show group for all
+              final showGroup = !isDifferent && count > 1;
+
+              final times = ov?.times ?? (showGroup ? groupTimes : base.times);
+              final days = ov?.days ?? (showGroup ? groupDays : base.days);
+              final freq =
+                  ov?.frequency ??
+                  (showGroup ? groupFrequency : base.frequency);
+
               return Padding(
                 padding: EdgeInsets.only(bottom: 12.h),
                 child: SelectedMedicationPanel(
                   medicine: medicine,
                   times: times,
                   days: days,
-                  frequency: frequency,
+                  frequency: freq,
                   frequencyHint: frequencyHint,
+
+                  compact: isDifferent,
+                  disableAdjust: isDifferent,
+
                   onRemove: () => onRemoveMedicine(medicine.id),
+                  onAdjust: isDifferent
+                      ? () {}
+                      : () => onAdjustSingle(medicine),
                 ),
               );
             }).toList(),
           ),
 
-          SizedBox(height: 16.h),
+          SizedBox(height: 6.h),
 
-          //create reminder button for all
           _CreateButton(
             count: count,
+            isDifferent: isDifferent,
             onTap: () => onCreateReminders(medicines),
           ),
 
-          SizedBox(height: 13.h),
+          SizedBox(height: 10.h),
 
-          //adjust reminder
-          _AdjustButton(count: count, onTap: onAdjustReminder),
+          _AdjustLink(
+            count: count,
+            disabled: isDifferent,
+            onTap: () => onAdjustMulti(medicines),
+          ),
         ],
       ),
     );
   }
 }
 
-//----------------------------------
-//title row
-//----------------------------------
 class _TitleRow extends StatelessWidget {
   final VoidCallback onClearAll;
   const _TitleRow({required this.onClearAll});
@@ -124,26 +161,50 @@ class _TitleRow extends StatelessWidget {
   }
 }
 
-//----------------------------------
-//create reminders button
-//----------------------------------
+class _DifferentScheduleNote extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(12.w),
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFF1F2),
+        borderRadius: BorderRadius.circular(12.r),
+        border: Border.all(color: const Color(0xFFFECACA)),
+      ),
+      child: Text(
+        'These medications have different schedules.\nCreate a separate reminder for each medication.',
+        style: AppTextStyles.reqular12.copyWith(color: const Color(0xFFB91C1C)),
+      ),
+    );
+  }
+}
+
 class _CreateButton extends StatelessWidget {
   final int count;
+  final bool isDifferent;
   final VoidCallback onTap;
-  const _CreateButton({required this.count, required this.onTap});
+
+  const _CreateButton({
+    required this.count,
+    required this.isDifferent,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     final label = count == 1
         ? 'Create Reminder'
-        : 'Create Reminder for $count Medications';
+        : (isDifferent
+              ? 'Create reminders separately'
+              : 'Create Reminder for $count Medications');
 
     return SizedBox(
       width: double.infinity,
-      height: 40.h,
+      height: 44.h,
       child: Material(
         color: AppColors.primaryNormal,
-        borderRadius: BorderRadius.circular(16.r),
+        borderRadius: BorderRadius.circular(12.r),
         child: InkWell(
           onTap: onTap,
           borderRadius: BorderRadius.circular(12.r),
@@ -159,13 +220,16 @@ class _CreateButton extends StatelessWidget {
   }
 }
 
-//----------------------------------
-//adjust button
-//----------------------------------
-class _AdjustButton extends StatelessWidget {
+class _AdjustLink extends StatelessWidget {
   final int count;
+  final bool disabled;
   final VoidCallback onTap;
-  const _AdjustButton({required this.count, required this.onTap});
+
+  const _AdjustLink({
+    required this.count,
+    required this.disabled,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -175,11 +239,11 @@ class _AdjustButton extends StatelessWidget {
 
     return Center(
       child: InkWell(
-        onTap: onTap,
+        onTap: disabled ? null : onTap,
         child: Text(
           label,
           style: AppTextStyles.semiBold12.copyWith(
-            color: AppColors.primaryNormal,
+            color: disabled ? AppColors.neutralDark : AppColors.primaryNormal,
           ),
         ),
       ),

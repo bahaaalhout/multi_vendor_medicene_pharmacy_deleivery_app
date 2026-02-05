@@ -368,18 +368,45 @@ List<PharmacyOfferModel> offers = [
 /// demo reminder items (calendar/reminder screens)
 
 List<ReminderItem> reminders = [
+  // =========================
+  // medicineData[0] (Panadol) => 3 times + Sat/Mon/Wed
+  // =========================
   ReminderItem(
-    id: '1',
+    id: 'm0_t1',
     medicine: medicineData[0],
-    time: const TimeOfDay(hour: 8, minute: 20),
+    time: const TimeOfDay(hour: 8, minute: 0), // 8:00am
     dose: 1,
     startDate: DateTime(now.year, now.month, now.day),
     endDate: DateTime(now.year, now.month, now.day + 30),
-    days: [1, 2, 3, 4, 5, 6, 7],
+    days: [6, 1, 3], // Sat, Mon, Wed
     done: false,
   ),
   ReminderItem(
-    id: '2',
+    id: 'm0_t2',
+    medicine: medicineData[0],
+    time: const TimeOfDay(hour: 14, minute: 0), // 2:00pm
+    dose: 1,
+    startDate: DateTime(now.year, now.month, now.day),
+    endDate: DateTime(now.year, now.month, now.day + 30),
+    days: [6, 1, 3],
+    done: false,
+  ),
+  ReminderItem(
+    id: 'm0_t3',
+    medicine: medicineData[0],
+    time: const TimeOfDay(hour: 21, minute: 0), // 9:00pm
+    dose: 1,
+    startDate: DateTime(now.year, now.month, now.day),
+    endDate: DateTime(now.year, now.month, now.day + 30),
+    days: [6, 1, 3],
+    done: false,
+  ),
+
+  // =========================
+  // medicineData[1] (Voltaren) => مثال مختلف
+  // =========================
+  ReminderItem(
+    id: 'm1_t1',
     medicine: medicineData[1],
     time: const TimeOfDay(hour: 10, minute: 0),
     dose: 2,
@@ -389,24 +416,14 @@ List<ReminderItem> reminders = [
     done: false,
   ),
   ReminderItem(
-    id: '3',
-    medicine: medicineData[2],
-    time: const TimeOfDay(hour: 12, minute: 30),
-    dose: 1,
+    id: 'm1_t2',
+    medicine: medicineData[1],
+    time: const TimeOfDay(hour: 18, minute: 0),
+    dose: 2,
     startDate: DateTime(now.year, now.month, now.day),
     endDate: DateTime(now.year, now.month, now.day + 30),
-    days: [2, 4, 6],
-    done: true,
-  ),
-  ReminderItem(
-    id: '4',
-    medicine: medicineData[3],
-    time: const TimeOfDay(hour: 18, minute: 45),
-    dose: 3,
-    startDate: DateTime(now.year, now.month, now.day),
-    endDate: DateTime(now.year, now.month, now.day + 30),
-    days: [1, 2, 3, 4, 5],
-    done: true,
+    days: [1, 3, 5],
+    done: false,
   ),
 ];
 
