@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Multi Vendor Medicene Pharmacy Deleivery App',
           theme: ThemeData(primaryColor: AppColors.primaryNormal),
-          routerConfig: AppPages.deliveryRouter,
+          routerConfig: AppPages.pharmacyRouter,
         ),
       ),
     );
