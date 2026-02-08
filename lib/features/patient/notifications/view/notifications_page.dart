@@ -37,11 +37,13 @@ class _NotificationsPageState extends State<NotificationsPage> {
     final orderedItems = [...filteredItems]
       ..sort((a, b) {
         if (a.category == NotificationCategory.rating &&
-            b.category != NotificationCategory.rating)
+            b.category != NotificationCategory.rating) {
           return -1;
+        }
         if (b.category == NotificationCategory.rating &&
-            a.category != NotificationCategory.rating)
+            a.category != NotificationCategory.rating) {
           return 1;
+        }
         return 0;
       });
 

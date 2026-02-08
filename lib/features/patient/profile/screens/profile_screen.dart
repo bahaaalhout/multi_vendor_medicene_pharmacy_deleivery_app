@@ -94,6 +94,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       title: 'History',
                       subtitle: 'Orders & Activity',
                       onTap: () {},
+                      isSubItem: true,
                     ),
                     12.verticalSpace,
                     // Saved items
@@ -102,6 +103,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       title: 'Saved items',
                       subtitle: 'medicines & Healthy products',
                       onTap: () {},
+                      isSubItem: false,
                     ),
                     12.verticalSpace,
                     // Medicine reminders
@@ -116,6 +118,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           medicineRemindersEnabled = value;
                         });
                       },
+                      isSubItem: true,
                     ),
                     12.verticalSpace,
                     // Notification Card
@@ -410,7 +413,7 @@ class _SettingsItem extends StatelessWidget {
     this.toggleValue = false,
     this.onToggle,
     this.onTap,
-    this.isSubItem = false,
+    required this.isSubItem,
   });
 
   @override
