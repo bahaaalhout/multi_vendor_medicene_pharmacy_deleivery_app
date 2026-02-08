@@ -3,12 +3,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_model.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/medication_reminder_widgets/selected_medication_panel.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/helpers/reminder_schedule.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/medication_reminder_widgets/selected_medication_panel_widgets/selected_medication_panel.dart';
 
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/data/fake_data.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/helpers/reminder_schedule_helper.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/models/adjusted_schedule_result.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/medication_reminder_widgets/selected_medication_section_widgets/adjust_link.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/medication_reminder_widgets/selected_medication_section_widgets/create_button.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/medication_reminder_widgets/selected_medication_section_widgets/different_schedule_note.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/medication_reminder_widgets/selected_medication_section_widgets/selected_section_title_row.dart';
 
 class SelectedMedicationsSection extends StatelessWidget {
   final List<MedicineModel> medicines;
@@ -62,13 +65,10 @@ class SelectedMedicationsSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _TitleRow(onClearAll: onClearAll),
+          SelectedSectionTitleRow(onClearAll: onClearAll),
           SizedBox(height: 12.h),
 
-          if (isDifferent) ...[
-            _DifferentScheduleNote(),
-            SizedBox(height: 12.h),
-          ],
+          if (isDifferent) ...[DifferentScheduleNote(), SizedBox(height: 12.h)],
 
           Column(
             children: medicines.map((medicine) {
@@ -113,7 +113,7 @@ class SelectedMedicationsSection extends StatelessWidget {
 
           SizedBox(height: 6.h),
 
-          _CreateButton(
+          CreateButton(
             count: count,
             isDifferent: isDifferent,
             onTap: () => onCreateReminders(medicines),
@@ -121,131 +121,12 @@ class SelectedMedicationsSection extends StatelessWidget {
 
           SizedBox(height: 10.h),
 
-          _AdjustLink(
+          AdjustLink(
             count: count,
             disabled: isDifferent,
             onTap: () => onAdjustMulti(medicines),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _TitleRow extends StatelessWidget {
-  final VoidCallback onClearAll;
-  const _TitleRow({required this.onClearAll});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          'Selected medication',
-          style: AppTextStyles.medium14.copyWith(
-            color: AppColors.neutralDarkActive,
-          ),
-        ),
-        const Spacer(),
-        InkWell(
-          onTap: onClearAll,
-          child: Text(
-            'Clear',
-            style: AppTextStyles.semiBold12.copyWith(
-              color: AppColors.primaryNormal,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _DifferentScheduleNote extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.all(12.w),
-      decoration: BoxDecoration(
-        color: const Color(0xFFFFF1F2),
-        borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: const Color(0xFFFECACA)),
-      ),
-      child: Text(
-        'These medications have different schedules.\nCreate a separate reminder for each medication.',
-        style: AppTextStyles.reqular12.copyWith(color: const Color(0xFFB91C1C)),
-      ),
-    );
-  }
-}
-
-class _CreateButton extends StatelessWidget {
-  final int count;
-  final bool isDifferent;
-  final VoidCallback onTap;
-
-  const _CreateButton({
-    required this.count,
-    required this.isDifferent,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final label = count == 1
-        ? 'Create Reminder'
-        : (isDifferent
-              ? 'Create reminders separately'
-              : 'Create Reminder for $count Medications');
-
-    return SizedBox(
-      width: double.infinity,
-      height: 44.h,
-      child: Material(
-        color: AppColors.primaryNormal,
-        borderRadius: BorderRadius.circular(12.r),
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(12.r),
-          child: Center(
-            child: Text(
-              label,
-              style: AppTextStyles.semiBold14.copyWith(color: Colors.white),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _AdjustLink extends StatelessWidget {
-  final int count;
-  final bool disabled;
-  final VoidCallback onTap;
-
-  const _AdjustLink({
-    required this.count,
-    required this.disabled,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final label = count == 1
-        ? 'Adjust reminder'
-        : 'Adjust reminder time for $count Medications';
-
-    return Center(
-      child: InkWell(
-        onTap: disabled ? null : onTap,
-        child: Text(
-          label,
-          style: AppTextStyles.semiBold12.copyWith(
-            color: disabled ? AppColors.neutralDark : AppColors.primaryNormal,
-          ),
-        ),
       ),
     );
   }

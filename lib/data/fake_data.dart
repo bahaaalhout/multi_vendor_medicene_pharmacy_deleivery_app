@@ -403,7 +403,7 @@ List<ReminderItem> reminders = [
   ),
 
   // =========================
-  // medicineData[1] (Voltaren) => مثال مختلف
+  // medicineData[1] (Voltaren)
   // =========================
   ReminderItem(
     id: 'm1_t1',

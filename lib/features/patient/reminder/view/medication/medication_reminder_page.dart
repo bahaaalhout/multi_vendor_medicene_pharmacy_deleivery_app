@@ -4,19 +4,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_primary_app_bar.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/data/fake_data.dart';
-
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/helpers/medication_reminder_actions.dart'
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/helpers/medication_actions.dart'
     as act;
 
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/helpers/reminder_schedule_helper.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/helpers/reminder_schedule.dart';
 
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/medication_reminder_widgets/main_frame.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/medication_reminder_widgets/medication_header_section.dart';
 
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/medication_reminder_widgets/adjust_reminder_bottom_sheet.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/medication_reminder_widgets/medication_list_section.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/medication_reminder_widgets/medication_reminder_tabs.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/medication_reminder_widgets/selected_medication_section.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/medication_reminder_widgets/selected_medication_section_widgets/selected_medication_section.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/models/adjusted_schedule_result.dart';
 
 class MedicationReminderPage extends StatefulWidget {
@@ -46,13 +44,17 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> {
       listB: recentOrderMedicines,
     );
 
-    final schedule = getScheduleForMedicines(
-      medicines: selectedMedicines,
+    final effectiveSchedule = resolveEffectiveSchedule(
+      selectedIds: selectedMedicineIds,
+      singleOverrides: singleOverrides,
+      multiOverride: multiOverride,
+      allMedicines: [...prescriptionMedicines, ...recentOrderMedicines],
       reminders: reminders,
     );
-    final effectiveTimes = multiOverride?.times ?? schedule.times;
-    final effectiveDays = multiOverride?.days ?? schedule.days;
-    final effectiveFreq = multiOverride?.frequency ?? schedule.frequency;
+
+    final effectiveTimes = effectiveSchedule.times;
+    final effectiveDays = effectiveSchedule.days;
+    final effectiveFreq = effectiveSchedule.frequency;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -111,21 +113,30 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> {
 
               SelectedMedicationsSection(
                 medicines: selectedMedicines,
-                sameSchedule: schedule.sameSchedule,
+                sameSchedule:
+                    multiOverride != null ||
+                    selectedMedicineIds.every(
+                      (id) => singleOverrides.containsKey(id),
+                    ),
                 groupTimes: effectiveTimes,
                 groupDays: effectiveDays,
                 groupFrequency: effectiveFreq,
 
                 singleOverrides: singleOverrides,
-                onRemoveMedicine: (id) => act.removeSelected(
+                onRemoveMedicine: (id) => act.removeMedicineWithOverrides(
                   setState: setState,
                   selectedIds: selectedMedicineIds,
+                  singleOverrides: singleOverrides,
+                  multiOverride: multiOverride,
+                  setMultiOverride: (v) => multiOverride = v,
                   id: id,
                 ),
 
-                onClearAll: () => act.clearAllSelected(
+                onClearAll: () => act.clearAllWithOverrides(
                   setState: setState,
                   selectedIds: selectedMedicineIds,
+                  singleOverrides: singleOverrides,
+                  setMultiOverride: (v) => multiOverride = v,
                 ),
 
                 onCreateReminders: (meds) => act.showToast(
@@ -152,23 +163,16 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> {
       reminders: reminders,
     );
 
-    final result = await showModalBottomSheet<AdjustedScheduleResult>(
+    final result = await act.openAdjustBottomSheet(
       context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-      ),
-      builder: (_) => AdjustReminderBottomSheet(
-        selected: [med],
-        title: 'Adjust reminder time',
-        subtitle: 'Modify reminder times before confirming',
-        sameSchedule: true,
-        times: schedule.times,
-        days: schedule.days,
-        frequency: schedule.frequency,
-        primaryButtonText: 'Adjust',
-      ),
+      selected: [med],
+      title: 'Adjust reminder time',
+      subtitle: 'Modify reminder times before confirming',
+      sameSchedule: true,
+      times: schedule.times,
+      days: schedule.days,
+      frequency: schedule.frequency,
+      primaryButtonText: 'Adjust',
     );
 
     if (result == null) return;
@@ -194,23 +198,16 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> {
       return;
     }
 
-    final result = await showModalBottomSheet<AdjustedScheduleResult>(
+    final result = await act.openAdjustBottomSheet(
       context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-      ),
-      builder: (_) => AdjustReminderBottomSheet(
-        selected: meds,
-        sameSchedule: true,
-        title: 'Adjust reminder time',
-        subtitle: 'Modify reminder times for ${meds.length} medications',
-        times: multiOverride?.times ?? schedule.times,
-        days: multiOverride?.days ?? schedule.days,
-        frequency: multiOverride?.frequency ?? schedule.frequency,
-        primaryButtonText: 'Continue creating',
-      ),
+      selected: meds,
+      title: 'Adjust reminder time',
+      subtitle: 'Modify reminder times for ${meds.length} medications',
+      sameSchedule: true,
+      times: multiOverride?.times ?? schedule.times,
+      days: multiOverride?.days ?? schedule.days,
+      frequency: multiOverride?.frequency ?? schedule.frequency,
+      primaryButtonText: 'Continue creating',
     );
 
     if (result == null) return;

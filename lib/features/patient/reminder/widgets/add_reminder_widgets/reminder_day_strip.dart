@@ -20,7 +20,6 @@ class ReminderDayStrip extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.r)),
       child: Row(
-        // ✅ مهم: لا تستخدم spaceBetween مع Expanded
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: days.map((d) {
           final isSelected = d.dayNumber == selectedDay;
@@ -30,7 +29,7 @@ class ReminderDayStrip extends StatelessWidget {
               onTap: () => onSelectDay(d.dayNumber),
               borderRadius: BorderRadius.circular(4.r),
               child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 2.h), // ✅ أقل
+                padding: EdgeInsets.symmetric(vertical: 2.h),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -44,7 +43,7 @@ class ReminderDayStrip extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    SizedBox(height: 8.h), // ✅ أقل
+                    SizedBox(height: 8.h),
 
                     Container(
                       width: 30.w,
@@ -68,7 +67,7 @@ class ReminderDayStrip extends StatelessWidget {
                       ),
                     ),
 
-                    SizedBox(height: 4.h), // ✅ أقل
+                    SizedBox(height: 4.h),
                     AnimatedContainer(
                       duration: const Duration(milliseconds: 150),
                       height: 3.h,

@@ -7,9 +7,10 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_pr
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/data/fake_data.dart';
 
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/cubit/reminder_cubit.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/helpers/calendar_helpers.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/helpers/calendar_navigation.dart'
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/helpers/calendar_actions.dart'
     as nav;
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/helpers/calendar_formatters.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/helpers/calendar_page_actions.dart';
 
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/view/calender/sections/day_calender_section.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/view/calender/sections/month_calender_section.dart';
@@ -104,7 +105,7 @@ class _CalendarPageState extends State<CalendarPage> {
                   onChangeMonth: _changeMonth,
                 ),
               ] else if (tab == CalendarViewTab.week) ...[
-                WeekCalenderSection(onSelectedDateChanged: _selectDate),
+                WeekCalenderSection(onSelectedDateChanged: (v) => selectDate),
               ] else ...[
                 DayCalenderSection(),
               ],
@@ -116,8 +117,9 @@ class _CalendarPageState extends State<CalendarPage> {
       ),
     );
   }
+}
 
-  //when user select a day -> update selectedDate + reload reminders
+extension CalendarPageActions on _CalendarPageState {
   void _selectDate(DateTime d) {
     setState(() {
       selectedDate = d;
@@ -126,7 +128,6 @@ class _CalendarPageState extends State<CalendarPage> {
     context.read<ReminderCubit>().loadReminders(date: selectedDate);
   }
 
-  //when user change month -> clamp selectedDate then reload reminders
   void _changeMonth(DateTime m) {
     setState(() {
       currentMonth = m;
@@ -135,7 +136,6 @@ class _CalendarPageState extends State<CalendarPage> {
     context.read<ReminderCubit>().loadReminders(date: selectedDate);
   }
 
-  //apply nav result then reload reminders
   void _applyNav(nav.CalendarNavResult r) {
     setState(() {
       currentMonth = r.currentMonth;
@@ -144,7 +144,6 @@ class _CalendarPageState extends State<CalendarPage> {
     context.read<ReminderCubit>().loadReminders(date: selectedDate);
   }
 
-  //when user click prev -> compute prev based on tab
   void _prevPeriod() {
     final r = nav.computePrevPeriod(
       tab: tab,
@@ -154,7 +153,6 @@ class _CalendarPageState extends State<CalendarPage> {
     _applyNav(r);
   }
 
-  //when user click next -> compute next based on tab
   void _nextPeriod() {
     final r = nav.computeNextPeriod(
       tab: tab,
@@ -164,7 +162,6 @@ class _CalendarPageState extends State<CalendarPage> {
     _applyNav(r);
   }
 
-  //when user click today -> reset to today
   void _goToday() {
     final r = nav.computeToday();
     _applyNav(r);

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_model.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/medication_reminder_widgets/selected_medication_panel_widgets/medicine_thumb.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/medication_reminder_widgets/selected_medication_panel_widgets/medicine_title.dart';
+
+import 'medicine_thumb.dart';
+import 'medicine_title.dart';
 
 class SelectedMedicationHeader extends StatelessWidget {
   final MedicineModel medicine;
@@ -16,10 +18,14 @@ class SelectedMedicationHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final imageUrl = medicine.imageUrls.isNotEmpty
+        ? medicine.imageUrls.first
+        : '';
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        MedicineThumb(imageUrl: medicine.imageUrls.first),
+        MedicineThumb(imageUrl: imageUrl),
         SizedBox(width: 16.w),
         Expanded(
           child: MedicineTitle(

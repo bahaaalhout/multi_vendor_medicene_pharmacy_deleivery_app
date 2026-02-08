@@ -1,7 +1,7 @@
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/helpers/calendar_helpers.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/calender_widgets/calendar_tabs.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/helpers/calendar_formatters.dart';
 
-//calendar navigation result (month start + selected date)
+/// Holds navigation result for current month and selected date.
 class CalendarNavResult {
   final DateTime currentMonth;
   final DateTime selectedDate;
@@ -12,7 +12,7 @@ class CalendarNavResult {
   });
 }
 
-//compute previous period based on current tab (month/week/day)
+/// Computes previous period based on current tab.
 CalendarNavResult computePrevPeriod({
   required CalendarViewTab tab,
   required DateTime currentMonth,
@@ -35,7 +35,7 @@ CalendarNavResult computePrevPeriod({
   return CalendarNavResult(currentMonth: newMonth, selectedDate: newSelected);
 }
 
-//compute next period based on current tab (month/week/day)
+/// Computes next period based on current tab.
 CalendarNavResult computeNextPeriod({
   required CalendarViewTab tab,
   required DateTime currentMonth,
@@ -58,7 +58,7 @@ CalendarNavResult computeNextPeriod({
   return CalendarNavResult(currentMonth: newMonth, selectedDate: newSelected);
 }
 
-//compute today (reset selected date + current month)
+/// Computes today's navigation (reset selected date + current month).
 CalendarNavResult computeToday() {
   final now = DateTime.now();
   final selected = DateTime(now.year, now.month, now.day);
