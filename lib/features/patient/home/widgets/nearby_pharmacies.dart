@@ -26,6 +26,7 @@ class NearbyPharmacies extends StatelessWidget {
                 pharmacyModel: PharmacyModel(
                   id: '1',
                   name: 'Ah',
+                  phone: '+970599999999',
                   address: AddressModel(
                     id: '1',
                     street: 'Al Nasr',

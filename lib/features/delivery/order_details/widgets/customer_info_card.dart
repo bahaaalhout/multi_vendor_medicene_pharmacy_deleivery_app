@@ -12,12 +12,10 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/o
 
 class CustomerInfoCard extends StatelessWidget {
   final DeliveryModel delivery;
-  final String? customerImageUrl;
 
   const CustomerInfoCard({
     super.key,
     required this.delivery,
-    this.customerImageUrl,
   });
 
   @override
@@ -31,9 +29,11 @@ class CustomerInfoCard extends StatelessWidget {
       child: Column(
         children: [
           CardTitleRow(
-            imageUrl: customerImageUrl,
+            imageUrl: delivery.order.customerImageUrl,
             fallbackIcon: Icons.person,
             title: delivery.order.customerName,
+            city: delivery.order.deliveryAddress.city,
+            phone: delivery.order.customerPhone,
             statusBadge: _getCustomerStatusBadge(),
           ),
           SizedBox(height: AppSizes.spacing12.h),
@@ -53,10 +53,16 @@ class CustomerInfoCard extends StatelessWidget {
 
   Widget? _getCustomerStatusBadge() {
     switch (delivery.status) {
+      case DeliveryStatus.available:
+      case DeliveryStatus.accepted:
+      case DeliveryStatus.pickedUp:
+        return StatusBadge(type: BadgeType.waiting);
       case DeliveryStatus.enRoute:
         return StatusBadge(type: BadgeType.onWay);
-      default:
-        return null;
+      case DeliveryStatus.delivered:
+        return StatusBadge(type: BadgeType.delivered);
+      case DeliveryStatus.confirmed:
+        return StatusBadge(type: BadgeType.contfirmed);
     }
   }
 
@@ -79,7 +85,9 @@ class CustomerInfoCard extends StatelessWidget {
         CardDetailsTile(
           icon: Icons.phone_outlined,
           label: 'Phone',
-          value: FormattingUtils.formatPhoneNumber(delivery.order.customerPhone),
+          value: FormattingUtils.formatPhoneNumber(
+            delivery.order.customerPhone,
+          ),
         ),
       ],
     );

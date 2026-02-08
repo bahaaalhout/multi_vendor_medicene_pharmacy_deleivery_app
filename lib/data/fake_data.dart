@@ -67,6 +67,7 @@ final pharmacies = [
   PharmacyModel(
     id: "0",
     name: 'City Pharmacy',
+    phone: '+970599999999',
     image:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReqT59ijEJcjQ8BgJvkPAhqeXayWD2lRXP4Q&s",
     address: address[0],
@@ -80,6 +81,7 @@ final pharmacies = [
   PharmacyModel(
     id: "1",
     name: 'Central Pharmacy',
+    phone: '+970599999999',
     image:
         "https://images.unsplash.com/photo-1576602976047-174e57a47881?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGhhcm1hY3l8ZW58MHx8MHx8fDA%3D",
     address: address[1],
@@ -93,6 +95,7 @@ final pharmacies = [
   PharmacyModel(
     id: "2",
     name: 'AlFaris Pharmacy',
+    phone: '+970599999999',
     image:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReqT59ijEJcjQ8BgJvkPAhqeXayWD2lRXP4Q&s",
     address: address[2],
@@ -106,6 +109,7 @@ final pharmacies = [
   PharmacyModel(
     id: "3",
     name: 'AlHayat Pharmacy',
+    phone: '+970599999999',
     image:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReqT59ijEJcjQ8BgJvkPAhqeXayWD2lRXP4Q&s",
     address: address[3],
@@ -119,6 +123,7 @@ final pharmacies = [
   PharmacyModel(
     id: "4",
     name: 'AlShifa Pharmacy',
+    phone: '+970599999999',
     image:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReqT59ijEJcjQ8BgJvkPAhqeXayWD2lRXP4Q&s",
     address: address[4],
@@ -465,6 +470,7 @@ final medicine = MedicineModel(
 final pharmacy = PharmacyModel(
   id: 'pharm_1',
   name: 'Family Pharmacy',
+  phone: '+970599999999',
   image: 'https://via.placeholder.com/150/4CAF50/FFFFFF?text=Pharmacy',
   address: pharmacyAddress,
   rating: 4.2,
@@ -580,5 +586,34 @@ final fakeAvailableDeliveries = [
     timeMinutes: 15,
     price: 12.0,
     rating: 0.0,
+  ),
+];
+
+// === Sample Orders for Help/Report Issue ===
+final sampleOrders = [
+  order,
+  OrderModel(
+    id: 'O326',
+    status: OrderStatus.delivered,
+    items: cartItems,
+    deliveryAddress: customerAddress,
+    createdAt: DateTime.now().subtract(const Duration(days: 2)),
+    customerName: 'Mohammed Bassam',
+    customerPhone: '+970 59-244-9634',
+    customerEmail: 'example20@gmail.com',
+    estimatedTimeMinutes: 15,
+    paymentMethod: 'Cash',
+  ),
+  OrderModel(
+    id: 'O327',
+    status: OrderStatus.pickedUp,
+    items: cartItems,
+    deliveryAddress: customerAddress,
+    createdAt: DateTime.now().subtract(const Duration(days: 5)),
+    customerName: 'Mohammed Bassam',
+    customerPhone: '+970 59-244-9634',
+    customerEmail: 'example20@gmail.com',
+    estimatedTimeMinutes: 20,
+    paymentMethod: 'Visa',
   ),
 ];

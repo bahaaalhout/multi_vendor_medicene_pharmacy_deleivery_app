@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_date_label.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_date_selector.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_primary_app_bar.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/data/fake_data.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/helpers/notification_filter.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/cubit/notifications_cubit.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/cubit/notifications_states.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/models/notification_item.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/widgets/notification_empty_state.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/widgets/notification_filter_tabs.dart';
@@ -20,127 +22,190 @@ class NotificationsPage extends StatefulWidget {
 }
 
 class _NotificationsPageState extends State<NotificationsPage> {
-  DateTime selectedDate = DateTime.now();
-  NotificationCategory selectedCategory = NotificationCategory.all;
+  //DateTime selectedDate = DateTime.now();
+  //NotificationCategory selectedCategory = NotificationCategory.all;
+
+  //local copy of notifications (avoid modifying global data list)
+  //late List<NotificationItem> localNotifications;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   //create a copy of global notifications list
+  //   localNotifications = [...notifications];
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final itemsForDate = notifications
-        .where((n) => isSameDay(n.createdAt, selectedDate))
-        .toList();
+    // //get notifications for the selected day only
+    // final itemsForDate = localNotifications
+    //     .where((n) => isSameDay(n.createdAt, selectedDate))
+    //     .toList();
 
-    final filteredItems = filterNotificationsByCategory(
-      itemsForDate,
-      selectedCategory,
-    );
+    // //filter notifications by selected tab (category)
+    // final filtered = filterNotificationsByCategory(
+    //   itemsForDate,
+    //   selectedCategory,
+    // );
 
-    final orderedItems = [...filteredItems]
-      ..sort((a, b) {
-        if (a.category == NotificationCategory.rating &&
-            b.category != NotificationCategory.rating) {
-          return -1;
-        }
-        if (b.category == NotificationCategory.rating &&
-            a.category != NotificationCategory.rating) {
-          return 1;
-        }
-        return 0;
-      });
+    // //sort notifications (rating first)
+    // final ordered = sortNotifications(filtered);
 
-    final sectionTitle = {
-      NotificationCategory.all: 'All Notifications',
-      NotificationCategory.offer: 'Offers',
-      NotificationCategory.medicineReminder: 'Medicine Reminders',
-      NotificationCategory.rating: 'Rating',
-    }[selectedCategory]!;
+    // //get section title based on selected category
+    // final sectionTitle = getSectionTitle(selectedCategory);
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppPrimaryAppBar(
         title: 'Notification',
         onBack: () {
-          Navigator.of(context).pop();
+          context.pop();
         },
         onAction: () {},
       ),
       body: Container(
         margin: EdgeInsets.only(bottom: 54.h),
         padding: EdgeInsets.symmetric(horizontal: 16.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 8.h),
-            NotificationFilterTabs(
-              selected: selectedCategory,
-              onChanged: (category) {
-                setState(() {
-                  selectedCategory = category;
-                });
-              },
-            ),
-            SizedBox(height: 16.h),
-            AppDateSelector(
-              dateWidget: AppDateLabel(date: selectedDate),
-              onPrev: _prevDay,
-              onNext: _nextDay,
-            ),
-            SizedBox(height: 24.h),
-            NotificationSectionHeader(
-              title: sectionTitle,
-              actionText: 'Mark as read',
-              onAction: orderedItems.isEmpty ? null : _markCurrentAsRead,
-            ),
-            SizedBox(height: 16.h),
-            Expanded(
-              child: orderedItems.isEmpty
-                  ? const NotificationEmptyState()
-                  : ListView.separated(
-                      padding: EdgeInsets.only(bottom: 24.h),
-                      itemCount: orderedItems.length,
-                      separatorBuilder: (_, __) => SizedBox(height: 12.h),
-                      itemBuilder: (context, index) {
-                        final item = orderedItems[index];
+        child: BlocConsumer<NotificationsCubit, NotificationsStates>(
+          listener: (context, state) {
+            // //when error -> show error text
+            if (state is NotificationsErrorState) {
+              // ScaffoldMessenger.of(context).showSnackBar(
+              //   SnackBar(
+              //     content: Text(state.errorMsg),
+              //     backgroundColor: Colors.redAccent,
+              //     behavior: SnackBarBehavior.floating,
+              //   ),
+              // );
+            }
+          },
+          builder: (context, state) {
+            final cubit = context.read<NotificationsCubit>();
 
-                        if (item.category == NotificationCategory.rating) {
-                          return RatingNotificationCard(
-                            item: item,
-                            onRateNow: () {},
-                            onClose: () {},
-                          );
-                        }
+            // //when loading -> show progress
+            if (state is NotificationsLoadingState) {
+              //   return const Center(child: CircularProgressIndicator());
+            }
 
-                        return NotificationListItem(item: item);
-                      },
+            //when success -> build UI using state
+            if (state is NotificationsSuccessState) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 8.h),
+                  //tabs filter
+                  NotificationFilterTabs(
+                    selected: state.selectedCategory,
+                    onChanged: (category) {
+                      // setState(() {
+                      //   state.selectedCategory = category;
+                      // });
+
+                      //when user change tab -> reload notifications
+                      cubit.changeCategory(state.selectedDate, category);
+                    },
+                  ),
+
+                  SizedBox(height: 16.h),
+
+                  //date selector (prev/next day)
+                  AppDateSelector(
+                    dateWidget: AppDateLabel(date: state.selectedDate),
+                    // onPrev: _prevDay,
+                    // onNext: _nextDay,
+                    onPrev: () => cubit.prevDayPressed(
+                      state.selectedDate,
+                      state.selectedCategory,
                     ),
-            ),
-          ],
+                    onNext: () => cubit.nextDayPressed(
+                      state.selectedDate,
+                      state.selectedCategory,
+                    ),
+                  ),
+
+                  SizedBox(height: 24.h),
+
+                  //section header + mark as read action
+                  NotificationSectionHeader(
+                    title: state.sectionTitle,
+                    actionText: 'Mark as read',
+                    //onAction: ordered.isEmpty ? null : _markCurrentAsRead,
+                    onAction: state.orderedItems.isEmpty
+                        ? null
+                        : () => cubit.markCurrentAsRead(
+                            state.selectedDate,
+                            state.selectedCategory,
+                          ),
+                  ),
+
+                  SizedBox(height: 16.h),
+
+                  Expanded(
+                    //child: ordered.isEmpty
+                    child: state.orderedItems.isEmpty
+                        ? const NotificationEmptyState()
+                        : ListView.separated(
+                            padding: EdgeInsets.only(bottom: 24.h),
+                            //itemCount: ordered.length,
+                            itemCount: state.orderedItems.length,
+                            separatorBuilder: (_, __) => SizedBox(height: 12.h),
+                            itemBuilder: (context, index) {
+                              //final item = ordered[index];
+                              final item = state.orderedItems[index];
+
+                              //rating card special UI
+                              if (item.category ==
+                                  NotificationCategory.rating) {
+                                return RatingNotificationCard(
+                                  item: item,
+                                  onRateNow: () {},
+                                  onClose: () {},
+                                );
+                              }
+
+                              //default list item UI
+                              return NotificationListItem(item: item);
+                            },
+                          ),
+                  ),
+                ],
+              );
+            }
+            return const SizedBox.shrink();
+          },
         ),
       ),
     );
   }
 
-  void _prevDay() {
-    setState(() {
-      selectedDate = selectedDate.subtract(const Duration(days: 1));
-    });
-  }
+  // //when user click prev day -> minus 1 day from selectedDate then rebuild ui
+  // void _prevDay() {
+  //   setState(() {
+  //     // selectedDate = selectedDate.subtract(const Duration(days: 1));
+  //     selectedDate = prevDay(selectedDate);
+  //   });
+  // }
 
-  void _nextDay() {
-    setState(() {
-      selectedDate = selectedDate.add(const Duration(days: 1));
-    });
-  }
+  // //when user click next day -> plus 1 day to selectedDate then rebuild ui
+  // void _nextDay() {
+  //   setState(() {
+  //     //selectedDate = selectedDate.add(const Duration(days: 1));
+  //     selectedDate = nextDay(selectedDate);
+  //   });
+  // }
 
-  void _markCurrentAsRead() {
-    setState(() {
-      for (final item in notifications) {
-        if (isSameDay(item.createdAt, selectedDate)) {
-          if (selectedCategory == NotificationCategory.all ||
-              item.category == selectedCategory) {
-            item.isRead = true;
-          }
-        }
-      }
-    });
-  }
+  // //when user click mark as read -> mark only notifications for the selected day + selected category
+  // void _markCurrentAsRead() {
+  //   setState(() {
+  //     for (final item in localNotifications) {
+  //       //match selected day
+  //       if (isSameDay(item.createdAt, selectedDate)) {
+  //         if (selectedCategory == NotificationCategory.all ||
+  //             item.category == selectedCategory) {
+  //           item.isRead = true;
+  //         }
+  //       }
+  //     }
+  //   });
+  // }
 }

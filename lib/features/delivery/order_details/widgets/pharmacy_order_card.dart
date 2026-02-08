@@ -44,6 +44,8 @@ class PharmacyOrderCard extends StatelessWidget {
           CardTitleRow(
             title: pharmacy.name,
             fallbackIcon: Icons.local_pharmacy,
+            city: pharmacy.address.city,
+            phone: pharmacy.phone,
             statusBadge: _getPharmacyStatusBadge(),
           ),
           SizedBox(height: AppSizes.spacing12.h),
