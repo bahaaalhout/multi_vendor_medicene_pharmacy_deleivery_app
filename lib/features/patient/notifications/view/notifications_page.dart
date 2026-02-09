@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_date_label.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_date_selector.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_primary_app_bar.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/cubit/notifications_cubit.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/cubit/notifications_states.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/models/notification_item.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/widgets/notification_date_label.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/widgets/notification_date_selector.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/widgets/notification_empty_state.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/widgets/notification_filter_tabs.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/widgets/notification_list_item.dart';
@@ -56,12 +54,14 @@ class _NotificationsPageState extends State<NotificationsPage> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppPrimaryAppBar(
-        title: 'Notification',
-        onBack: () {
-          context.pop();
-        },
-      ),
+      // appBar: AppPrimaryAppBar(
+      //   title: 'Notifications',
+      //   actionWidget: MoreButton(
+      //     fun: () {
+      //       //open  menu / bottom sheet / dialog etc
+      //     },
+      //   ),
+      // ),
       body: Container(
         margin: EdgeInsets.only(bottom: 54.h),
         padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -108,8 +108,8 @@ class _NotificationsPageState extends State<NotificationsPage> {
                   SizedBox(height: 16.h),
 
                   //date selector (prev/next day)
-                  AppDateSelector(
-                    dateWidget: AppDateLabel(date: state.selectedDate),
+                  NotificationDateSelector(
+                    dateWidget: NotificationDateLabel(date: state.selectedDate),
                     // onPrev: _prevDay,
                     // onNext: _nextDay,
                     onPrev: () => cubit.prevDayPressed(

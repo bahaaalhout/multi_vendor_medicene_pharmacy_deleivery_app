@@ -6,7 +6,6 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/hi
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/profile/screens/edit_profile_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/saved/screens/saved_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/profile/widgets/notification_card.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/profile/widgets/profile_card.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/profile/widgets/settings_item.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/profile/widgets/toggle.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
@@ -444,9 +443,6 @@ class _SettingsItem extends StatelessWidget {
     this.icon,
     required this.title,
     this.subtitle,
-    this.hasToggle = false,
-    this.toggleValue = false,
-    this.onToggle,
     this.onTap,
     required this.isSubItem,
   });

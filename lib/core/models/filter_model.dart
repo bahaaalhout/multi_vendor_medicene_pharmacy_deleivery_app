@@ -61,8 +61,9 @@ class FilterModel {
     if (inStockOnly) count++;
     if (onSale) count++;
     if (prescriptionType.isNotEmpty &&
-        prescriptionType != 'No Prescription Needed')
+        prescriptionType != 'No Prescription Needed') {
       count++;
+    }
     if (category != null) count++;
     if (brand != null) count++;
 

@@ -9,7 +9,7 @@ class FormattingUtils {
     if (minutes <= 30) {
       final minRange = (minutes * 0.8).round();
       final maxRange = (minutes * 1.2).round();
-      return '$minRange-${maxRange} minutes';
+      return '$minRange-$maxRange minutes';
     }
     
     // For medium durations (30-120 minutes), show as single duration
@@ -32,7 +32,7 @@ class FormattingUtils {
     final minHours = (minutes * 0.9 / 60).round();
     final maxHours = (minutes * 1.1 / 60).round();
     
-    return '$minHours-${maxHours} hours';
+    return '$minHours-$maxHours hours';
   }
 
   /// Format distance in kilometers
