@@ -76,6 +76,7 @@ final pharmacies = [
     deliveryFee: 0,
     deliveryTime: "15 minutes",
     distance: 2.5,
+    medicines: medicineData.sublist(0, 2),
   ),
   PharmacyModel(
     id: "1",
@@ -89,6 +90,7 @@ final pharmacies = [
     deliveryFee: 6,
     deliveryTime: "20 minutes",
     distance: 3.0,
+    medicines: medicineData.sublist(0, 1),
   ),
   PharmacyModel(
     id: "2",
@@ -102,6 +104,7 @@ final pharmacies = [
     deliveryFee: 4.5,
     deliveryTime: "25 minutes",
     distance: 4.0,
+    medicines: medicineData.sublist(3, 5),
   ),
   PharmacyModel(
     id: "3",
@@ -115,6 +118,7 @@ final pharmacies = [
     deliveryFee: 7,
     deliveryTime: "10 minutes",
     distance: 1.8,
+    medicines: medicineData.sublist(2, 3),
   ),
   PharmacyModel(
     id: "4",
@@ -128,6 +132,7 @@ final pharmacies = [
     deliveryFee: 3,
     deliveryTime: "30 minutes",
     distance: 5.2,
+    medicines: medicineData.sublist(3, 5),
   ),
 ];
 final saleMedicines = medicineData.where((m) => m.isOnSale).toList();

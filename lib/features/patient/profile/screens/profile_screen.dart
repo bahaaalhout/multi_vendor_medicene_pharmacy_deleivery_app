@@ -150,6 +150,7 @@ class _ProfileView extends StatelessWidget {
                           },
                         );
                       },
+                      isSubItem: true,
                     ),
                     12.verticalSpace,
                     // Notification Card
@@ -446,7 +447,7 @@ class _SettingsItem extends StatelessWidget {
     this.toggleValue = false,
     this.onToggle,
     this.onTap,
-    this.isSubItem = false,
+    required this.isSubItem,
   });
 
   @override

@@ -6,6 +6,7 @@ class StyledContainer extends StatelessWidget {
   const StyledContainer({
     super.key,
     this.assetName,
+    this.border,
     required this.horizontalPadding,
     required this.verticalPadding,
     required this.containerColor,
@@ -16,7 +17,7 @@ class StyledContainer extends StatelessWidget {
   final double verticalPadding;
   final Color containerColor;
   final String text;
-
+  final BoxBorder? border;
   final String? assetName;
   final TextStyle textStyle;
 
@@ -30,6 +31,7 @@ class StyledContainer extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: containerColor,
+        border: border,
       ),
       alignment: Alignment.center,
       child: assetName == null
