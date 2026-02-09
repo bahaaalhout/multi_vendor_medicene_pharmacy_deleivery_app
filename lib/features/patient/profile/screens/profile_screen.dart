@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_buttons/app_bar_buttons/navigate_back_button.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/history/screens/history_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/profile/screens/edit_profile_screen.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/saved/screens/saved_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/profile/widgets/notification_card.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/profile/widgets/profile_card.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/profile/widgets/settings_item.dart';
@@ -107,7 +109,14 @@ class _ProfileView extends StatelessWidget {
                       icon: "assets/icons/history.png",
                       title: 'History',
                       subtitle: 'Orders & Activity',
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HistoryScreen(),
+                          ),
+                        );
+                      },
                     ),
                     12.verticalSpace,
                     // Saved items
@@ -115,7 +124,14 @@ class _ProfileView extends StatelessWidget {
                       icon: "assets/icons/saved.png",
                       title: 'Saved items',
                       subtitle: 'medicines & Healthy products',
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SavedScreen(),
+                          ),
+                        );
+                      },
                     ),
                     12.verticalSpace,
                     // Medicine reminders
