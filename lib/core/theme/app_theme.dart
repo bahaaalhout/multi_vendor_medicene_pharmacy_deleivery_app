@@ -34,6 +34,11 @@ class AppTextStyles {
     fontSize: 20.sp,
     fontWeight: FontWeight.w400,
   );
+  static final TextStyle reqular18 = TextStyle(
+    fontFamily: 'Montserrat',
+    fontSize: 18.sp,
+    fontWeight: FontWeight.w400,
+  );
   static final TextStyle reqular17 = TextStyle(
     fontFamily: 'Montserrat',
     fontSize: 17.sp,
@@ -146,6 +151,7 @@ class AppTextStyles {
   static final TextStyle bold22 = TextStyle(
     fontFamily: 'Montserrat',
     fontSize: 22.sp,
+    fontWeight: FontWeight.w700,
   );
   static final TextStyle bold20 = TextStyle(
     fontFamily: 'Montserrat',
@@ -224,6 +230,11 @@ class AppTextStyles {
     fontSize: 20.sp,
     fontWeight: FontWeight.w600,
   );
+  static final TextStyle semiBold18 = TextStyle(
+    fontFamily: 'Montserrat',
+    fontSize: 18.sp,
+    fontWeight: FontWeight.w600,
+  );
   static final TextStyle semiBold17 = TextStyle(
     fontFamily: 'Montserrat',
     fontSize: 17.sp,
@@ -255,14 +266,14 @@ class AppTextStyles {
     fontWeight: FontWeight.w600,
   );
 
-    static final TextStyle interRegular14 = TextStyle(
-      fontFamily: 'Inter',
-      fontSize: 14.sp,
-      fontWeight: FontWeight.w400,
-    );
-    static final TextStyle interRegular12 = TextStyle(
-      fontFamily: 'Inter',
-      fontSize: 12.sp,
-      fontWeight: FontWeight.w400,
-    );
+  static final TextStyle interRegular14 = TextStyle(
+    fontFamily: 'Inter',
+    fontSize: 14.sp,
+    fontWeight: FontWeight.w400,
+  );
+  static final TextStyle interRegular12 = TextStyle(
+    fontFamily: 'Inter',
+    fontSize: 12.sp,
+    fontWeight: FontWeight.w400,
+  );
 }
