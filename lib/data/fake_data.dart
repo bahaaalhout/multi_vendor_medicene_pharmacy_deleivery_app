@@ -514,15 +514,16 @@ final order = OrderModel(
 // === Different Delivery States for Testing ===
 
 /// State 1: Accepted, pharmacy preparing (Pickup step)
-final deliveryAccepted = DeliveryModel(
+final deliveryAvailable = DeliveryModel(
   id: 'del_1',
   order: order,
-  status: DeliveryStatus.accepted,
+  status: DeliveryStatus.available,
   distanceKm: 2.55,
   timeMinutes: 15,
   price: 0.0,
   rating: 0.0,
   statusMessage: "Preparing order's products",
+
 );
 
 /// State 2: Picked up, ready to start (On the way step)
@@ -561,7 +562,7 @@ final deliveryCompleted = DeliveryModel(
 
 // === Available Deliveries for Home Screen ===
 final fakeAvailableDeliveries = [
-  deliveryAccepted,
+  deliveryAvailable,
   DeliveryModel(
     id: 'del_5',
     order: OrderModel(
@@ -575,6 +576,7 @@ final fakeAvailableDeliveries = [
       customerEmail: 'ahmed@example.com',
       estimatedTimeMinutes: 15,
       paymentMethod: 'Cash',
+      deliveryInstructions: "Ring the bell twice.",
     ),
     status: DeliveryStatus.available,
     distanceKm: 2.55,

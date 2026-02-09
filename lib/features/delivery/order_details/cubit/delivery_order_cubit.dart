@@ -11,27 +11,12 @@ class DeliveryOrderCubit extends Cubit<DeliveryOrderState> {
     emit(state.copyWith(showProductDetails: !state.showProductDetails));
   }
 
-  // Accept order (change status to pickedUp)
-  void acceptOrder() {
-    final updatedDelivery = state.delivery.copyWith(
-      status: DeliveryStatus.pickedUp,
-    );
-    emit(state.copyWith(delivery: updatedDelivery));
-  }
-
-  // Start delivery (change status to enRoute)
-  void startDelivery() {
-    final updatedDelivery = state.delivery.copyWith(
-      status: DeliveryStatus.enRoute,
-    );
-    emit(state.copyWith(delivery: updatedDelivery));
-  }
-
-  // Confirm delivery (change status to delivered)
-  void confirmDelivery() {
-    final updatedDelivery = state.delivery.copyWith(
-      status: DeliveryStatus.delivered,
-    );
-    emit(state.copyWith(delivery: updatedDelivery));
+  // Advance to next valid status using enum index
+  void advanceDeliveryStatus() {
+    final nextStatus = state.delivery.getNextStatus();
+    if (nextStatus != null) {
+      final updatedDelivery = state.delivery.copyWith(status: nextStatus);
+      emit(state.copyWith(delivery: updatedDelivery));
+    }
   }
 }
