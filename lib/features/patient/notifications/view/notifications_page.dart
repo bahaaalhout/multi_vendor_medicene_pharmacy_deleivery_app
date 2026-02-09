@@ -61,7 +61,6 @@ class _NotificationsPageState extends State<NotificationsPage> {
         onBack: () {
           context.pop();
         },
-        onAction: () {},
       ),
       body: Container(
         margin: EdgeInsets.only(bottom: 54.h),

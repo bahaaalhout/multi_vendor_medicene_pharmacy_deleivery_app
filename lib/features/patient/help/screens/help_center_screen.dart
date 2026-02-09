@@ -6,6 +6,7 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_them
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_buttons/app_bar_buttons/navigate_back_button.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/help/cubit/help_cubit.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/help/screens/report_issue_screen.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/help/screens/privacy_policy_screen.dart';
 
 class HelpCenterScreen extends StatelessWidget {
   const HelpCenterScreen({super.key});
@@ -304,21 +305,31 @@ class _LegalInfoContent extends StatelessWidget {
       children: [
         _BulletListContent(items: ['Privacy Policy']),
         4.verticalSpace,
-        Row(
-          children: [
-            Icon(
-              Icons.lock_outline,
-              size: 14.sp,
-              color: AppColors.primaryNormal,
-            ),
-            4.horizontalSpace,
-            Text(
-              'Your data is protected',
-              style: AppTextStyles.interRegular12.copyWith(
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const PrivacyPolicyScreen(),
+              ),
+            );
+          },
+          child: Row(
+            children: [
+              Icon(
+                Icons.lock_outline,
+                size: 14.sp,
                 color: AppColors.primaryNormal,
               ),
-            ),
-          ],
+              4.horizontalSpace,
+              Text(
+                'Your data is protected',
+                style: AppTextStyles.interRegular12.copyWith(
+                  color: AppColors.primaryNormal,
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );

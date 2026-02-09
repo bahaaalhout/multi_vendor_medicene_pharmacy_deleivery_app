@@ -21,7 +21,7 @@ class NotificationListItem extends StatelessWidget {
         ? AppColors.primaryLightActive
         : const Color(0xFF4CAF50);
 
-    final timeText = formatTime(item.createdAt);
+    final timeText = formatTimeAgo(item.createdAt);
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),

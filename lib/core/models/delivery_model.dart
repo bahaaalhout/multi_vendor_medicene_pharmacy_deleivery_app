@@ -66,4 +66,17 @@ extension DeliveryModelX on DeliveryModel {
   bool get canComplete => status == DeliveryStatus.enRoute;
   bool get isCompleted => status == DeliveryStatus.delivered || status == DeliveryStatus.confirmed;
 
+  // Get next valid status using enum index
+  DeliveryStatus? getNextStatus() {
+    final currentIndex = status.index;
+    final maxIndex = DeliveryStatus.values.length - 1;
+    
+    if (currentIndex < maxIndex) {
+      return DeliveryStatus.values[currentIndex + 1];
+    }
+    return null; // Already at final state
+  }
+
+  bool canAdvance() => getNextStatus() != null;
+
 }

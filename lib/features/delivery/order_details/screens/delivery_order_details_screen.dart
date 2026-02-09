@@ -25,29 +25,31 @@ class DeliveryOrderDetailsScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         appBar: AppPrimaryAppBar(
           title: 'Delivery Details',
-          onBack: () => Navigator.maybePop(context),
-          onAction: () {},
           showActionButton: false,
         ),
         body: BlocBuilder<DeliveryOrderCubit, DeliveryOrderState>(
           builder: (context, state) {
-            double bottomPadding = AppSizes.spacing16.h * 2 + AppSizes.spacing80.h;
 
             return SafeArea(
               child: CustomScrollView(
                 slivers: [
                   SliverPadding(
-                    padding: EdgeInsets.symmetric(horizontal: AppSizes.spacing16.w),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: AppSizes.spacing16.w,
+                    ),
                     sliver: SliverList(
                       delegate: SliverChildListDelegate([
                         // Progress Stepper
-                        DeliveryProgressStepper(delivery: state.delivery),
-                        SizedBox(height: AppSizes.spacing16.h),
+                        if (state.delivery.status != DeliveryStatus.available)
+                          DeliveryProgressStepper(delivery: state.delivery),
+                        if (state.delivery.status != DeliveryStatus.available)
+                          SizedBox(height: AppSizes.spacing16.h),
 
                         // Delivery Instructions
                         if (state.delivery.order.deliveryInstructions != null)
                           DeliveryInstructionsCard(
-                            instructions: state.delivery.order.deliveryInstructions,
+                            instructions:
+                                state.delivery.order.deliveryInstructions,
                           ),
                         SizedBox(height: AppSizes.spacing16.h),
 
@@ -56,7 +58,9 @@ class DeliveryOrderDetailsScreen extends StatelessWidget {
                           delivery: state.delivery,
                           showProductDetails: state.showProductDetails,
                           onToggleProductDetails: () {
-                            context.read<DeliveryOrderCubit>().toggleProductDetails();
+                            context
+                                .read<DeliveryOrderCubit>()
+                                .toggleProductDetails();
                           },
                         ),
                         SizedBox(height: AppSizes.spacing16.h),
@@ -68,7 +72,7 @@ class DeliveryOrderDetailsScreen extends StatelessWidget {
                         // Action Button
                         _buildActionButton(context, state.delivery),
 
-                        SizedBox(height: bottomPadding),
+                        SizedBox(height: AppSizes.bottomPadding.h),
                       ]),
                     ),
                   ),
@@ -84,51 +88,53 @@ class DeliveryOrderDetailsScreen extends StatelessWidget {
   Widget _buildActionButton(BuildContext context, DeliveryModel delivery) {
     final status = delivery.status;
 
-    if (status == DeliveryStatus.accepted) {
+    //todo: check all text, notice text, and onPressed here
+    if (status == DeliveryStatus.available) {
       return ActionButton(
         buttonText: 'Accept Order',
         noticeText:
             'By agreeing now to deliver this order, you will be required to wait for a completion notification from the pharmacy.',
-        onPressed: () => _handleAcceptOrder(context),
+        onPressed: () => _handleStatusTransition(context),
       );
     }
 
-    if (status == DeliveryStatus.pickedUp) {
+    if (status == DeliveryStatus.accepted) {
       return ActionButton(
-        buttonText: 'Start Delivery',
-        noticeText:
-            'Confirming the order now will change its status to "On the way" to the customer\'s location.',
-        onPressed: () => _handleStartDelivery(context),
+        buttonText: 'Confirm picking up',
+        noticeText: //todo: it will change to "picked up" maybe?
+            'Confirming the order now will change its status to picked up.',
+        onPressed: () =>{
+          _handleStatusTransition(context),
+          _handleStatusTransition(context)
+        } 
       );
     }
+
+    // if (status == DeliveryStatus.pickedUp) {
+    //   return ActionButton(
+    //     buttonText: 'Start Delivery',
+    //     noticeText:
+    //         'Confirming the order now will change its status to "On the way" to the customer\'s location.',
+    //     onPressed: () => _handleStatusTransition(context),
+    //   );
+    // }
 
     if (status == DeliveryStatus.enRoute) {
       return ActionButton(
         buttonText: 'Confirm Delivery',
         noticeText:
             'Confirming the order delivery now will change its status to “Delivered” to the customer\'s location.',
-        onPressed: () => _handleConfirmDelivery(context),
+        onPressed: () => _handleStatusTransition(context),
       );
     }
 
     return const SizedBox.shrink();
   }
 
-  void _handleAcceptOrder(BuildContext context) {
+  void _handleStatusTransition(BuildContext context) {
     final cubit = context.read<DeliveryOrderCubit>();
-    cubit.acceptOrder();
-    debugPrint('Order accepted - status changed to pickedUp');
-  }
-
-  void _handleStartDelivery(BuildContext context) {
-    final cubit = context.read<DeliveryOrderCubit>();
-    cubit.startDelivery();
-    debugPrint('Delivery started - status changed to enRoute');
-  }
-
-  void _handleConfirmDelivery(BuildContext context) {
-    final cubit = context.read<DeliveryOrderCubit>();
-    cubit.confirmDelivery();
-    debugPrint('Delivery confirmed - status changed to delivered');
+    final currentStatus = cubit.state.delivery.status;
+    cubit.advanceDeliveryStatus();
+    debugPrint('Status advanced from: $currentStatus');
   }
 }

@@ -7,7 +7,7 @@
 
 //format time into human readable text
 //example: Now, 5 min ago, 2h ago, Yesterday, 3d ago
-String formatTime(DateTime time) {
+String formatTimeAgo(DateTime time) {
   final now = DateTime.now();
   final diff = now.difference(time);
 

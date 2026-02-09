@@ -9,7 +9,7 @@ class NavigateBackButton extends StatelessWidget {
     return CircleIconButton(
       assetIcon: 'assets/icons/arrow_left.svg',
       onPressed: () {
-        Navigator.of(context).pop();
+        Navigator.of(context).maybePop();
       },
     );
   }

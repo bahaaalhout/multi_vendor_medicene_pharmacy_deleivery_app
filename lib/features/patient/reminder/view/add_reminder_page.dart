@@ -30,7 +30,6 @@ class _AddReminderPageState extends State<AddReminderPage> {
       appBar: AppPrimaryAppBar(
         title: 'Add Reminder',
         onBack: () {},
-        onAction: () {},
       ),
       body: Padding(
         padding: EdgeInsets.all(16.w),
