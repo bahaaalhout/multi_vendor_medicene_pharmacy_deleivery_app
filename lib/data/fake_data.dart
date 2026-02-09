@@ -1,16 +1,33 @@
 import 'package:flutter/material.dart';
+
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/address_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/cart_item_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/delivery_model.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/order_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/pharmacy_model.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_model.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/pharmacy_offer_model.dart';
+
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/models/sales_info.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/models/notification_item.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/pharmacy_offer_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/models/reminder_item.dart';
 
+///============================================================
+/// FAKE DATA (DEMO)
+///============================================================
+/// this file contains demo data used across the app
+/// used for UI testing before API integration
+///
+/// note:
+/// keep it organized by sections to avoid duplication
+///============================================================
+
 final now = DateTime.now();
+
+///----------------------------
+/// ADDRESS
+///----------------------------
+/// demo addresses for pharmacies and customer checkout
 
 final List<AddressModel> address = [
   AddressModel(
@@ -62,6 +79,11 @@ final List<AddressModel> address = [
     postalCode: "00970",
   ),
 ];
+
+///----------------------------
+/// PHARMACIES
+///----------------------------
+/// demo pharmacy list for home/search/offers screens
 
 final pharmacies = [
   PharmacyModel(
@@ -125,7 +147,13 @@ final pharmacies = [
     distance: 5.2,
   ),
 ];
-final saleMedicines = medicineData.where((m) => m.isOnSale).toList();
+
+///----------------------------
+/// MEDICINES
+///----------------------------
+/// demo medicine catalog used across app
+/// (details screen, offers, reminders, etc)
+
 final List<MedicineModel> medicineData = [
   MedicineModel(
     id: "1",
@@ -305,6 +333,14 @@ final List<MedicineModel> medicineData = [
   ),
 ];
 
+/// quick shortcut list for home sale section
+final saleMedicines = medicineData.where((m) => m.isOnSale).toList();
+
+///----------------------------
+/// OFFERS
+///----------------------------
+/// demo offers list (pharmacy + medicine + pricing)
+
 List<PharmacyOfferModel> offers = [
   PharmacyOfferModel(
     id: '1',
@@ -316,7 +352,7 @@ List<PharmacyOfferModel> offers = [
     medicine: medicineData[0],
   ),
   PharmacyOfferModel(
-    id: '1',
+    id: '2',
     isAvailable: true,
     price: 12.0,
     discountedPrice: 9.0,
@@ -326,19 +362,51 @@ List<PharmacyOfferModel> offers = [
   ),
 ];
 
+///----------------------------
+/// REMINDERS
+///----------------------------
+/// demo reminder items (calendar/reminder screens)
+
 List<ReminderItem> reminders = [
+  // =========================
+  // medicineData[0] (Panadol) => 3 times + Sat/Mon/Wed
+  // =========================
   ReminderItem(
-    id: '1',
+    id: 'm0_t1',
     medicine: medicineData[0],
-    time: const TimeOfDay(hour: 8, minute: 20),
+    time: const TimeOfDay(hour: 8, minute: 0), // 8:00am
     dose: 1,
     startDate: DateTime(now.year, now.month, now.day),
     endDate: DateTime(now.year, now.month, now.day + 30),
-    days: [1, 2, 3, 4, 5, 6, 7],
+    days: [6, 1, 3], // Sat, Mon, Wed
     done: false,
   ),
   ReminderItem(
-    id: '2',
+    id: 'm0_t2',
+    medicine: medicineData[0],
+    time: const TimeOfDay(hour: 14, minute: 0), // 2:00pm
+    dose: 1,
+    startDate: DateTime(now.year, now.month, now.day),
+    endDate: DateTime(now.year, now.month, now.day + 30),
+    days: [6, 1, 3],
+    done: false,
+  ),
+  ReminderItem(
+    id: 'm0_t3',
+    medicine: medicineData[0],
+    time: const TimeOfDay(hour: 21, minute: 0), // 9:00pm
+    dose: 1,
+    startDate: DateTime(now.year, now.month, now.day),
+    endDate: DateTime(now.year, now.month, now.day + 30),
+    days: [6, 1, 3],
+    done: false,
+  ),
+
+  // =========================
+  // medicineData[1] (Voltaren)
+  // =========================
+  ReminderItem(
+    id: 'm1_t1',
     medicine: medicineData[1],
     time: const TimeOfDay(hour: 10, minute: 0),
     dose: 2,
@@ -348,26 +416,37 @@ List<ReminderItem> reminders = [
     done: false,
   ),
   ReminderItem(
-    id: '3',
-    medicine: medicineData[2],
-    time: const TimeOfDay(hour: 12, minute: 30),
-    dose: 1,
+    id: 'm1_t2',
+    medicine: medicineData[1],
+    time: const TimeOfDay(hour: 18, minute: 0),
+    dose: 2,
     startDate: DateTime(now.year, now.month, now.day),
     endDate: DateTime(now.year, now.month, now.day + 30),
-    days: [2, 4, 6],
-    done: true,
-  ),
-  ReminderItem(
-    id: '4',
-    medicine: medicineData[3],
-    time: const TimeOfDay(hour: 18, minute: 45),
-    dose: 3,
-    startDate: DateTime(now.year, now.month, now.day),
-    endDate: DateTime(now.year, now.month, now.day + 30),
-    days: [1, 2, 3, 4, 5],
-    done: true,
+    days: [1, 3, 5],
+    done: false,
   ),
 ];
+
+///----------------------------
+/// REMINDER FLOW (DEMO DATA)
+///----------------------------
+/// demo lists for reminder creation flow
+/// we reuse MedicineModel instead of creating a new UI model
+
+final List<MedicineModel> prescriptionMedicines = [
+  medicineData[1], //Voltaren (requiresPrescription: true)
+  medicineData[3], //Amoxil (requiresPrescription: true)
+];
+
+final List<MedicineModel> recentOrderMedicines = [
+  medicineData[0], //Panadol
+  medicineData[2], //Benadryl
+];
+
+///----------------------------
+/// NOTIFICATIONS
+///----------------------------
+/// demo notifications list for notifications screen
 
 List<NotificationItem> notifications = [
   NotificationItem(
@@ -416,7 +495,11 @@ List<NotificationItem> notifications = [
   ),
 ];
 
-//delivery screen fake data
+///----------------------------
+/// DELIVERY SCREEN (DEMO)
+///----------------------------
+/// demo delivery data for tracking / delivery status screens
+
 const pharmacyAddress = AddressModel(
   id: 'addr_1',
   street: '1852, Alkinz St.',
@@ -435,7 +518,6 @@ const customerAddress = AddressModel(
   postalCode: '00000',
 );
 
-// Medicine
 final medicine = MedicineModel(
   id: 'med_1',
   brandName: 'Pain Relief-X 400 mg',
@@ -456,7 +538,6 @@ final medicine = MedicineModel(
   reviews: [],
 );
 
-// Pharmacy
 final pharmacy = PharmacyModel(
   id: 'pharm_1',
   name: 'Family Pharmacy',
@@ -469,7 +550,6 @@ final pharmacy = PharmacyModel(
   distance: 2.55,
 );
 
-// Pharmacy Offer
 final pharmacyOffer = PharmacyOfferModel(
   id: 'offer_1',
   pharmacy: pharmacy,
@@ -478,7 +558,6 @@ final pharmacyOffer = PharmacyOfferModel(
   isAvailable: true,
 );
 
-// Cart Items (4 items as in design)
 final cartItems = List.generate(
   4,
   (index) => CartItemModel(
@@ -490,7 +569,6 @@ final cartItems = List.generate(
   ),
 );
 
-// Base Order
 final order = OrderModel(
   id: 'O325',
   status: OrderStatus.placed,
@@ -500,14 +578,12 @@ final order = OrderModel(
   customerName: 'Mohammed Bassam',
   customerPhone: '+970 59-244-9634',
   customerEmail: 'example20@gmail.com',
-  estimatedTimeMinutes: 18, // Will format to "15-20 minutes"
+  estimatedTimeMinutes: 18,
   paymentMethod: 'Visa',
   deliveryInstructions: '"Leave at door."',
 );
 
-// === Different Delivery States for Testing ===
-
-/// State 1: Accepted, pharmacy preparing (Pickup step)
+/// state 1: accepted, pharmacy preparing
 final deliveryAccepted = DeliveryModel(
   id: 'del_1',
   order: order,
@@ -519,7 +595,7 @@ final deliveryAccepted = DeliveryModel(
   statusMessage: "Preparing order's products",
 );
 
-/// State 2: Picked up, ready to start (On the way step)
+/// state 2: picked up, ready to start
 final deliveryPickedUp = DeliveryModel(
   id: 'del_2',
   order: order,
@@ -531,7 +607,7 @@ final deliveryPickedUp = DeliveryModel(
   statusMessage: "Waiting for your accepting",
 );
 
-/// State 3: En route to customer (On the way step - active)
+/// state 3: en route to customer
 final deliveryEnRoute = DeliveryModel(
   id: 'del_3',
   order: order,
@@ -542,7 +618,7 @@ final deliveryEnRoute = DeliveryModel(
   rating: 0.0,
 );
 
-/// State 4: Delivered (Delivered step)
+/// state 4: delivered
 final deliveryCompleted = DeliveryModel(
   id: 'del_4',
   order: order,
@@ -553,7 +629,7 @@ final deliveryCompleted = DeliveryModel(
   rating: 4.5,
 );
 
-// === Available Deliveries for Home Screen ===
+/// available deliveries for home screen
 final fakeAvailableDeliveries = [
   deliveryAccepted,
   DeliveryModel(

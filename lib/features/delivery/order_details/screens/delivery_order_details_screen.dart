@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_sizes.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/delivery_model.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_buttons/app_bar_buttons/more_button.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_primary_app_bar.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/order_details/widgets/delivery_progress_stepper.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/order_details/widgets/delivery_instructions_card.dart';
@@ -37,9 +38,12 @@ class _DeliveryOrderDetailScreenState extends State<DeliveryOrderDetailScreen> {
       backgroundColor: Colors.white,
       appBar: AppPrimaryAppBar(
         title: 'Delivery Details',
-        onBack: () => Navigator.maybePop(context),
-        onAction: () {},
-        showActionButton: false,
+        actionWidget: MoreButton(
+          fun: () {
+            //open  menu / bottom sheet / dialog etc
+          },
+        ),
+        showAction: false,
       ),
       body: SafeArea(
         child: CustomScrollView(

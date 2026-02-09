@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/utils/helpers.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/utils/date_time_utils.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/models/notification_item.dart';
 
 class RatingNotificationCard extends StatelessWidget {
@@ -19,7 +19,7 @@ class RatingNotificationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final timeText = formatTime(item.createdAt);
+    final timeText = timeAgo(item.createdAt);
 
     return Container(
       padding: EdgeInsets.all(16.w),

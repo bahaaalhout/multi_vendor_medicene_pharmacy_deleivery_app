@@ -1,29 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_sizes.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_buttons/app_bar_buttons/more_button.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_buttons/app_bar_buttons/navigate_back_button.dart';
 
 class AppPrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
-  final VoidCallback? onBack;
-  final VoidCallback? onAction;
-  final String? actionIconAsset;
-  final bool showActionButton;
 
-  /// 👈 فلاغ لإظهار / إخفاء زر الباك
+  //back button config
   final bool showBack;
+
+  //action area config
+  //screen passes ANY custom widget (upload, add, more, etc)
+  final Widget? actionWidget;
+  final bool showAction;
 
   const AppPrimaryAppBar({
     super.key,
     required this.title,
-    this.onBack,
-    this.onAction,
-    this.actionIconAsset,
-    this.showActionButton = true,
     this.showBack = true,
+    this.actionWidget,
+    this.showAction = true,
   });
 
   @override
@@ -32,11 +30,14 @@ class AppPrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.transparent,
       centerTitle: true,
       automaticallyImplyLeading: false,
       surfaceTintColor: Colors.transparent,
+
+      //custom layout instead of default appBar
       flexibleSpace: Padding(
+        //status bar spacing
         padding: EdgeInsets.only(
           top: MediaQuery.of(context).padding.top + 16.h,
         ),
@@ -44,43 +45,47 @@ class AppPrimaryAppBar extends StatelessWidget implements PreferredSizeWidget {
           padding: EdgeInsets.only(bottom: AppSizes.spacing8.h),
           child: Row(
             children: [
+              //----------------------------
+              // BACK BUTTON (CUSTOM WIDGET)
+              //----------------------------
+              //if showBack = true -> show NavigateBackButton
+              //else -> keep spacing to keep title centered
               if (showBack)
                 Padding(
-                  padding: EdgeInsets.only(left: 16.w),
-                  child: IconButton(
-                    onPressed: onBack ?? () => Navigator.of(context).pop(),
-                    padding: EdgeInsets.zero,
-                    constraints: BoxConstraints(
-                      minWidth: 40.w,
-                      minHeight: 40.w,
-                    ),
-                    icon: SvgPicture.asset(
-                      'assets/icons/back_icon.svg',
-                      width: 60.w,
-                      height: 60.w,
-                    ),
-                  ),
+                  padding: EdgeInsets.only(left: 16.w, right: 16.w),
+                  child: const NavigateBackButton(),
                 )
               else
+                //keep spacing when back is hidden
                 SizedBox(width: AppSizes.spacing60.w + AppSizes.spacing16.w),
 
+              //----------------------------
+              // TITLE
+              //----------------------------
               Expanded(
                 child: Center(
                   child: Text(
                     title,
-                    style: AppTextStyles.bold24.copyWith(
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTextStyles.semiBold20.copyWith(
                       color: AppColors.primaryDarker,
                     ),
                   ),
                 ),
               ),
 
-              if (showActionButton)
+              //----------------------------
+              // ACTION WIDGET
+              //----------------------------
+              //shown only if enabled AND widget is provided
+              if (showAction && actionWidget != null)
                 Padding(
-                  padding: EdgeInsets.only(right: 16.w),
-                  child: MoreButton(fun: () {}),
+                  padding: EdgeInsets.only(right: 16.w, left: 16.w),
+                  child: actionWidget!,
                 )
               else
+                //keep spacing to keep title centered
                 SizedBox(width: AppSizes.spacing60.w + AppSizes.spacing16.w),
             ],
           ),

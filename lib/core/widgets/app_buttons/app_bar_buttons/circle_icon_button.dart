@@ -14,12 +14,10 @@ class CircleIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 60.w,
       height: 60.h,
-      padding: EdgeInsets.all(8),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(60),
         border: Border.all(width: 1, color: AppColors.primaryLightActive),
+        shape: BoxShape.circle,
       ),
       child: IconButton(
         onPressed: onPressed,
