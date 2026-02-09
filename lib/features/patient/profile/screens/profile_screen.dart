@@ -106,6 +106,7 @@ class _ProfileView extends StatelessWidget {
                   children: [
                     // History
                     _SettingsItem(
+                      isSubItem: true,
                       icon: "assets/icons/history.png",
                       title: 'History',
                       subtitle: 'Orders & Activity',
@@ -121,6 +122,7 @@ class _ProfileView extends StatelessWidget {
                     12.verticalSpace,
                     // Saved items
                     _SettingsItem(
+                      isSubItem: true,
                       icon: "assets/icons/saved.png",
                       title: 'Saved items',
                       subtitle: 'medicines & Healthy products',
@@ -150,7 +152,6 @@ class _ProfileView extends StatelessWidget {
                           },
                         );
                       },
-                      isSubItem: true,
                     ),
                     12.verticalSpace,
                     // Notification Card

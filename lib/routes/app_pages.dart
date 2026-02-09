@@ -11,7 +11,7 @@ import 'app_routes.dart';
 
 class AppPages {
   static final GoRouter router = GoRouter(
-    initialLocation: AppRoutes.checkout,
+    initialLocation: AppRoutes.home,
     routes: [
       GoRoute(
         path: AppRoutes.home,
@@ -30,22 +30,16 @@ class AppPages {
         builder: (context, state) => const AddReminderPage(),
       ),
       GoRoute(
+        path: AppRoutes.deliveryMain,
+        builder: (context, state) => const DeliveryMainScreen(),
+      ),
+      GoRoute(
         path: AppRoutes.cart,
         builder: (context, state) {
           final medicine = state.extra as MedicineModel;
 
           return CartScreen(medicineModel: medicine);
         },
-      ),
-    ],
-  );
-
-  static final GoRouter deliveryRouter = GoRouter(
-    initialLocation: AppRoutes.deliveryMain,
-    routes: [
-      GoRoute(
-        path: AppRoutes.deliveryMain,
-        builder: (context, state) => const DeliveryMainScreen(),
       ),
     ],
   );
