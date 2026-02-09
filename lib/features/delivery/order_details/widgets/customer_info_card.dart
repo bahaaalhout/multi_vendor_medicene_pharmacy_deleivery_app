@@ -54,6 +54,7 @@ class CustomerInfoCard extends StatelessWidget {
   Widget? _getCustomerStatusBadge() {
     switch (delivery.status) {
       case DeliveryStatus.available:
+        return null;
       case DeliveryStatus.accepted:
       case DeliveryStatus.pickedUp:
         return StatusBadge(type: BadgeType.waiting);

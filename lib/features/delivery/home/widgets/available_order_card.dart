@@ -14,12 +14,12 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/w
 
 class AvailableOrderCard extends StatelessWidget {
   final DeliveryModel delivery;
-  final VoidCallback onAccept;
+  final VoidCallback onViewPressed;
 
   const AvailableOrderCard({
     super.key,
     required this.delivery,
-    required this.onAccept,
+    required this.onViewPressed,
   });
 
   @override
@@ -90,7 +90,7 @@ class AvailableOrderCard extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: onAccept,
+              onPressed: onViewPressed,
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primaryDarkActive,
                 padding: EdgeInsets.all(AppSizes.spacing16.r),
@@ -99,7 +99,7 @@ class AvailableOrderCard extends StatelessWidget {
                 ),
               ),
               child: Text(
-                "Accept Order",
+                "View order",
                 style: AppTextStyles.semiBold14.copyWith(color: Colors.white),
               ),
             ),

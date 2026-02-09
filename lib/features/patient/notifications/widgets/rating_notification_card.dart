@@ -19,7 +19,7 @@ class RatingNotificationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final timeText = formatTime(item.createdAt);
+    final timeText = formatTimeAgo(item.createdAt);
 
     return Container(
       padding: EdgeInsets.all(16.w),

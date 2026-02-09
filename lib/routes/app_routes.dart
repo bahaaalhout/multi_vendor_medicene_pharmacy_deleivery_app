@@ -4,4 +4,6 @@ class AppRoutes {
   static const reminders = '/reminders';
   static const profile = '/profile';
   static const changePassword = '/change-password';
+
+  static const deliveryMain = '/deliveryMain';
 }
