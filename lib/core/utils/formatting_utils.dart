@@ -1,33 +1,38 @@
 import 'package:flutter/material.dart';
 
 class FormattingUtils {
-  /// Format time in minutes to readable string
+  /// Format duration in minutes to readable string
+  /// Automatically determines if it should show as single duration or range
   /// Examples: "15 minutes", "1 hour 20 minutes", "15-20 minutes"
-  static String formatTime(double minutes) {
-    if (minutes < 60) {
-      return '${minutes.toInt()} minutes';
+  static String formatDuration(double minutes) {
+    // For small durations, add a small range for better UX
+    if (minutes <= 30) {
+      final minRange = (minutes * 0.8).round();
+      final maxRange = (minutes * 1.2).round();
+      return '$minRange-${maxRange} minutes';
     }
     
-    final hours = minutes ~/ 60;
-    final mins = minutes % 60;
-    
-    if (mins == 0) {
-      return '$hours ${hours == 1 ? 'hour' : 'hours'}';
+    // For medium durations (30-120 minutes), show as single duration
+    if (minutes <= 120) {
+      if (minutes < 60) {
+        return '${minutes.toInt()} minutes';
+      }
+      
+      final hours = minutes ~/ 60;
+      final mins = minutes % 60;
+      
+      if (mins == 0) {
+        return '$hours ${hours == 1 ? 'hour' : 'hours'}';
+      }
+      
+      return '$hours ${hours == 1 ? 'hour' : 'hours'} ${mins.toInt()} minutes';
     }
     
-    return '$hours ${hours == 1 ? 'hour' : 'hours'} ${mins.toInt()} minutes';
-  }
-
-  /// Format time range (e.g., "15-20 minutes")
-  static String formatTimeRange(double minMinutes, double maxMinutes) {
-    if (minMinutes < 60 && maxMinutes < 60) {
-      return '${minMinutes.toInt()}-${maxMinutes.toInt()} minutes';
-    }
+    // For longer durations, show as range in hours
+    final minHours = (minutes * 0.9 / 60).round();
+    final maxHours = (minutes * 1.1 / 60).round();
     
-    final minHours = minMinutes ~/ 60;
-    final maxHours = maxMinutes ~/ 60;
-    
-    return '$minHours-$maxHours hours';
+    return '$minHours-${maxHours} hours';
   }
 
   /// Format distance in kilometers

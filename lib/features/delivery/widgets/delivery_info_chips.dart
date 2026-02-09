@@ -22,7 +22,7 @@ class DeliveryInfoChips extends StatelessWidget {
       children: [
         InfoChip(
           icon: 'assets/icons/clock.svg',
-          text: FormattingUtils.formatTime(timeMinutes),
+          text: FormattingUtils.formatDuration(timeMinutes),
         ),
         SizedBox(width: AppSizes.spacing8.w),
         InfoChip(

@@ -2,8 +2,10 @@ import 'package:go_router/go_router.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/cart/screens/cart_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/cart/screens/checkout_screen.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/navigation/delivery_main_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/view/notifications_page.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/view/add_reminder_page.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/profile/screens/change_password_screen.dart';
 import '../features/patient/navigation/patient_main_screen.dart';
 import 'app_routes.dart';
 
@@ -34,6 +36,16 @@ class AppPages {
 
           return CartScreen(medicineModel: medicine);
         },
+      ),
+    ],
+  );
+
+  static final GoRouter deliveryRouter = GoRouter(
+    initialLocation: AppRoutes.deliveryMain,
+    routes: [
+      GoRoute(
+        path: AppRoutes.deliveryMain,
+        builder: (context, state) => const DeliveryMainScreen(),
       ),
     ],
   );

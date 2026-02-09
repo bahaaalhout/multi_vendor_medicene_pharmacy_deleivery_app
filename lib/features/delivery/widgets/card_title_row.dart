@@ -33,26 +33,14 @@ class CardTitleRow extends StatelessWidget {
             color: AppColors.primaryLight,
             borderRadius: BorderRadius.circular(AppSizes.borderRadius8.r),
           ),
-          child: imageUrl != null
-              ? ClipRRect(
-                  borderRadius: BorderRadius.circular(AppSizes.borderRadius8.r),
-                  child: Image.network(
-                    imageUrl!,
-                    width: AppSizes.spacing56.w,
-                    height: AppSizes.spacing56.h,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => Icon(
-                      fallbackIcon,
-                      color: AppColors.primaryNormal,
-                      size: AppSizes.iconSize24.sp,
-                    ),
-                  ),
-                )
-              : Icon(
+          child: Image.network(
+                imageUrl ?? "",
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => Icon(
                   fallbackIcon,
                   color: AppColors.primaryNormal,
-                  size: AppSizes.iconSize24.sp,
                 ),
+              )
         ),
         SizedBox(width: AppSizes.spacing12.w),
         Flexible(
