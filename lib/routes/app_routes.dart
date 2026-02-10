@@ -8,4 +8,5 @@ class AppRoutes {
   static const changePassword = '/change-password';
 
   static const deliveryMain = '/deliveryMain';
+  static const medicationReminder = '/medication-reminder';
 }
