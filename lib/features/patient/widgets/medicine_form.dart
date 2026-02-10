@@ -7,10 +7,14 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/pr
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/product_details/widgets/styled_container.dart';
 
 class MedicineForm extends StatelessWidget {
-  const MedicineForm({super.key, required this.medicineModel});
+  const MedicineForm({
+    super.key,
+    required this.medicineModel,
+    this.color = AppColors.warningLightActive,
+  });
 
   final MedicineModel medicineModel;
-
+  final Color color;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -23,7 +27,7 @@ class MedicineForm extends StatelessWidget {
             StyledContainer(
               horizontalPadding: 12,
               verticalPadding: 8,
-              containerColor: AppColors.warningLightActive,
+              containerColor: color,
               text: medicineModel.requiresPrescription
                   ? 'Prescription Required'
                   : 'OTC',

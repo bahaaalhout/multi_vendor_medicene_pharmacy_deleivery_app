@@ -76,6 +76,7 @@ final pharmacies = [
     deliveryFee: 0,
     deliveryTime: "15 minutes",
     distance: 2.5,
+    medicines: medicineData.sublist(0, 2),
   ),
   PharmacyModel(
     id: "1",
@@ -89,6 +90,7 @@ final pharmacies = [
     deliveryFee: 6,
     deliveryTime: "20 minutes",
     distance: 3.0,
+    medicines: medicineData.sublist(0, 1),
   ),
   PharmacyModel(
     id: "2",
@@ -102,6 +104,7 @@ final pharmacies = [
     deliveryFee: 4.5,
     deliveryTime: "25 minutes",
     distance: 4.0,
+    medicines: medicineData.sublist(3, 5),
   ),
   PharmacyModel(
     id: "3",
@@ -115,6 +118,7 @@ final pharmacies = [
     deliveryFee: 7,
     deliveryTime: "10 minutes",
     distance: 1.8,
+    medicines: medicineData.sublist(2, 3),
   ),
   PharmacyModel(
     id: "4",
@@ -128,6 +132,7 @@ final pharmacies = [
     deliveryFee: 3,
     deliveryTime: "30 minutes",
     distance: 5.2,
+    medicines: medicineData.sublist(3, 5),
   ),
 ];
 final saleMedicines = medicineData.where((m) => m.isOnSale).toList();
@@ -588,29 +593,81 @@ final fakeAvailableDeliveries = [
 
 // === Sample Orders for Help/Report Issue ===
 final sampleOrders = [
-  order,
   OrderModel(
-    id: 'O326',
+    id: 'O325',
     status: OrderStatus.delivered,
     items: cartItems,
     deliveryAddress: customerAddress,
-    createdAt: DateTime.now().subtract(const Duration(days: 2)),
+    createdAt: DateTime(2025, 12, 18, 15, 58),
     customerName: 'Mohammed Bassam',
     customerPhone: '+970 59-244-9634',
     customerEmail: 'example20@gmail.com',
     estimatedTimeMinutes: 15,
+    paymentMethod: 'Visa',
+  ),
+  OrderModel(
+    id: 'O326',
+    status: OrderStatus.pickedUp,
+    items: cartItems,
+    deliveryAddress: customerAddress,
+    createdAt: DateTime(2025, 12, 18, 15, 58),
+    customerName: 'Mohammed Bassam',
+    customerPhone: '+970 59-244-9634',
+    customerEmail: 'example20@gmail.com',
+    estimatedTimeMinutes: 20,
     paymentMethod: 'Cash',
   ),
   OrderModel(
     id: 'O327',
-    status: OrderStatus.pickedUp,
+    status: OrderStatus.enRoute,
     items: cartItems,
     deliveryAddress: customerAddress,
-    createdAt: DateTime.now().subtract(const Duration(days: 5)),
+    createdAt: DateTime.now().subtract(const Duration(days: 1)),
     customerName: 'Mohammed Bassam',
     customerPhone: '+970 59-244-9634',
     customerEmail: 'example20@gmail.com',
     estimatedTimeMinutes: 20,
     paymentMethod: 'Visa',
+  ),
+  OrderModel(
+    id: 'O328',
+    status: OrderStatus.placed,
+    items: cartItems,
+    deliveryAddress: customerAddress,
+    createdAt: DateTime.now().subtract(const Duration(hours: 2)),
+    customerName: 'Mohammed Bassam',
+    customerPhone: '+970 59-244-9634',
+    customerEmail: 'example20@gmail.com',
+    estimatedTimeMinutes: 18,
+    paymentMethod: 'Visa',
+  ),
+];
+
+// === Saved Products ===
+List<PharmacyOfferModel> savedProducts = [
+  PharmacyOfferModel(
+    id: 'saved_1',
+    isAvailable: true,
+    price: 15.0,
+    discountedPrice: 12.0,
+    discountPercent: 20,
+    pharmacy: pharmacies[0],
+    medicine: medicineData[0], // Panadol Extra
+  ),
+  PharmacyOfferModel(
+    id: 'saved_2',
+    isAvailable: true,
+    price: 25.0,
+    discountedPrice: 20.0,
+    discountPercent: 20,
+    pharmacy: pharmacies[1],
+    medicine: medicineData[1],
+  ),
+  PharmacyOfferModel(
+    id: 'saved_3',
+    isAvailable: true,
+    price: 18.0,
+    pharmacy: pharmacies[2],
+    medicine: medicineData[2],
   ),
 ];

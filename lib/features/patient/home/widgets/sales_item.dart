@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/pharmacy_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/product_details/screens/product_detail_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/widgets/medicine_form.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/routes/app_routes.dart';
 
 class SalesItem extends StatelessWidget {
   const SalesItem({
@@ -25,14 +27,7 @@ class SalesItem extends StatelessWidget {
           children: [
             InkWell(
               onTap: () {
-                Navigator.of(context, rootNavigator: true).push(
-                  MaterialPageRoute(
-                    builder: (context) => ProductDetailScreen(
-                      medicine: medicineModel,
-                      pharmacy: pharmacy,
-                    ),
-                  ),
-                );
+                context.push(AppRoutes.cart, extra: medicineModel);
               },
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 36.w),
