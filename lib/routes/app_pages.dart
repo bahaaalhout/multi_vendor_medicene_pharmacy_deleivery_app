@@ -12,7 +12,7 @@ import 'app_routes.dart';
 
 class AppPages {
   static final GoRouter router = GoRouter(
-    initialLocation: AppRoutes.home,
+    initialLocation: AppRoutes.pharmacyOrders,
     routes: [
       GoRoute(
         path: AppRoutes.home,
@@ -46,12 +46,6 @@ class AppPages {
         path: AppRoutes.pharmacyOrders,
         builder: (context, state) => const PharmacyOrdersListScreen(),
       ),
-    ],
-  );
-
-  static final GoRouter pharmacyRouter = GoRouter(
-    initialLocation: AppRoutes.pharmacyOrders,
-    routes: [
       GoRoute(
         path: AppRoutes.pharmacyOrders,
         builder: (context, state) => const PharmacyOrdersListScreen(),
