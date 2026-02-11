@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_sizes.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/pharmacy/orders/cubit/pharmacy_orders_state.dart';
 
-class StatusFilterChips extends StatelessWidget {
+class StatusFilterDropdown extends StatelessWidget {
   final OrderStatusFilter selectedFilter;
   final ValueChanged<OrderStatusFilter> onFilterChanged;
 
-  const StatusFilterChips({
+  const StatusFilterDropdown({
     super.key,
     required this.selectedFilter,
     required this.onFilterChanged,
@@ -16,58 +17,50 @@ class StatusFilterChips extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        _buildFilterChip(
-          label: 'All Status',
-          filter: OrderStatusFilter.all,
-          isSelected: selectedFilter == OrderStatusFilter.all,
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: AppSizes.spacing8.w, vertical: AppSizes.spacing8.h),
+      decoration: BoxDecoration(
+        border: Border.all(color: AppColors.neutralNormal),
+        borderRadius: BorderRadius.circular(AppSizes.borderRadius12.r),
+      ),
+      child: DropdownButton<OrderStatusFilter>(
+        value: selectedFilter,
+        underline: Container(), // Remove default underline
+        focusColor: Colors.transparent,
+        icon: Icon(
+          Icons.arrow_drop_down,
+          size: AppSizes.spacing18.r,
+          color: AppColors.primaryNormal,
         ),
-        _buildFilterChip(
-          label: 'New',
-          filter: OrderStatusFilter.newOrders,
-          isSelected: selectedFilter == OrderStatusFilter.newOrders,
-        ),
-        _buildFilterChip(
-          label: 'Delivered',
-          filter: OrderStatusFilter.delivered,
-          isSelected: selectedFilter == OrderStatusFilter.delivered,
-        ),
-        _buildFilterChip(
-          label: 'Past',
-          filter: OrderStatusFilter.past,
-          isSelected: selectedFilter == OrderStatusFilter.past,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildFilterChip({
-    required String label,
-    required OrderStatusFilter filter,
-    required bool isSelected,
-  }) {
-    return GestureDetector(
-      onTap: () => onFilterChanged(filter),
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: AppSizes.spacing8.w, vertical: AppSizes.spacing8.h),
-        decoration: BoxDecoration(
-          color: isSelected ? AppColors.primaryLightActive : Colors.white,
-          border: Border.all(
-            color: AppColors.neutralNormal,
+        iconSize: AppSizes.spacing18.r,
+        isDense: true,
+        isExpanded: false,
+        style: AppTextStyles.medium12.copyWith(color: AppColors.neutralDarkActive),
+        dropdownColor: Colors.white,
+        elevation: 0,
+        items: [
+          DropdownMenuItem(
+            value: OrderStatusFilter.all,
+            child: Text('All Status', style: AppTextStyles.medium12),
           ),
-          borderRadius: BorderRadius.circular(AppSizes.borderRadius12.r),
-        ),
-        child: Text(
-          label,
-          style: TextStyle(
-            fontFamily: 'Montserrat',
-            fontWeight: FontWeight.w600,
-            fontSize: 12.sp,
-            color: isSelected ? AppColors.primaryNormalActive : AppColors.neutralDarkActive,
+          DropdownMenuItem(
+            value: OrderStatusFilter.newOrders,
+            child: Text('New', style: AppTextStyles.medium12),
           ),
-        ),
+          DropdownMenuItem(
+            value: OrderStatusFilter.delivered,
+            child: Text('Delivered', style: AppTextStyles.medium12),
+          ),
+          DropdownMenuItem(
+            value: OrderStatusFilter.past,
+            child: Text('Past', style: AppTextStyles.medium12),
+          ),
+        ],
+        onChanged: (OrderStatusFilter? newValue) {
+          if (newValue != null) {
+            onFilterChanged(newValue);
+          }
+        },
       ),
     );
   }

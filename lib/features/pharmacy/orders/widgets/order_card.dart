@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_sizes.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/order_model.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
 
 class OrderCard extends StatelessWidget {
   final OrderModel order;
@@ -15,30 +16,67 @@ class OrderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: AppSizes.spacing24.w, vertical: AppSizes.spacing8.h),
+      padding: EdgeInsets.all(AppSizes.spacing16.w),
       decoration: BoxDecoration(
         color: AppColors.neutralLight,
         borderRadius: BorderRadius.circular(AppSizes.borderRadius16.r),
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Order Header
+          // Order Header (title + badge)
           _buildOrderHeader(),
           SizedBox(height: AppSizes.spacing8.h),
-          
+
+          // Customer name
+          Text(
+            order.customerName,
+            style: AppTextStyles.semiBold12.copyWith(color: AppColors.neutralDarkActive),
+          ),
+          SizedBox(height: AppSizes.spacing6.h),
+
+          // Items count (small)
+          Text(
+            '${order.totalItems} Items',
+            style: AppTextStyles.medium10.copyWith(color: AppColors.neutralDarkHover),
+          ),
+          SizedBox(height: AppSizes.spacing8.h),
+
           // Divider
           Container(
             height: 1.h,
             color: AppColors.neutralLightActive,
-            margin: EdgeInsets.symmetric(vertical: AppSizes.spacing8.h),
           ),
-          
-          // Customer Info
-          _buildCustomerInfo(),
           SizedBox(height: AppSizes.spacing8.h),
-          
-          // Order Details
-          _buildOrderDetails(),
+
+          // Bottom row: price • date
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    '\$${_calculateTotalPrice().toStringAsFixed(0)}',
+                    style: AppTextStyles.semiBold12.copyWith(color: AppColors.neutralDarkActive),
+                  ),
+                  SizedBox(width: AppSizes.spacing8.w),
+                  Container(
+                    width: AppSizes.spacing4.w,
+                    height: AppSizes.spacing4.h,
+                    decoration: BoxDecoration(
+                      color: AppColors.neutralDark,
+                      borderRadius: BorderRadius.circular(2.r),
+                    ),
+                  ),
+                  SizedBox(width: AppSizes.spacing8.w),
+                  Text(
+                    '${order.createdAt.month}/${order.createdAt.day}/${order.createdAt.year}',
+                    style: AppTextStyles.medium12.copyWith(color: AppColors.neutralDarkHover),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ],
       ),
     );
@@ -49,13 +87,8 @@ class OrderCard extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          'Order # ${order.id}',
-          style: TextStyle(
-            fontFamily: 'Montserrat',
-            fontWeight: FontWeight.w600,
-            fontSize: 16.sp,
-            color: AppColors.primaryNormal,
-          ),
+          'Order #${order.id}',
+          style: AppTextStyles.bold16.copyWith(color: AppColors.primaryNormal),
         ),
         _buildStatusBadge(),
       ],
@@ -90,103 +123,15 @@ class OrderCard extends StatelessWidget {
     }
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 9.w, vertical: 4.h),
+      padding: EdgeInsets.symmetric(horizontal: AppSizes.spacing8.w, vertical: AppSizes.spacing4.h),
       decoration: BoxDecoration(
         color: backgroundColor,
-        borderRadius: BorderRadius.circular(24.r),
+        borderRadius: BorderRadius.circular(AppSizes.borderRadius24.r),
       ),
       child: Text(
         statusText,
-        style: TextStyle(
-          fontFamily: 'Montserrat',
-          fontWeight: FontWeight.w600,
-          fontSize: 12.sp,
-          color: textColor,
-        ),
+        style: AppTextStyles.medium12.copyWith(color: textColor),
       ),
-    );
-  }
-
-  Widget _buildCustomerInfo() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          order.customerName,
-          style: TextStyle(
-            fontFamily: 'Montserrat',
-            fontWeight: FontWeight.w600,
-            fontSize: 12.sp,
-            color: AppColors.neutralDarkActive,
-          ),
-        ),
-        Text(
-          order.createdAt.day.toString() +
-              '/' +
-              order.createdAt.month.toString() +
-              '/' +
-              order.createdAt.year.toString(),
-          style: TextStyle(
-            fontFamily: 'Montserrat',
-            fontWeight: FontWeight.w500,
-            fontSize: 12.sp,
-            color: AppColors.neutralDarkHover,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildOrderDetails() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          children: [
-            Text(
-              '\$${_calculateTotalPrice().toStringAsFixed(2)}',
-              style: TextStyle(
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w600,
-                fontSize: 12.sp,
-                color: AppColors.neutralDarkActive,
-              ),
-            ),
-            SizedBox(width: AppSizes.spacing8.w),
-            Container(
-              width: AppSizes.spacing4.w,
-              height: AppSizes.spacing4.h,
-              decoration: BoxDecoration(
-                color: AppColors.neutralDark,
-                borderRadius: BorderRadius.circular(2.r),
-              ),
-            ),
-            SizedBox(width: AppSizes.spacing8.w),
-            Text(
-              '${order.totalItems} items',
-              style: TextStyle(
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w500,
-                fontSize: 10.sp,
-                color: AppColors.neutralDarkHover,
-              ),
-            ),
-          ],
-        ),
-        Text(
-          order.createdAt.day.toString() +
-              '/' +
-              order.createdAt.month.toString() +
-              '/' +
-              order.createdAt.year.toString(),
-          style: TextStyle(
-            fontFamily: 'Montserrat',
-            fontWeight: FontWeight.w500,
-            fontSize: 12.sp,
-            color: AppColors.neutralDarkHover,
-          ),
-        ),
-      ],
     );
   }
 

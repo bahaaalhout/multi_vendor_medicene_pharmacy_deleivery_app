@@ -31,6 +31,7 @@ class AppSizes {
   static const spacing2 = 2.0;
   static const spacing3 = 3.0;
   static const spacing4 = 4.0;
+  static const spacing6 = 6.0;
   static const spacing8 = 8.0;
   static const spacing10 = 10.0;
   static const spacing12 = 12.0;
