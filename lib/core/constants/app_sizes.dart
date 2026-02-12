@@ -8,6 +8,7 @@ class AppSizes {
   static const borderRadius24 = 24.0;
   static const borderRadius28 = 28.0;
   static const borderRadius30 = 30.0;
+  static const borderRadius32 = 32.0;
   static const borderRadius60 = 60.0;
 
   //icon size constants

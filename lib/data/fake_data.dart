@@ -604,6 +604,8 @@ final sampleOrders = [
     customerEmail: 'example20@gmail.com',
     estimatedTimeMinutes: 15,
     paymentMethod: 'Visa',
+    requirePrescription: true,
+    deliveredAt: "13:43"
   ),
   OrderModel(
     id: 'O326',
@@ -616,6 +618,7 @@ final sampleOrders = [
     customerEmail: 'example20@gmail.com',
     estimatedTimeMinutes: 20,
     paymentMethod: 'Cash',
+    driverName: "Yousef Ali",
   ),
   OrderModel(
     id: 'O327',
