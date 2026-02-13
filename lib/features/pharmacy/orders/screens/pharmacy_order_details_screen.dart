@@ -88,7 +88,7 @@ class PharmacyOrderDetailsScreen extends StatelessWidget {
                               showDialog(
                         context: context,
                         builder: (context) => PrescriptionDialog(
-                          prescriptionImage: 'assets/images/pandol.png',
+                          order: order,
                         ),
                       );
                             },),

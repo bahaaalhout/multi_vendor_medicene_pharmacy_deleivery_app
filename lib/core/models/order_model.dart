@@ -28,6 +28,7 @@ class OrderModel {
   final String paymentMethod;
   final String? paymentDetails;
   final bool requirePrescription;
+  final String? prescriptionImage;
 
   const OrderModel({
     required this.id,
@@ -46,6 +47,7 @@ class OrderModel {
     this.deliveredAt,
     this.paymentDetails,
     this.requirePrescription = false,
+    this.prescriptionImage,
   });
 
   int get totalItems => items.fold(0, (sum, item) => sum + item.quantity);
