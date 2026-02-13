@@ -15,6 +15,7 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/pharmacy/o
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/pharmacy/orders/widgets/order_details_total.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/pharmacy/orders/widgets/order_details_delivered_status.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/pharmacy/orders/widgets/pharmacy_header.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/pharmacy/orders/widgets/prescription_dialog.dart';
 
 class PharmacyOrderDetailsScreen extends StatelessWidget {
   final OrderModel order;
@@ -83,7 +84,14 @@ class PharmacyOrderDetailsScreen extends StatelessWidget {
                             SizedBox(height: AppSizes.spacing16.h),
 
                             // Prescription
-                            OrderDetailsPrescription(order: order),
+                            OrderDetailsPrescription(order: order, onPrescriptionTap: () {
+                              showDialog(
+                        context: context,
+                        builder: (context) => PrescriptionDialog(
+                          prescriptionImage: 'assets/images/pandol.png',
+                        ),
+                      );
+                            },),
                             SizedBox(height: AppSizes.spacing16.h),
 
                             // Notes
