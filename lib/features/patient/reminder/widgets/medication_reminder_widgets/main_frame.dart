@@ -4,14 +4,17 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_
 
 class MainFrame extends StatelessWidget {
   final Widget child;
-  const MainFrame({super.key, required this.child});
+  final Color? color;
+  final EdgeInsetsGeometry? padding;
+
+  const MainFrame({super.key, required this.child, this.color, this.padding});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 16.h, left: 16.w, right: 16.w),
+      padding: padding ?? EdgeInsets.only(top: 16.h, left: 16.w, right: 16.w),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: color ?? Colors.white,
         borderRadius: BorderRadius.circular(16.r),
         border: Border.all(color: AppColors.neutralLightActive, width: 1),
       ),

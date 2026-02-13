@@ -17,9 +17,9 @@ class MedicationSelectableCard extends StatelessWidget {
   final VoidCallback onSetReminder;
 
   //fixed info (later connect with real reminder data)
-  final String doseText;
-  final String scheduleText;
-  final String frequencyText;
+  final String? doseText;
+  final String? scheduleText;
+  final String? frequencyText;
 
   const MedicationSelectableCard({
     super.key,
@@ -28,9 +28,9 @@ class MedicationSelectableCard extends StatelessWidget {
     required this.onTap,
     required this.onSetReminder,
     this.badgeText,
-    this.doseText = 'Dose: 1 tablet',
-    this.scheduleText = 'Schedule: 3 times/day',
-    this.frequencyText = 'Frequency: Daily',
+    this.doseText,
+    this.scheduleText,
+    this.frequencyText,
   });
 
   @override

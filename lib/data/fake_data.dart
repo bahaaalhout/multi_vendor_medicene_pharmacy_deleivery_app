@@ -313,6 +313,27 @@ final List<MedicineModel> medicineData = [
         "Apply to wet skin, lather, and rinse. Use daily for best results.",
     reviews: ["Love how smooth my skin feels.", "Perfect for sensitive skin."],
   ),
+  MedicineModel(
+    id: "7",
+    brandName: "Omeprazole",
+    genericName: "Omeprazole",
+    description: "Used to reduce stomach acid and treat heartburn.",
+    warnings: ["Consult doctor if symptoms persist"],
+    type: "Gastrointestinal",
+    brand: "Generic",
+    strength: "20mg",
+    form: FormType.capsule,
+    quantity: 14,
+    requiresPrescription: false,
+    imageUrls: [
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReqT59ijEJcjQ8BgJvkPAhqeXayWD2lRXP4Q&s",
+    ],
+    rating: 4.4,
+    details: "Omeprazole reduces acid production in the stomach.",
+    effects: "Relieves heartburn and reflux symptoms.",
+    directions: "Take 1 capsule once daily before food.",
+    reviews: ["Helpful for reflux."],
+  ),
 ];
 
 List<PharmacyOfferModel> offers = [
@@ -344,8 +365,11 @@ List<ReminderItem> reminders = [
     dose: 1,
     startDate: DateTime(now.year, now.month, now.day),
     endDate: DateTime(now.year, now.month, now.day + 30),
-    days: [1, 2, 3, 4, 5, 6, 7],
+    days: [1, 3, 5],
     done: false,
+
+    timesPerDay: 3,
+    frequency: 'Daily',
   ),
   ReminderItem(
     id: '2',
@@ -354,8 +378,11 @@ List<ReminderItem> reminders = [
     dose: 2,
     startDate: DateTime(now.year, now.month, now.day),
     endDate: DateTime(now.year, now.month, now.day + 30),
-    days: [1, 3, 5],
+    days: [2, 4],
     done: false,
+
+    timesPerDay: 2,
+    frequency: 'Weekly',
   ),
   ReminderItem(
     id: '3',
@@ -366,6 +393,9 @@ List<ReminderItem> reminders = [
     endDate: DateTime(now.year, now.month, now.day + 30),
     days: [2, 4, 6],
     done: true,
+
+    timesPerDay: 1,
+    frequency: 'Weekly',
   ),
   ReminderItem(
     id: '4',
@@ -376,6 +406,47 @@ List<ReminderItem> reminders = [
     endDate: DateTime(now.year, now.month, now.day + 30),
     days: [1, 2, 3, 4, 5],
     done: true,
+
+    timesPerDay: 3,
+    frequency: 'Daily',
+  ),
+  // ReminderItem(
+  //   id: '5',
+  //   medicine: medicineData[4],
+  //   time: const TimeOfDay(hour: 8, minute: 20),
+  //   dose: 1,
+  //   startDate: DateTime(now.year, now.month, now.day),
+  //   endDate: DateTime(now.year, now.month, now.day + 30),
+  //   days: [1, 3, 5],
+  //   done: false,
+
+  //   timesPerDay: 2,
+  //   frequency: 'Weekly',
+  // ),
+  // ReminderItem(
+  //   id: '6',
+  //   medicine: medicineData[5],
+  //   time: const TimeOfDay(hour: 8, minute: 20),
+  //   dose: 1,
+  //   startDate: DateTime(now.year, now.month, now.day),
+  //   endDate: DateTime(now.year, now.month, now.day + 30),
+  //   days: [1, 3, 5],
+  //   done: false,
+  //   timesPerDay: 2,
+  //   frequency: 'Weekly',
+  // ),
+  //
+  ReminderItem(
+    id: '7',
+    medicine: medicineData[6],
+    time: const TimeOfDay(hour: 14, minute: 0),
+    dose: 1,
+    startDate: DateTime(now.year, now.month, now.day),
+    endDate: DateTime(now.year, now.month, now.day + 30),
+    days: [1, 2, 3, 4, 5],
+    done: false,
+    timesPerDay: 3,
+    frequency: 'Daily',
   ),
 ];
 
@@ -528,7 +599,6 @@ final deliveryAvailable = DeliveryModel(
   price: 0.0,
   rating: 0.0,
   statusMessage: "Preparing order's products",
-
 );
 
 /// State 2: Picked up, ready to start (On the way step)

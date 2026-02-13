@@ -27,26 +27,33 @@ class MedicationBadge extends StatelessWidget {
 
 //reminder info badges group (dose/schedule/frequency)
 class ReminderInfoBadges extends StatelessWidget {
-  final String doseText;
-  final String scheduleText;
-  final String frequencyText;
+  final String? doseText;
+  final String? scheduleText;
+  final String? frequencyText;
 
   const ReminderInfoBadges({
     super.key,
-    required this.doseText,
-    required this.scheduleText,
-    required this.frequencyText,
+    this.doseText,
+    this.scheduleText,
+    this.frequencyText,
   });
 
   @override
   Widget build(BuildContext context) {
+    final badges = <String>[
+      if (doseText != null && doseText!.trim().isNotEmpty) doseText!,
+      if (scheduleText != null && scheduleText!.trim().isNotEmpty)
+        scheduleText!,
+      if (frequencyText != null && frequencyText!.trim().isNotEmpty)
+        frequencyText!,
+    ];
+
+    if (badges.isEmpty) return const SizedBox.shrink();
+
     return Wrap(
       spacing: 4.w,
-      children: [
-        _InfoBadge(text: doseText),
-        _InfoBadge(text: scheduleText),
-        _InfoBadge(text: frequencyText),
-      ],
+      runSpacing: 6.h,
+      children: badges.map((t) => _InfoBadge(text: t)).toList(),
     );
   }
 }

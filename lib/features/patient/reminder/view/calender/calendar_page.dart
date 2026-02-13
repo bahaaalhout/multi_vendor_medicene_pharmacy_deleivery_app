@@ -52,8 +52,18 @@ class _CalendarPageState extends State<CalendarPage> {
   //search controller (month view)
   final TextEditingController search = TextEditingController();
 
+  late final ReminderCubit _cubit;
+
+  @override
+  void initState() {
+    super.initState();
+    final List<ReminderItem> typedReminders = reminders.cast<ReminderItem>();
+    _cubit = ReminderCubit(typedReminders)..loadReminders(date: selectedDate);
+  }
+
   @override
   void dispose() {
+    _cubit.close();
     search.dispose();
     super.dispose();
   }
@@ -63,12 +73,8 @@ class _CalendarPageState extends State<CalendarPage> {
     //month label like: January 2026
     final monthLabel = monthYearLabel(currentMonth);
 
-    //fix: List<dynamic> -> List<ReminderItem>
-    final List<ReminderItem> typedReminders = reminders.cast<ReminderItem>();
-
-    return BlocProvider(
-      create: (_) =>
-          ReminderCubit(typedReminders)..loadReminders(date: selectedDate),
+    return BlocProvider.value(
+      value: _cubit,
       child: Scaffold(
         body: SingleChildScrollView(
           padding: EdgeInsets.all(16.w),
@@ -88,8 +94,19 @@ class _CalendarPageState extends State<CalendarPage> {
                     ),
                   ),
                   AddButton(
-                    fun: () {
-                      context.push(AppRoutes.medicationReminder);
+                    fun: () async {
+                      final res = await context.push(
+                        AppRoutes.medicationReminder,
+                      );
+
+                      if (!context.mounted) return;
+
+                      if (res is List<ReminderItem>) {
+                        context.read<ReminderCubit>().upsertMany(
+                          res,
+                          currentDate: selectedDate,
+                        );
+                      }
                     },
                   ),
                 ],

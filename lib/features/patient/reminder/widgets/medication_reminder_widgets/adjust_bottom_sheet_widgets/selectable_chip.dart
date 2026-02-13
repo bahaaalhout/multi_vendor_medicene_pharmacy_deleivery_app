@@ -36,14 +36,16 @@ class SelectableChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final r = (radius ?? 12).r;
+    final r = (radius ?? 10).r;
 
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(r),
       child: Container(
+        height: 40.w,
+        width: 30.w,
         padding:
-            padding ?? EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+            padding ?? EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
         decoration: BoxDecoration(
           color: selected
               ? (selectedColor ?? AppColors.primaryNormal)
@@ -53,12 +55,14 @@ class SelectableChip extends StatelessWidget {
             color: borderColor ?? AppColors.neutralLightActive,
           ),
         ),
-        child: Text(
-          text,
-          style: (textStyle ?? AppTextStyles.medium10).copyWith(
-            color: selected
-                ? (selectedTextColor ?? Colors.white)
-                : (unselectedTextColor ?? AppColors.secondaryDarker),
+        child: Center(
+          child: Text(
+            text,
+            style: (textStyle ?? AppTextStyles.medium10).copyWith(
+              color: selected
+                  ? (selectedTextColor ?? Colors.white)
+                  : (unselectedTextColor ?? AppColors.secondaryDarker),
+            ),
           ),
         ),
       ),

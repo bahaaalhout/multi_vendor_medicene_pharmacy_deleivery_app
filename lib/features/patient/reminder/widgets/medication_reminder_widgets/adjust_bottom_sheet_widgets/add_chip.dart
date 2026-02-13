@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
@@ -7,13 +8,13 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_them
 class AddChip extends StatelessWidget {
   final VoidCallback onTap;
   final String label;
-  final IconData icon;
+  final String iconPath;
 
   const AddChip({
     super.key,
     required this.onTap,
     this.label = 'Add',
-    this.icon = Icons.add,
+    this.iconPath = '',
   });
 
   @override
@@ -29,16 +30,16 @@ class AddChip extends StatelessWidget {
           border: Border.all(color: AppColors.neutralLightActive),
         ),
         child: Row(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: MainAxisSize.max,
           children: [
-            Icon(icon, size: 16.w, color: AppColors.primaryNormal),
-            SizedBox(width: 6.w),
             Text(
               label,
               style: AppTextStyles.medium10.copyWith(
                 color: AppColors.primaryNormal,
               ),
             ),
+            SizedBox(width: 6.w),
+            SvgPicture.asset(iconPath, color: AppColors.primaryNormal),
           ],
         ),
       ),

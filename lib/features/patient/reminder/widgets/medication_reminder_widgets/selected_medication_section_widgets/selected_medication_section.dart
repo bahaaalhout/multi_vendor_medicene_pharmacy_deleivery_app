@@ -32,6 +32,7 @@ class SelectedMedicationsSection extends StatelessWidget {
   final List<String> groupTimes;
   final List<String> groupDays;
   final String groupFrequency;
+  final Widget? footer;
 
   const SelectedMedicationsSection({
     super.key,
@@ -47,6 +48,7 @@ class SelectedMedicationsSection extends StatelessWidget {
     required this.groupDays,
     required this.groupFrequency,
     this.frequencyHint = 'until you finish the tablet',
+    this.footer,
   });
 
   @override
@@ -98,7 +100,7 @@ class SelectedMedicationsSection extends StatelessWidget {
                   days: days,
                   frequency: freq,
                   frequencyHint: frequencyHint,
-
+                  color: AppColors.secondaryLight,
                   compact: isDifferent,
                   disableAdjust: isDifferent,
 
@@ -124,8 +126,19 @@ class SelectedMedicationsSection extends StatelessWidget {
           AdjustLink(
             count: count,
             disabled: isDifferent,
-            onTap: () => onAdjustMulti(medicines),
+            onTap: () {
+              if (isDifferent) return;
+
+              if (count == 1) {
+                onAdjustSingle(medicines.first);
+                return;
+              }
+
+              onAdjustMulti(medicines);
+            },
           ),
+
+          if (footer != null) footer!,
         ],
       ),
     );

@@ -10,10 +10,13 @@ class SelectedMedicationHeaderRow extends StatelessWidget {
   final MedicineModel medicine;
   final VoidCallback onRemove;
 
+  final bool showRemove;
+
   const SelectedMedicationHeaderRow({
     super.key,
     required this.medicine,
     required this.onRemove,
+    this.showRemove = true,
   });
 
   @override
@@ -30,7 +33,8 @@ class SelectedMedicationHeaderRow extends StatelessWidget {
           ),
         ),
         SizedBox(width: 16.w),
-        _CloseButton(onTap: onRemove),
+
+        if (showRemove) _CloseButton(onTap: onRemove),
       ],
     );
   }

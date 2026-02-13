@@ -39,15 +39,17 @@ class SelectedMedicationInfoRow extends StatelessWidget {
             ],
           ),
         ),
-        Expanded(
-          child: Wrap(
-            spacing: 4.w,
-            runSpacing: 4.h,
-            children: chips
-                .map((t) => SelectedMedicationChip(text: t))
-                .toList(),
+        if (chips.isNotEmpty) ...[
+          Expanded(
+            child: Wrap(
+              spacing: 4.w,
+              runSpacing: 4.h,
+              children: chips
+                  .map((t) => SelectedMedicationChip(text: t))
+                  .toList(),
+            ),
           ),
-        ),
+        ],
       ],
     );
   }

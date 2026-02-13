@@ -6,6 +6,8 @@
 ///----------------------------
 library;
 
+import 'package:flutter/material.dart' show TimeOfDay;
+
 //format time into human readable text
 //example: Now, 5 min ago, 2h ago, Yesterday, 3d ago
 String timeAgo(DateTime time) {
@@ -53,6 +55,24 @@ bool isToday(DateTime date) {
   return isSameDay(date, DateTime.now());
 }
 
+int timeToMinutes(TimeOfDay t) => (t.hour * 60) + t.minute;
+
+DateTime combineDateTime(DateTime day, TimeOfDay t) {
+  return DateTime(day.year, day.month, day.day, t.hour, t.minute);
+}
+
+bool isBeforeDay(DateTime a, DateTime b) {
+  final da = DateTime(a.year, a.month, a.day);
+  final db = DateTime(b.year, b.month, b.day);
+  return da.isBefore(db);
+}
+
+bool isAfterDay(DateTime a, DateTime b) {
+  final da = DateTime(a.year, a.month, a.day);
+  final db = DateTime(b.year, b.month, b.day);
+  return da.isAfter(db);
+}
+
 ///----------------------------
 /// DATE LABELS
 ///----------------------------
@@ -61,4 +81,34 @@ bool isToday(DateTime date) {
 String weekdayLabel(DateTime d) {
   const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
   return days[d.weekday - 1];
+}
+
+TimeOfDay parseTime(String t) {
+  final cleaned = t.toLowerCase().replaceAll(' ', '');
+  final isPm = cleaned.endsWith('pm');
+  final isAm = cleaned.endsWith('am');
+
+  final timePart = cleaned.replaceAll('am', '').replaceAll('pm', '');
+  final parts = timePart.split(':');
+
+  int hour = int.parse(parts[0]);
+  final minute = int.parse(parts[1]);
+
+  if (isPm && hour != 12) hour += 12;
+  if (isAm && hour == 12) hour = 0;
+
+  return TimeOfDay(hour: hour, minute: minute);
+}
+
+int dayToIndex(String d) {
+  const map = {
+    'Sunday': 0,
+    'Monday': 1,
+    'Tuesday': 2,
+    'Wednesday': 3,
+    'Thursday': 4,
+    'Friday': 5,
+    'Saturday': 6,
+  };
+  return map[d] ?? 0;
 }

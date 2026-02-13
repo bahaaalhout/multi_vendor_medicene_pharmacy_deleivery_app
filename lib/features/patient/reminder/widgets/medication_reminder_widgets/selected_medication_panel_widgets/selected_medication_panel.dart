@@ -15,12 +15,21 @@ class SelectedMedicationPanel extends StatelessWidget {
   final List<String> days;
   final String frequency;
   final String frequencyHint;
+  final Color? color;
+  final Color? borderColor;
+  final EdgeInsetsGeometry? padding;
 
   final bool compact;
   final bool disableAdjust;
 
   final VoidCallback onRemove;
   final VoidCallback onAdjust;
+
+  final bool showFrequency;
+
+  final bool showDays;
+
+  final bool showRemove;
 
   const SelectedMedicationPanel({
     super.key,
@@ -33,6 +42,12 @@ class SelectedMedicationPanel extends StatelessWidget {
     required this.onAdjust,
     this.compact = false,
     this.disableAdjust = false,
+    this.showFrequency = true,
+    this.showDays = true,
+    this.showRemove = true,
+    this.color,
+    this.borderColor,
+    this.padding,
   });
 
   @override
@@ -40,29 +55,34 @@ class SelectedMedicationPanel extends StatelessWidget {
     if (compact) {
       return Container(
         width: double.infinity,
-        padding: EdgeInsets.all(16.w),
+        padding: padding ?? EdgeInsets.all(16.w),
         decoration: BoxDecoration(
-          color: AppColors.secondaryLight,
           borderRadius: BorderRadius.circular(12.r),
+          border: Border.all(color: AppColors.primaryLightActive),
         ),
         child: SelectedMedicationHeaderRow(
           medicine: medicine,
           onRemove: onRemove,
+          showRemove: showRemove,
         ),
       );
     }
 
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(16.w),
+      padding: padding ?? EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: AppColors.secondaryLight,
+        color: color,
         borderRadius: BorderRadius.circular(12.r),
+        border: Border.all(color: borderColor ?? Colors.transparent),
       ),
       child: Column(
         children: [
-          SelectedMedicationHeaderRow(medicine: medicine, onRemove: onRemove),
-
+          SelectedMedicationHeaderRow(
+            medicine: medicine,
+            onRemove: onRemove,
+            showRemove: showRemove,
+          ),
           SizedBox(height: 12.h),
 
           SelectedMedicationInfoRow(
@@ -71,20 +91,22 @@ class SelectedMedicationPanel extends StatelessWidget {
             chips: times,
           ),
 
-          SizedBox(height: 12.h),
+          if (showDays) ...[
+            SizedBox(height: 12.h),
+            SelectedMedicationInfoRow(
+              label: 'Days:',
+              iconPath: "assets/icons/alarm_icon.svg",
+              chips: days,
+            ),
+          ],
 
-          SelectedMedicationInfoRow(
-            label: 'Days:',
-            iconPath: "assets/icons/alarm_icon.svg",
-            chips: days,
-          ),
-
-          SizedBox(height: 12.h),
-
-          SelectedMedicationFrequencyRow(
-            frequency: frequency,
-            hint: frequencyHint,
-          ),
+          if (showFrequency) ...[
+            SizedBox(height: 12.h),
+            SelectedMedicationFrequencyRow(
+              frequency: frequency,
+              hint: frequencyHint,
+            ),
+          ],
         ],
       ),
     );

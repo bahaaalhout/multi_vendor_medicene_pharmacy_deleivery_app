@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_buttons/app_bar_buttons/circle_icon_button.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/cubit/reminder_cubit.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/cubit/reminder_states.dart';
@@ -37,7 +38,6 @@ class WeekCalenderSection extends StatelessWidget {
                     },
                   ),
                   SizedBox(width: 8.w),
-
                   Expanded(
                     child: ReminderDayStrip(
                       days: state.days,
@@ -47,13 +47,11 @@ class WeekCalenderSection extends StatelessWidget {
                           (x) => x.dayNumber == dayNumber,
                           orElse: () => state.days.first,
                         );
-
                         onSelectedDateChanged(pickedDay.date);
                         cubit.loadReminders(date: pickedDay.date);
                       },
                     ),
                   ),
-
                   SizedBox(width: 8.w),
                   CircleIconButton(
                     assetIcon: "assets/icons/arrow_right.svg",
@@ -65,9 +63,7 @@ class WeekCalenderSection extends StatelessWidget {
                   ),
                 ],
               ),
-
               SizedBox(height: 12.h),
-
               ReminderItemsList(
                 items: state.dayReminders,
                 padding: EdgeInsets.only(bottom: 48 + 80.h),

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_model.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/medication_reminder_widgets/medication_reminder_tabs.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/models/adjusted_schedule_result.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/medication_reminder_widgets/adjust_bottom_sheet_widgets/adjust_reminder_bottom_sheet.dart';
@@ -76,6 +79,7 @@ void showToast(BuildContext context, String msg) {
 }
 
 /// Opens adjust reminder bottom sheet and returns AdjustedScheduleResult.
+/// Opens adjust reminder bottom sheet and returns AdjustedScheduleResult.
 Future<AdjustedScheduleResult?> openAdjustBottomSheet({
   required BuildContext context,
   required List<MedicineModel> selected,
@@ -85,7 +89,10 @@ Future<AdjustedScheduleResult?> openAdjustBottomSheet({
   required List<String> times,
   required List<String> days,
   required String frequency,
-  required String primaryButtonText,
+
+  // ✅ NEW (defaults for single)
+  bool showRemoveInSelectedCard = true,
+  bool showDaysInSelectedCard = true,
 }) {
   return showModalBottomSheet<AdjustedScheduleResult>(
     context: context,
@@ -102,7 +109,8 @@ Future<AdjustedScheduleResult?> openAdjustBottomSheet({
       times: times,
       days: days,
       frequency: frequency,
-      primaryButtonText: primaryButtonText,
+      showRemoveInSelectedCard: showRemoveInSelectedCard,
+      showDaysInSelectedCard: showDaysInSelectedCard,
     ),
   );
 }
