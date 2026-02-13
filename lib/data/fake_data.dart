@@ -605,7 +605,8 @@ final sampleOrders = [
     estimatedTimeMinutes: 15,
     paymentMethod: 'Visa',
     requirePrescription: true,
-    deliveredAt: "13:43"
+    deliveredAt: "13:43",
+    prescriptionImage: "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJlc2NyaXB0aW9ufGVufDB8fDB8fHww",
   ),
   OrderModel(
     id: 'O326',
@@ -619,6 +620,7 @@ final sampleOrders = [
     estimatedTimeMinutes: 20,
     paymentMethod: 'Cash',
     driverName: "Yousef Ali",
+    prescriptionImage: "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJlc2NyaXB0aW9ufGVufDB8fDB8fHww",
   ),
   OrderModel(
     id: 'O327',
@@ -631,6 +633,7 @@ final sampleOrders = [
     customerEmail: 'example20@gmail.com',
     estimatedTimeMinutes: 20,
     paymentMethod: 'Visa',
+    prescriptionImage: "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJlc2NyaXB0aW9ufGVufDB8fDB8fHww",
   ),
   OrderModel(
     id: 'O328',
@@ -643,6 +646,7 @@ final sampleOrders = [
     customerEmail: 'example20@gmail.com',
     estimatedTimeMinutes: 18,
     paymentMethod: 'Visa',
+    prescriptionImage: "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJlc2NyaXB0aW9ufGVufDB8fDB8fHww",
   ),
 ];
 
