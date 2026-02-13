@@ -31,14 +31,15 @@ class AddChip extends StatelessWidget {
         ),
         child: Row(
           mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               label,
-              style: AppTextStyles.medium10.copyWith(
-                color: AppColors.primaryNormal,
+              style: AppTextStyles.medium12.copyWith(
+                color: AppColors.secondaryDarker,
               ),
             ),
-            SizedBox(width: 6.w),
+            SizedBox(width: 20.w),
             SvgPicture.asset(iconPath, color: AppColors.primaryNormal),
           ],
         ),

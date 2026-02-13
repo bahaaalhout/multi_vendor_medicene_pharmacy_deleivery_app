@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_model.dart';
@@ -8,7 +9,6 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/re
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/models/adjusted_schedule_result.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/medication_reminder_widgets/adjust_bottom_sheet_widgets/add_chip.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/medication_reminder_widgets/adjust_bottom_sheet_widgets/bottom_sheet_handle.dart';
-
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/medication_reminder_widgets/adjust_bottom_sheet_widgets/selectable_chip.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/medication_reminder_widgets/main_frame.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/medication_reminder_widgets/selected_medication_panel_widgets/selected_medication_info_row.dart';
@@ -22,7 +22,7 @@ class AdjustReminderBottomSheet extends StatefulWidget {
   final String subtitle;
 
   final List<String> times;
-  final List<String> days;
+  final List<String> days; // ✅ expects short codes: Sun/Mon/...
   final String frequency;
 
   final bool sameSchedule;
@@ -51,43 +51,31 @@ class AdjustReminderBottomSheet extends StatefulWidget {
 class _AdjustReminderBottomSheetState extends State<AdjustReminderBottomSheet> {
   late List<String> _times;
   late Set<String> _days;
-  
-  // Frequency state
+
   // 1 = Once daily, 2 = Twice daily, etc.
   int _frequencyCount = 1;
 
-  static const _allDays = <String>[
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-  ];
+  static const _allDays = <String>['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
   @override
   void initState() {
     super.initState();
+
     _times = List<String>.from(widget.times);
     _days = widget.days.toSet();
 
     if (_times.isEmpty) _times = ['8:00 AM'];
-    if (_days.isEmpty) _days = {'Sunday'};
-    
-    // Auto-detect frequency count from initial times length if possible
-    if (_times.length > 1) {
-      _frequencyCount = _times.length;
-    }
+    if (_days.isEmpty) _days = {'Sun'};
+
+    // Auto-detect frequency from initial times length
+    if (_times.length > 1) _frequencyCount = _times.length;
   }
 
   @override
   Widget build(BuildContext context) {
     final count = widget.selected.length;
     final isMulti = count > 1;
-
     final showDaysInTopCards = isMulti ? false : widget.showDaysInSelectedCard;
-
     final freqText = _calcFrequency(_days);
 
     return SafeArea(
@@ -117,6 +105,7 @@ class _AdjustReminderBottomSheetState extends State<AdjustReminderBottomSheet> {
               ),
             ),
             SizedBox(height: 16.h),
+
             MainFrame(
               padding: EdgeInsets.zero,
               child: Column(
@@ -140,15 +129,15 @@ class _AdjustReminderBottomSheetState extends State<AdjustReminderBottomSheet> {
                   if (count == 1)
                     _selectedMedicationPanel(
                       med: widget.selected.first,
-                      times: widget.times,
-                      days: widget.days,
+                      times: _times, // ✅ use current state
+                      days: _days.toList(),
                       showDays: showDaysInTopCards,
                     )
                   else
                     _selectedMedicationsList(
                       meds: widget.selected,
-                      times: widget.times,
-                      days: widget.days,
+                      times: _times,
+                      days: _days.toList(),
                       showDays: showDaysInTopCards,
                     ),
 
@@ -162,90 +151,83 @@ class _AdjustReminderBottomSheetState extends State<AdjustReminderBottomSheet> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            " •  Pick your preferred start time, and the app will set the rest automatically",
+                            "• Pick your preferred start time, and the app will set the rest automatically",
                             style: AppTextStyles.medium12.copyWith(
                               color: AppColors.secondaryDarker,
                             ),
                           ),
                           SizedBox(height: 20.h),
-                          
-                          // Frequency Selector
-                           Row(
+
+                          // Frequency
+                          Row(
                             children: [
                               SelectedMedicationInfoRow(
-                                label: "Frequency",
+                                label: "New Freq.",
                                 iconPath: "assets/icons/alarm_icon.svg",
-                                chips: [],
+                                chips: const [],
                               ),
-                              SizedBox(width: 8.w),
+                              SizedBox(width: 20.w),
                               _buildFrequencyDropdown(),
                             ],
                           ),
                           SizedBox(height: 16.h),
-                          
+
+                          // Time / Start Time
                           Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               SelectedMedicationInfoRow(
-                                label: _frequencyCount <= 1 ? "Time" : "Start Time",
+                                label: _frequencyCount <= 1
+                                    ? "New Time"
+                                    : "Start Time",
                                 iconPath: "assets/icons/alarm_icon.svg",
-                                chips: [],
+                                chips: const [],
                               ),
-                              SizedBox(height: 8.h),
+                              SizedBox(width: 8.w),
 
-                              // If frequency > 1, show ONE time picker for Start Time
-                              // Else show list of times + Add button
                               if (_frequencyCount > 1)
                                 _buildStartTimePicker()
                               else
                                 Expanded(
-                                  child: Wrap(
-                                    spacing: 8.w,
-                                    runSpacing: 8.h,
-                                    children: [
-                                      ..._times.map((t) => _buildTimeChip(t)),
-                                      AddChip(
-                                        onTap: _addTime,
-                                        label: "Add",
-                                        iconPath: "assets/icons/select_icon.svg",
-                                      ),
-                                    ],
+                                  child: AddChip(
+                                    onTap: _addTime,
+                                    label: _times.first,
+                                    iconPath: "assets/icons/select_icon.svg",
                                   ),
                                 ),
                             ],
                           ),
-                          
-                          // Show calculated times preview if > 1
-                          if (_frequencyCount > 1 && _times.isNotEmpty) 
-                             Padding(
-                               padding: EdgeInsets.only(top: 12.h, left: 4.w),
-                               child: Text(
-                                 "Schedule: ${_times.join(", ")}",
-                                 style: AppTextStyles.medium12.copyWith(
-                                   color: AppColors.primaryDarkActive,
-                                 ),
-                               ),
-                             ),
+
+                          if (_frequencyCount > 1 && _times.isNotEmpty)
+                            Padding(
+                              padding: EdgeInsets.only(top: 12.h, left: 4.w),
+                              child: Text(
+                                "Schedule: ${_times.join(", ")}",
+                                style: AppTextStyles.medium12.copyWith(
+                                  color: AppColors.primaryDarkActive,
+                                ),
+                              ),
+                            ),
 
                           SizedBox(height: 14.h),
 
+                          // Days
                           Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               SelectedMedicationInfoRow(
-                                label: "Days",
+                                label: "New Days",
                                 iconPath: "assets/icons/alarm_icon.svg",
-                                chips: [],
+                                chips: const [],
                               ),
                               SizedBox(width: 8.w),
-
                               Expanded(
                                 child: Wrap(
-                                  spacing: 4.w,
-                                  runSpacing: 4.h,
+                                  spacing: 2.5.w,
                                   children: _allDays.map((d) {
                                     final selected = _days.contains(d);
                                     return SelectableChip(
-                                      text: d.substring(0, 3), // Sun/Mon...
+                                      text: d, // Sun/Mon...
                                       selected: selected,
                                       onTap: () => _toggleDay(d),
                                     );
@@ -254,7 +236,10 @@ class _AdjustReminderBottomSheetState extends State<AdjustReminderBottomSheet> {
                               ),
                             ],
                           ),
+
                           SizedBox(height: 18.h),
+
+                          // Adjust Button
                           SizedBox(
                             width: double.infinity,
                             height: 44.h,
@@ -282,6 +267,7 @@ class _AdjustReminderBottomSheetState extends State<AdjustReminderBottomSheet> {
                               ),
                             ),
                           ),
+
                           SizedBox(height: 12.h),
                         ],
                       ),
@@ -295,52 +281,81 @@ class _AdjustReminderBottomSheetState extends State<AdjustReminderBottomSheet> {
       ),
     );
   }
-  
+
   Widget _buildFrequencyDropdown() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20.r),
-        border: Border.all(color: AppColors.neutralLightActive),
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<int>(
-          value: _frequencyCount,
-          isDense: true,
-          style: AppTextStyles.medium14.copyWith(color: AppColors.neutralDarker),
-          icon: Icon(Icons.keyboard_arrow_down, size: 20.sp, color: AppColors.neutralDark),
-          items: const [
-            DropdownMenuItem(value: 1, child: Text("Once daily")),
-            DropdownMenuItem(value: 2, child: Text("Twice daily")),
-            DropdownMenuItem(value: 3, child: Text("3 times daily")),
-            DropdownMenuItem(value: 4, child: Text("4 times daily")),
+    return Expanded(
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12.r),
+          border: Border.all(color: AppColors.neutralLightActive),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            DropdownButtonHideUnderline(
+              child: DropdownButton<int>(
+                value: _frequencyCount,
+                isDense: true,
+                borderRadius: BorderRadius.circular(8.w),
+                style: AppTextStyles.medium12.copyWith(
+                  color: AppColors.neutralDarker,
+                ),
+                icon: SvgPicture.asset("assets/icons/select_icon.svg"),
+                items: const [
+                  DropdownMenuItem(
+                    value: 1,
+                    alignment: AlignmentGeometry.center,
+                    child: Text("Once daily"),
+                  ),
+                  DropdownMenuItem(
+                    value: 2,
+                    alignment: AlignmentGeometry.center,
+                    child: Text("Twice daily"),
+                  ),
+                  DropdownMenuItem(
+                    value: 3,
+                    alignment: AlignmentGeometry.center,
+                    child: Text("3 times daily"),
+                  ),
+                ],
+                onChanged: (val) {
+                  if (val == null) return;
+
+                  setState(() {
+                    _frequencyCount = val;
+
+                    if (_frequencyCount > 1) {
+                      final startStr = _times.isNotEmpty
+                          ? _times.first
+                          : "8:00 AM";
+                      _times = [startStr];
+                      _recalcTimes();
+                    }
+                  });
+                },
+              ),
+            ),
           ],
-          onChanged: (val) {
-            if (val == null) return;
-            setState(() {
-              _frequencyCount = val;
-              _recalcTimes();
-            });
-          },
         ),
       ),
     );
   }
-  
+
   Widget _buildStartTimePicker() {
-    final startTime = _times.isNotEmpty ? _times.first : "8:00 AM";
-    
+    final startTimeText = _times.isNotEmpty ? _times.first : "8:00 AM";
+
     return InkWell(
       onTap: () async {
         final picked = await pickTime(context);
         if (picked == null) return;
-        
+
         final formatted = formatTime(picked);
-        // If we are in multi-freq mode, we just set the start time and recalc
+
         setState(() {
-             _times = [formatted]; 
-            _recalcTimes();
+          _times = [formatted];
+          _recalcTimes();
         });
       },
       child: Container(
@@ -354,66 +369,34 @@ class _AdjustReminderBottomSheetState extends State<AdjustReminderBottomSheet> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              startTime,
-              style: AppTextStyles.medium14.copyWith(color: AppColors.primaryNormal),
+              startTimeText,
+              style: AppTextStyles.medium14.copyWith(
+                color: AppColors.primaryNormal,
+              ),
             ),
-            SizedBox(width: 4.w),
+            SizedBox(width: 6.w),
             Icon(Icons.edit, size: 14.sp, color: AppColors.neutralDark),
           ],
         ),
       ),
     );
   }
-  
-  Widget _buildTimeChip(String t) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20.r),
-        border: Border.all(color: AppColors.neutralLightActive),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            t,
-            style: AppTextStyles.medium12.copyWith(color: AppColors.neutralDarker),
-          ),
-          SizedBox(width: 4.w),
-          InkWell(
-            onTap: () => _removeTime(t),
-            child: Icon(Icons.close, size: 14.sp, color: AppColors.neutralDark),
-          ),
-        ],
-      ),
-    );
-  }
-  
+
   void _recalcTimes() {
     if (_frequencyCount <= 1) return;
-    
-    // Get start time from existing list or default
-    String startStr = "8:00 AM";
-    if (_times.isNotEmpty) {
-      startStr = _times.first;
-    }
-    
+
+    final startStr = _times.isNotEmpty ? _times.first : "8:00 AM";
     final startTime = _parseTime(startStr);
-    
+
     final newTimes = ScheduleCalculator.calculateTimes(
-      startTime: startTime, 
-      frequency: _frequencyCount
+      startTime: startTime,
+      frequency: _frequencyCount,
     );
-    
-    setState(() {
-      _times = newTimes;
-    });
+
+    _times = newTimes;
   }
-  
+
   TimeOfDay _parseTime(String s) {
-    // Helper to parse "8:00 AM" back to TimeOfDay
-    // Assuming format is always valid from our own formatters
     try {
       final cleaned = s.toLowerCase().replaceAll(' ', '');
       final isPm = cleaned.endsWith('pm');
@@ -427,11 +410,46 @@ class _AdjustReminderBottomSheetState extends State<AdjustReminderBottomSheet> {
 
       if (isPm && hour != 12) hour += 12;
       if (isAm && hour == 12) hour = 0;
-      
+
       return TimeOfDay(hour: hour, minute: minute);
-    } catch (e) {
+    } catch (_) {
       return const TimeOfDay(hour: 8, minute: 0);
     }
+  }
+
+  String _calcFrequency(Set<String> days) {
+    return (days.length == 7) ? 'Daily' : 'Weekly';
+  }
+
+  Future<void> _addTime() async {
+    final picked = await pickTime(context);
+    if (picked == null) return;
+
+    final formatted = formatTime(picked);
+
+    setState(() {
+      if (!_times.contains(formatted)) {
+        _times.add(formatted);
+        _times.sort(compareTimeStrings);
+      }
+    });
+  }
+
+  void _removeTime(String t) {
+    setState(() {
+      _times.remove(t);
+      if (_times.isEmpty) _times = ['8:00 AM'];
+    });
+  }
+
+  void _toggleDay(String d) {
+    setState(() {
+      if (_days.contains(d)) {
+        if (_days.length > 1) _days.remove(d);
+      } else {
+        _days.add(d);
+      }
+    });
   }
 
   Widget _selectedMedicationPanel({
@@ -456,64 +474,10 @@ class _AdjustReminderBottomSheetState extends State<AdjustReminderBottomSheet> {
         compact: false,
         disableAdjust: true,
         showFrequency: false,
-
         showRemove: widget.showRemoveInSelectedCard,
         showDays: showDays,
       ),
     );
-  }
-
-  String _calcFrequency(Set<String> days) {
-    return (days.length == 7) ? 'Daily' : 'Weekly';
-  }
-
-  Future<void> _addTime() async {
-    final picked = await pickTime(context);
-    if (picked == null) return;
-
-    final formatted = formatTime(picked);
-
-    setState(() {
-      if (!_times.contains(formatted)) {
-        _times.add(formatted);
-        // Sort times
-        _times.sort((a, b) {
-             final tA = _parseTime(a);
-             final tB = _parseTime(b);
-             final minA = tA.hour * 60 + tA.minute;
-             final minB = tB.hour * 60 + tB.minute;
-             return minA.compareTo(minB);
-        });
-      }
-    });
-  }
-
-  void _removeTime(String t) {
-    setState(() {
-      _times.remove(t);
-      if (_times.isEmpty) {
-        // If empty, revert to default to avoid crashes or empty state issues
-        _times = ['8:00 AM'];
-      }
-      
-      // If we remove times manually and drop below frequency count, reset freq count?
-      // Or just let it be. For now, if manual modification happens, we might stay in "custom" mode (freq=1 logic but with multiple times)
-      // BUT if the user purposely removes a time from a "3 times a day" schedule, it becomes custom.
-      // For simplicity, if manual remove happens, we can set frequency back to 1 (which effectively means "custom/manual")
-      if (_frequencyCount > 1 && _times.length != _frequencyCount) { 
-          // _frequencyCount = 1; // Optional: switch back to manual mode
-      }
-    });
-  }
-
-  void _toggleDay(String d) {
-    setState(() {
-      if (_days.contains(d)) {
-        if (_days.length > 1) _days.remove(d);
-      } else {
-        _days.add(d);
-      }
-    });
   }
 
   Widget _selectedMedicationsList({
@@ -557,7 +521,6 @@ Future<TimeOfDay?> pickTime(BuildContext context) {
         data: base.copyWith(
           brightness: Brightness.light,
           useMaterial3: true,
-
           colorScheme: base.colorScheme.copyWith(
             brightness: Brightness.light,
             primary: primary,
@@ -565,22 +528,16 @@ Future<TimeOfDay?> pickTime(BuildContext context) {
             surface: surface,
             onSurface: onSurface,
           ),
-
           timePickerTheme: const TimePickerThemeData(
             backgroundColor: surface,
-
             dialBackgroundColor: dialBg,
             dialTextColor: onSurface,
             dialHandColor: primary,
-
             hourMinuteColor: dialBg,
             hourMinuteTextColor: onSurface,
-
             dayPeriodColor: dialBg,
             dayPeriodTextColor: onSurface,
-
             helpTextStyle: TextStyle(color: muted, fontWeight: FontWeight.w600),
-
             cancelButtonStyle: ButtonStyle(
               foregroundColor: WidgetStatePropertyAll(muted),
             ),

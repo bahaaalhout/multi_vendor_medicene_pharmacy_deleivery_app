@@ -271,13 +271,15 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> {
                   );
 
                   if (duplicate) {
-                    // Show confirmation dialog to replace
                     final replace = await showDialog<bool>(
                       context: context,
                       builder: (ctx) => AlertDialog(
-                        title: const Text("Reminder Already Exists"),
+                        title: const Text("Replace Reminder?"),
                         content: const Text(
-                            "A reminder for this medication already exists.\nDo you want to replace it with the new schedule?"),
+                          "A reminder for this medication already exists.\n"
+                          "Do you want to replace it with the new schedule?\n\n"
+                          "This will remove the old reminder times and create new ones.",
+                        ),
                         actions: [
                           TextButton(
                             onPressed: () => ctx.pop(false),
@@ -311,10 +313,12 @@ class _MedicationReminderPageState extends State<MedicationReminderPage> {
                       // If we are replacing, delete OLD reminders first
                       // We can use the cubit to delete based on medicine IDs
                       if (context.mounted) {
-                         context.read<ReminderCubit>().deleteRemindersForMedicines(
-                             meds,
-                             currentDate: DateTime.now(),
-                           );
+                        context
+                            .read<ReminderCubit>()
+                            .deleteRemindersForMedicines(
+                              meds,
+                              currentDate: DateTime.now(),
+                            );
                       }
                     }
                     if (context.mounted) {
