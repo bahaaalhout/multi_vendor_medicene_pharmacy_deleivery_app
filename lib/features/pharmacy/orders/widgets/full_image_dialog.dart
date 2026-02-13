@@ -7,7 +7,7 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_them
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/utils/formatting_utils.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_buttons/app_bar_buttons/navigate_back_button.dart';
 
-class FullImageDialog extends StatelessWidget {
+class FullImageDialog extends StatefulWidget {
   final String prescriptionImage;
   final String orderNumber;
   final String customerName;
@@ -18,6 +18,52 @@ class FullImageDialog extends StatelessWidget {
     required this.orderNumber,
     required this.customerName,
   });
+
+  @override
+  State<FullImageDialog> createState() => _FullImageDialogState();
+}
+
+class _FullImageDialogState extends State<FullImageDialog> {
+  final TransformationController _transformationController = TransformationController();
+  double _currentScale = 1.0;
+  final double _minScale = 0.5;
+  final double _maxScale = 4.0;
+
+  void _increaseZoom() {
+    setState(() {
+      _currentScale = (_currentScale * 1.5).clamp(_minScale, _maxScale);
+      _updateTransformationMatrix();
+    });
+  }
+
+  void _decreaseZoom() {
+    setState(() {
+      _currentScale = (_currentScale / 1.5).clamp(_minScale, _maxScale);
+      _updateTransformationMatrix();
+    });
+  }
+
+  void _updateTransformationMatrix() {
+    final Matrix4 matrix = Matrix4.identity()
+      ..scale(_currentScale, _currentScale, 1.0);
+    _transformationController.value = matrix;
+  }
+
+  String _getZoomPercentage() {
+    return '${(_currentScale * 100).round()}%';
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _updateTransformationMatrix();
+  }
+
+  @override
+  void dispose() {
+    _transformationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,13 +89,13 @@ class FullImageDialog extends StatelessWidget {
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: 'Order#$orderNumber ',
+                        text: 'Order#${widget.orderNumber} ',
                         style: AppTextStyles.bold16.copyWith(
                           color: Colors.white,
                         ),
                       ),
                       TextSpan(
-                        text: customerName,
+                        text: widget.customerName,
                         style: AppTextStyles.bold16.copyWith(
                           color: AppColors.primaryNormal,
                         ),
@@ -64,20 +110,39 @@ class FullImageDialog extends StatelessWidget {
           SizedBox(height: AppSizes.spacing16.h),
       
           // Image Container
-          Container(
-            width: double.infinity,
-            height: 650.h, //todo: delete
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(AppSizes.borderRadius16.r),
-                topRight: Radius.circular(AppSizes.borderRadius16.r),
+          Expanded(
+            child: Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(AppSizes.borderRadius16.r),
+                  topRight: Radius.circular(AppSizes.borderRadius16.r),
+                ),
               ),
-            ),
-            child: Image.network(
-              prescriptionImage,
-              fit: BoxFit.contain,
-              errorBuilder: (_, __, ___) =>
-                  Icon(Icons.error_outline, color: AppColors.errorNormal),
+              child: InteractiveViewer(
+                transformationController: _transformationController,
+                minScale: _minScale,
+                maxScale: _maxScale,
+                scaleEnabled: true,
+                panEnabled: true,
+                boundaryMargin: EdgeInsets.all(100),
+                constrained: false,
+                onInteractionUpdate: (details) {
+                  // Update the current scale when user interacts with the image
+                  final scale = _transformationController.value.getMaxScaleOnAxis();
+                  if (scale != _currentScale) {
+                    setState(() {
+                      _currentScale = scale.clamp(_minScale, _maxScale);
+                    });
+                  }
+                },
+                child: Image.network(
+                  widget.prescriptionImage,
+                  fit: BoxFit.contain,
+                  errorBuilder: (_, __, ___) =>
+                      Icon(Icons.error_outline, color: AppColors.errorNormal),
+                ),
+              ),
             ),
           ),
       
@@ -101,31 +166,34 @@ class FullImageDialog extends StatelessWidget {
             child: Row(
               children: [
                 // Increase Button
-                Container(
-                  width: AppSizes.iconSize24.w,
-                  height: AppSizes.iconSize32.h,
-                  decoration: BoxDecoration(
-                    color: AppColors.secondaryLight,
-                    border: Border(
-                      right: BorderSide(
-                        color: AppColors.secondaryLightActive,
-                        width: 1.w,
+                GestureDetector(
+                  onTap: _increaseZoom,
+                  child: Container(
+                    width: AppSizes.iconSize24.w,
+                    height: AppSizes.iconSize32.h,
+                    decoration: BoxDecoration(
+                      color: AppColors.secondaryLight,
+                      border: Border(
+                        right: BorderSide(
+                          color: AppColors.secondaryLightActive,
+                          width: 1.w,
+                        ),
+                      ),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(
+                          AppSizes.borderRadius4.r,
+                        ),
+                        bottomLeft: Radius.circular(
+                          AppSizes.borderRadius4.r,
+                        ),
                       ),
                     ),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(
-                        AppSizes.borderRadius4.r,
-                      ),
-                      bottomLeft: Radius.circular(
-                        AppSizes.borderRadius4.r,
-                      ),
+                    child: Center(
+                      child: Text("+"),
                     ),
-                  ),
-                  child: Center(
-                    child: Text("+"),
                   ),
                 ),
-            
+
                 // Percentage Display
                 Container(
                   width: AppSizes.iconSize32.w,
@@ -135,37 +203,40 @@ class FullImageDialog extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      '50%',
+                      _getZoomPercentage(),
                       style: AppTextStyles.medium12.copyWith(
                         color: AppColors.secondaryDarkHover,
                       ),
                     ),
                   ),
                 ),
-            
+
                 // Decrease Button
-                Container(
-                  width: AppSizes.iconSize24.w,
-                  height: AppSizes.iconSize32.h,
-                  decoration: BoxDecoration(
-                    color: AppColors.secondaryLight,
-                    border: Border(
-                      left: BorderSide(
-                        color: AppColors.secondaryLightActive,
-                        width: 1.w,
+                GestureDetector(
+                  onTap: _decreaseZoom,
+                  child: Container(
+                    width: AppSizes.iconSize24.w,
+                    height: AppSizes.iconSize32.h,
+                    decoration: BoxDecoration(
+                      color: AppColors.secondaryLight,
+                      border: Border(
+                        left: BorderSide(
+                          color: AppColors.secondaryLightActive,
+                          width: 1.w,
+                        ),
+                      ),
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(
+                          AppSizes.borderRadius4.r,
+                        ),
+                        bottomRight: Radius.circular(
+                          AppSizes.borderRadius4.r,
+                        ),
                       ),
                     ),
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(
-                        AppSizes.borderRadius4.r,
-                      ),
-                      bottomRight: Radius.circular(
-                        AppSizes.borderRadius4.r,
-                      ),
+                    child: Center(
+                      child: Text("-"),
                     ),
-                  ),
-                  child: Center(
-                    child: Text("-"),
                   ),
                 ),
             
