@@ -6,11 +6,12 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/n
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/view/notifications_page.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/view/medication/medication_reminder_page.dart';
 import '../features/patient/navigation/patient_main_screen.dart';
+import '../features/inventory_pharmacy/inventory_screen.dart';
 import 'app_routes.dart';
 
 class AppPages {
   static final GoRouter router = GoRouter(
-    initialLocation: AppRoutes.home,
+    initialLocation: AppRoutes.inventoryScreen,
     routes: [
       GoRoute(
         path: AppRoutes.home,
@@ -40,6 +41,10 @@ class AppPages {
 
           return CartScreen(medicineModel: medicine);
         },
+      ),
+      GoRoute(
+        path: AppRoutes.inventoryScreen,
+        builder: (context, state) => const InventoryScreen(),
       ),
     ],
   );

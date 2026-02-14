@@ -6,7 +6,7 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_them
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/cart/widgets/app_button.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/cart/widgets/cart_checkout_bar.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/cart/widgets/cart_item_status_normal.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/cart/widgets/cart_item_status_out_of_stock.dart';
+
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/cart/widgets/order_summary.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/cart/widgets/secured_order.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/widgets/medicine_form.dart';
