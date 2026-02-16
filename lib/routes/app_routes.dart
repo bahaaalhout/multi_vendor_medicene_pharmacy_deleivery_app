@@ -9,4 +9,9 @@ class AppRoutes {
 
   static const deliveryMain = '/deliveryMain';
   static const medicationReminder = '/medication-reminder';
+
+  static const pharmacyReport = '/pharmacy/report';
+  static const salesOverview = '/pharmacy/sales-overview';
+  static const lowStockTrends = '/pharmacy/low-stock-trends';
+  static const medicineUsageInsights = '/pharmacy/medicine-usage-insights';
 }
