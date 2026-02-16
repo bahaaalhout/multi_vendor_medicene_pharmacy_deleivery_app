@@ -1,8 +1,10 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/inventory_pharmacy/inventory_screen.dart';
 
 class DeleteConfirmationDialog extends StatelessWidget {
   final VoidCallback onDelete;
@@ -11,98 +13,57 @@ class DeleteConfirmationDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 1. Wrap everything in a BackdropFilter
     return BackdropFilter(
-      filter: ImageFilter.blur(
-        sigmaX: 5.0,
-        sigmaY: 5.0,
-      ), // Adjust blur intensity here
+      filter: ImageFilter.blur(sigmaX: 4.0, sigmaY: 4.0),
       child: Dialog(
+        insetPadding: EdgeInsets.all(16.r),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.r),
+          borderRadius: BorderRadius.circular(16.r),
         ),
         backgroundColor: Colors.white,
-        elevation: 0, // Remove shadow to keep it clean
+        elevation: 1,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 32.h),
+          padding: EdgeInsets.all(16),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Red Warning Icon (Custom Circle)
-              Container(
-                padding: EdgeInsets.all(12.r),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: const Color(0xFFFEF2F2), // Light red background
-                ),
-                child: Icon(
-                  Icons
-                      .delete_outline_rounded, // Use a delete icon or exclamation
-                  color: const Color(0xFFEF4444),
-                  size: 32.r,
-                ),
+              Icon(Icons.error_outline, color: AppColors.errorNormal, size: 40),
+              8.verticalSpace,
+
+              Text(
+                "Delete this medicine?",
+                style: AppTextStyles.semiBold16.copyWith(color: Colors.black),
               ),
               16.verticalSpace,
 
-              // Title
-              Text(
-                "Delete this medicine?",
-                style: AppTextStyles.bold16.copyWith(
-                  fontSize: 18.sp,
-                  color: const Color(0xFF1F2937),
-                ),
-              ),
-              8.verticalSpace,
-
-              // Subtitle
               Text(
                 "This medicine will no longer be available for new customer orders.",
                 textAlign: TextAlign.center,
                 style: AppTextStyles.medium14.copyWith(
-                  color: const Color(0xFF6B7280),
-                  height: 1.5,
+                  color: Colors.black,
+                  height: 1.2,
                 ),
               ),
-              24.verticalSpace,
+              16.verticalSpace,
 
-              // Buttons Row
               Row(
                 children: [
-                  // Cancel Button (Grey/White)
-                  Expanded(
-                    child: SizedBox(
-                      height: 48.h,
-                      child: OutlinedButton(
-                        onPressed: () => Navigator.pop(context),
-                        style: OutlinedButton.styleFrom(
-                          side: const BorderSide(color: Color(0xFFE5E7EB)),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.r),
-                          ),
-                          backgroundColor: Colors.white,
-                        ),
-                        child: Text(
-                          "Cancel",
-                          style: AppTextStyles.semiBold16.copyWith(
-                            color: const Color(0xFF374151),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  12.horizontalSpace,
-
-                  // Delete Button (Red)
                   Expanded(
                     child: SizedBox(
                       height: 48.h,
                       child: ElevatedButton(
                         onPressed: () {
                           onDelete();
-                          Navigator.pop(context);
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => InventoryScreen(),
+                            ),
+                          );
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFEF4444),
+                          padding: EdgeInsets.symmetric(vertical: 16.h),
+                          backgroundColor: AppColors.errorNormal,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12.r),
@@ -112,6 +73,30 @@ class DeleteConfirmationDialog extends StatelessWidget {
                           "Delete",
                           style: AppTextStyles.semiBold16.copyWith(
                             color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  8.horizontalSpace,
+                  Expanded(
+                    child: SizedBox(
+                      height: 48.h,
+                      child: OutlinedButton(
+                        onPressed: () => Navigator.pop(context),
+                        style: OutlinedButton.styleFrom(
+                          side: const BorderSide(
+                            color: AppColors.neutralNormal,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.r),
+                          ),
+                          backgroundColor: Colors.white,
+                        ),
+                        child: Text(
+                          "Cancel",
+                          style: AppTextStyles.semiBold16.copyWith(
+                            color: AppColors.neutralDarkActive,
                           ),
                         ),
                       ),
