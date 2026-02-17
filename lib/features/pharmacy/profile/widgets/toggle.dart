@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 
 class CustomToggle extends StatelessWidget {
   final bool value;
@@ -16,7 +17,7 @@ class CustomToggle extends StatelessWidget {
         height: 22,
         padding: const EdgeInsets.all(2),
         decoration: BoxDecoration(
-          color: value ? const Color(0xFF1B952B) : Colors.grey.shade500,
+          color: value ? AppColors.primaryNormal : Colors.grey.shade500,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(color: Colors.transparent),
         ),

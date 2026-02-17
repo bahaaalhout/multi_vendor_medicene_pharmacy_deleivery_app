@@ -84,7 +84,9 @@ class AppColors {
   static const Color toggleGreen = Color(0xFF4CAF50); // Green for toggle switches
   static const Color textDark = Color(0xFF212121); // Dark text
   static const Color textLight = Color(0xFF757575); // Light gray text
-  static const Color inactiveGray = Color(0xFF9E9E9E); // Inactive navigation items
+  static const Color inactiveGray = Color(0xFF9E9E9E); 
+  static const Color inactiveGray1 = Color(0xFFA4A4A4);
+  static const Color inactiveGray2 = Color(0xFF8D8D8D); // Inactive navigation items
 
 
   // Report screens colors
