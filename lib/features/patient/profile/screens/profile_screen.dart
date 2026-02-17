@@ -110,6 +110,8 @@ class _ProfileView extends StatelessWidget {
                       icon: "assets/icons/history.png",
                       title: 'History',
                       subtitle: 'Orders & Activity',
+                      hasToggle: false,
+                      toggleValue: false,
                       onTap: () {
                         Navigator.push(
                           context,
@@ -126,6 +128,8 @@ class _ProfileView extends StatelessWidget {
                       icon: "assets/icons/saved.png",
                       title: 'Saved items',
                       subtitle: 'medicines & Healthy products',
+                      hasToggle: false,
+                      toggleValue: false,
                       onTap: () {
                         Navigator.push(
                           context,
@@ -444,11 +448,8 @@ class _SettingsItem extends StatelessWidget {
     this.icon,
     required this.title,
     this.subtitle,
-    this.hasToggle = false,
-    this.toggleValue = false,
-    this.onToggle,
     this.onTap,
-    required this.isSubItem,
+    required this.isSubItem, required this.hasToggle, required this.toggleValue, this.onToggle,
   });
 
   @override

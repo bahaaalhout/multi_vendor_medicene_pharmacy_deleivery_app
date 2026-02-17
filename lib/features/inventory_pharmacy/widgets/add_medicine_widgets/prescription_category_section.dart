@@ -55,6 +55,19 @@ class PrescriptionCategorySection extends StatelessWidget {
                   color: AppColors.neutralLightActive,
                 ),
               ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.r),
+                borderSide: BorderSide(color: AppColors.neutralLightActive),
+              ),
+
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.r),
+
+                borderSide: BorderSide(
+                  color: AppColors.primaryNormal,
+                  width: 1.5,
+                ),
+              ),
             ),
           ),
         ),

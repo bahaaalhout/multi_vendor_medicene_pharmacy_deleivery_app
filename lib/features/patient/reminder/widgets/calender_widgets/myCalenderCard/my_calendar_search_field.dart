@@ -38,7 +38,7 @@ class MyCalendarSearchField extends StatelessWidget {
           ),
           suffixIcon: Padding(
             padding: EdgeInsets.all(15.w),
-            child: Container(
+            child: SizedBox(
               height: 40.h,
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),

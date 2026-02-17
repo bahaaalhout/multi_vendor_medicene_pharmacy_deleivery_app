@@ -48,6 +48,19 @@ class UsageInstructionsSection extends StatelessWidget {
                     color: AppColors.neutralLightActive,
                   ),
                 ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.r),
+                  borderSide: BorderSide(color: AppColors.neutralLightActive),
+                ),
+
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.r),
+
+                  borderSide: BorderSide(
+                    color: AppColors.primaryNormal,
+                    width: 1.5,
+                  ),
+                ),
               ),
             ),
           ),
@@ -77,6 +90,19 @@ class UsageInstructionsSection extends StatelessWidget {
                   borderSide: BorderSide(
                     width: 1.w,
                     color: AppColors.neutralLightActive,
+                  ),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.r),
+                  borderSide: BorderSide(color: AppColors.neutralLightActive),
+                ),
+
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.r),
+
+                  borderSide: BorderSide(
+                    color: AppColors.primaryNormal,
+                    width: 1.5,
                   ),
                 ),
               ),

@@ -112,9 +112,19 @@ class MedicineNameSection extends StatelessWidget {
                 ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12.r),
+                  borderSide: BorderSide(color: AppColors.neutralLightActive),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.r),
+                  borderSide: BorderSide(color: AppColors.neutralLightActive),
+                ),
+
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.r),
+
                   borderSide: BorderSide(
-                    color: AppColors.neutralLightActive,
-                    width: 1.w,
+                    color: AppColors.primaryNormal,
+                    width: 1.5,
                   ),
                 ),
               ),
@@ -150,6 +160,19 @@ class MedicineNameSection extends StatelessWidget {
                   borderSide: BorderSide(
                     width: 1.h,
                     color: AppColors.neutralLightActive,
+                  ),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.r),
+                  borderSide: BorderSide(color: AppColors.neutralLightActive),
+                ),
+
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.r),
+
+                  borderSide: BorderSide(
+                    color: AppColors.primaryNormal,
+                    width: 1.5,
                   ),
                 ),
               ),

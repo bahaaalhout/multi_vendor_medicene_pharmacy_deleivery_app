@@ -36,6 +36,15 @@ class _AddMedicineScreenState extends State<AddMedicineScreen> {
     "Avoid away from moisture and heat": true,
     "Not safe for pregnant women": true,
   };
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _stockController.dispose();
+    _expiryController.dispose();
+    _basePriceController.dispose();
+    _sellingPriceController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
