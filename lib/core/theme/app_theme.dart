@@ -116,7 +116,7 @@ class AppTextStyles {
     fontSize: 12.sp,
     fontWeight: FontWeight.w500,
   );
-  static final TextStyle medium10 = TextStyle(
+  static final TextStyle  medium10 = TextStyle(
     fontFamily: 'Montserrat',
     fontSize: 10.sp,
     fontWeight: FontWeight.w500,

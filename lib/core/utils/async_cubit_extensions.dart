@@ -12,7 +12,7 @@ extension AsyncCubitExtensions<T> on Cubit<T> {
   /// Example usage:
   /// ```dart
   /// void loadData() => tryExecute(
-  ///   asyncOperation: () => apiService.fetchData(),        // The async operation
+  ///   call: () => apiService.fetchData(),        // The async operation
   ///   stateUpdater: (newState) => emit(state.copyWith(data: newState)) // Update state
   /// );
   /// ```
