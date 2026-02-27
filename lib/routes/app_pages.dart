@@ -5,17 +5,23 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/pharmacy/r
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/pharmacy/reports/screens/low_stock_trends_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/pharmacy/reports/screens/medicine_usage_insights_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/pharmacy/reports/screens/sales_overview_screen.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/data/fake_data.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/inventory_pharmacy/add_medicine_screen.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/navigation/patient_main_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/cart/screens/cart_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/cart/screens/checkout_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/navigation/delivery_main_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/view/notifications_page.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/view/medication/medication_reminder_page.dart';
 import '../features/patient/navigation/patient_main_screen.dart';
+import '../features/inventory_pharmacy/inventory_screen.dart';
+import '../features/pharmacy/orders/screens/pharmacy_orders_list_screen.dart';
 import 'app_routes.dart';
 
 class AppPages {
   static final GoRouter router = GoRouter(
-    initialLocation: AppRoutes.home,
+    initialLocation: AppRoutes.inventoryScreen,
+    initialLocation: AppRoutes.pharmacyOrders,
     routes: [
       GoRoute(
         path: AppRoutes.home,
@@ -61,6 +67,24 @@ class AppPages {
 
           return CartScreen(medicineModel: medicine);
         },
+      ),
+      GoRoute(
+        path: AppRoutes.inventoryScreen,
+        builder: (context, state) => InventoryScreen(pharmacy: pharmacies[0]),
+      ),
+      // GoRoute(
+      //   path: AppRoutes.medicineDetails,
+      //   builder: (context, state) => const MedicineDetailsScreen(inventoryItem: null,),
+      // ),
+      GoRoute(
+        path: AppRoutes.addMedicine,
+        builder: (context, state) => const AddMedicineScreen(),
+        path: AppRoutes.pharmacyOrders,
+        builder: (context, state) => const PharmacyOrdersListScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.pharmacyOrders,
+        builder: (context, state) => const PharmacyOrdersListScreen(),
       ),
     ],
   );

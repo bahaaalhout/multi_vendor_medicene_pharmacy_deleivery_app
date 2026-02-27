@@ -5,7 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/cart/cubit/expand_cubit.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/cart/widgets/contact_info_widget.dart';
 
 class MyExpandWidget extends StatelessWidget {
   const MyExpandWidget({super.key, required this.widget, required this.title});

@@ -1,0 +1,46 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_sizes.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/order_model.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
+
+class OrderDetailsTotal extends StatelessWidget {
+  final OrderModel order;
+
+  const OrderDetailsTotal({
+    super.key,
+    required this.order,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(AppSizes.spacing8.w),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(AppSizes.borderRadius16.r),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // Total Title
+          Text(
+            'Total :',
+            style: AppTextStyles.semiBold14.copyWith(
+              color: AppColors.neutralDarker,
+            ),
+          ),
+          
+          // Total Amount
+          Text(
+            '\$${order.totalAmount.toStringAsFixed(2)}',
+            style: AppTextStyles.semiBold14.copyWith(
+              color: AppColors.neutralDarker,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
