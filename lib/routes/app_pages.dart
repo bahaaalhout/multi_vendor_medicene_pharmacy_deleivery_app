@@ -1,31 +1,28 @@
 import 'package:go_router/go_router.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_model.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/data/fake_data.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/auth/view/forget_password_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/auth/view/login_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/auth/view/new_password_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/auth/view/otp_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/auth/view/sign_up_pharmacy_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/auth/view/sign_up_screen.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/inventory_pharmacy/add_medicine_screen.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/inventory_pharmacy/inventory_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/onboarding/view/onboarding.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/onboarding/view/select_type_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/onboarding/view/splash_screen.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/pharmacy/profile/screens/pharmacy_profile_screen.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/pharmacy/reports/screens/report_screen.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/pharmacy/reports/screens/low_stock_trends_screen.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/pharmacy/reports/screens/medicine_usage_insights_screen.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/pharmacy/reports/screens/sales_overview_screen.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/data/fake_data.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/inventory_pharmacy/add_medicine_screen.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/navigation/patient_main_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/cart/screens/cart_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/cart/screens/checkout_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/navigation/delivery_main_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/view/notifications_page.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/view/add_reminder_page.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/view/medication/medication_reminder_page.dart';
-import '../features/patient/navigation/patient_main_screen.dart';
-import '../features/inventory_pharmacy/inventory_screen.dart';
-import '../features/pharmacy/orders/screens/pharmacy_orders_list_screen.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/pharmacy/orders/screens/pharmacy_orders_list_screen.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/pharmacy/profile/screens/pharmacy_profile_screen.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/pharmacy/reports/screens/low_stock_trends_screen.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/pharmacy/reports/screens/medicine_usage_insights_screen.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/pharmacy/reports/screens/report_screen.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/pharmacy/reports/screens/sales_overview_screen.dart';
 import 'app_routes.dart';
 
 class AppPages {
@@ -127,6 +124,8 @@ class AppPages {
       GoRoute(
         path: AppRoutes.addMedicine,
         builder: (context, state) => const AddMedicineScreen(),
+      ),
+      GoRoute(
         path: AppRoutes.pharmacyOrders,
         builder: (context, state) => const PharmacyOrdersListScreen(),
       ),
