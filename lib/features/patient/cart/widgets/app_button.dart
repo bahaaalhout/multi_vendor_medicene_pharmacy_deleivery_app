@@ -14,7 +14,7 @@ class AppButton extends StatelessWidget {
     this.isDisabled = false,
   });
   final String title;
-  final Function() onPressed;
+  final Function()? onPressed;
 
   final bool isWhite;
 
