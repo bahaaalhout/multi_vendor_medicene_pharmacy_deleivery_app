@@ -682,6 +682,168 @@ final sampleOrders = [
   ),
 ];
 
+// === Pharmacy Sales Orders (for Sales Overview) ===
+// Helper to create cart items with specific medicine for a pharmacy
+CartItemModel _pharmacyCartItem(PharmacyOfferModel offer, {int qty = 1}) {
+  return CartItemModel(
+    id: 'item_${offer.id}_${offer.medicine.id}',
+    pharmacyOffer: offer,
+    quantity: qty,
+    requiresPrescription: offer.medicine.requiresPrescription,
+    status: CartItemStatus.ready,
+  );
+}
+
+final _pharmacySalesOffers = [
+  PharmacyOfferModel(
+    id: 'po_1',
+    pharmacy: pharmacy,
+    medicine: medicineData[0],
+    price: 12.0,
+    discountedPrice: 9.0,
+    discountPercent: 25,
+    isAvailable: true,
+  ),
+  PharmacyOfferModel(
+    id: 'po_2',
+    pharmacy: pharmacy,
+    medicine: medicineData[1],
+    price: 10.0,
+    isAvailable: true,
+  ),
+  PharmacyOfferModel(
+    id: 'po_3',
+    pharmacy: pharmacy,
+    medicine: medicineData[2],
+    price: 8.0,
+    isAvailable: true,
+  ),
+  PharmacyOfferModel(
+    id: 'po_4',
+    pharmacy: pharmacy,
+    medicine: medicineData[3],
+    price: 15.0,
+    isAvailable: true,
+  ),
+  PharmacyOfferModel(
+    id: 'po_5',
+    pharmacy: pharmacy,
+    medicine: medicineData[4],
+    price: 6.0,
+    isAvailable: true,
+  ),
+];
+
+List<OrderModel> get pharmacySalesOrders {
+  final today = DateTime.now();
+  final weekStart = today.subtract(Duration(days: today.weekday - 1));
+  return [
+    // Monday - 12 orders (mix of medicines)
+    ...List.generate(5, (i) => OrderModel(
+      id: 'PS_MON_$i',
+      status: OrderStatus.delivered,
+      items: [_pharmacyCartItem(_pharmacySalesOffers[i % 5])],
+      deliveryAddress: customerAddress,
+      createdAt: weekStart,
+      customerName: 'Customer ${i + 1}',
+      customerPhone: '+970599999999',
+      customerEmail: 'c$i@test.com',
+      estimatedTimeMinutes: 15,
+      paymentMethod: 'Visa',
+    )),
+    ...List.generate(7, (i) => OrderModel(
+      id: 'PS_MON_2_$i',
+      status: OrderStatus.delivered,
+      items: [_pharmacyCartItem(_pharmacySalesOffers[0]), _pharmacyCartItem(_pharmacySalesOffers[1])],
+      deliveryAddress: customerAddress,
+      createdAt: weekStart,
+      customerName: 'Customer ${i + 10}',
+      customerPhone: '+970599999999',
+      customerEmail: 'c${i + 10}@test.com',
+      estimatedTimeMinutes: 15,
+      paymentMethod: 'Cash',
+    )),
+    // Tuesday - 13 orders
+    ...List.generate(13, (i) => OrderModel(
+      id: 'PS_TUE_$i',
+      status: OrderStatus.delivered,
+      items: [_pharmacyCartItem(_pharmacySalesOffers[i % 5])],
+      deliveryAddress: customerAddress,
+      createdAt: weekStart.add(const Duration(days: 1)),
+      customerName: 'Customer ${i + 20}',
+      customerPhone: '+970599999999',
+      customerEmail: 'c${i + 20}@test.com',
+      estimatedTimeMinutes: 15,
+      paymentMethod: i % 2 == 0 ? 'Visa' : 'Cash',
+    )),
+    // Wednesday - 12 orders
+    ...List.generate(12, (i) => OrderModel(
+      id: 'PS_WED_$i',
+      status: OrderStatus.delivered,
+      items: [_pharmacyCartItem(_pharmacySalesOffers[i % 5])],
+      deliveryAddress: customerAddress,
+      createdAt: weekStart.add(const Duration(days: 2)),
+      customerName: 'Customer ${i + 40}',
+      customerPhone: '+970599999999',
+      customerEmail: 'c${i + 40}@test.com',
+      estimatedTimeMinutes: 15,
+      paymentMethod: 'Visa',
+    )),
+    // Thursday - 12 orders
+    ...List.generate(12, (i) => OrderModel(
+      id: 'PS_THU_$i',
+      status: OrderStatus.delivered,
+      items: [_pharmacyCartItem(_pharmacySalesOffers[i % 5])],
+      deliveryAddress: customerAddress,
+      createdAt: weekStart.add(const Duration(days: 3)),
+      customerName: 'Customer ${i + 60}',
+      customerPhone: '+970599999999',
+      customerEmail: 'c${i + 60}@test.com',
+      estimatedTimeMinutes: 15,
+      paymentMethod: 'Cash',
+    )),
+    // Friday - 13 orders
+    ...List.generate(13, (i) => OrderModel(
+      id: 'PS_FRI_$i',
+      status: OrderStatus.delivered,
+      items: [_pharmacyCartItem(_pharmacySalesOffers[i % 5])],
+      deliveryAddress: customerAddress,
+      createdAt: weekStart.add(const Duration(days: 4)),
+      customerName: 'Customer ${i + 80}',
+      customerPhone: '+970599999999',
+      customerEmail: 'c${i + 80}@test.com',
+      estimatedTimeMinutes: 15,
+      paymentMethod: 'Visa',
+    )),
+    // Saturday - 12 orders
+    ...List.generate(12, (i) => OrderModel(
+      id: 'PS_SAT_$i',
+      status: OrderStatus.delivered,
+      items: [_pharmacyCartItem(_pharmacySalesOffers[i % 5])],
+      deliveryAddress: customerAddress,
+      createdAt: weekStart.add(const Duration(days: 5)),
+      customerName: 'Customer ${i + 100}',
+      customerPhone: '+970599999999',
+      customerEmail: 'c${i + 100}@test.com',
+      estimatedTimeMinutes: 15,
+      paymentMethod: 'Cash',
+    )),
+    // Sunday - 14 orders
+    ...List.generate(14, (i) => OrderModel(
+      id: 'PS_SUN_$i',
+      status: OrderStatus.delivered,
+      items: [_pharmacyCartItem(_pharmacySalesOffers[i % 5])],
+      deliveryAddress: customerAddress,
+      createdAt: weekStart.add(const Duration(days: 6)),
+      customerName: 'Customer ${i + 120}',
+      customerPhone: '+970599999999',
+      customerEmail: 'c${i + 120}@test.com',
+      estimatedTimeMinutes: 15,
+      paymentMethod: 'Visa',
+    )),
+  ];
+}
+
 // === Saved Products ===
 List<PharmacyOfferModel> savedProducts = [
   PharmacyOfferModel(

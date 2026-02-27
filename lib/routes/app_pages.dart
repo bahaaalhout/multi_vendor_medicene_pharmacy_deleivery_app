@@ -1,5 +1,10 @@
 import 'package:go_router/go_router.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_model.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/pharmacy/profile/screens/pharmacy_profile_screen.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/pharmacy/reports/screens/report_screen.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/pharmacy/reports/screens/low_stock_trends_screen.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/pharmacy/reports/screens/medicine_usage_insights_screen.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/pharmacy/reports/screens/sales_overview_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/data/fake_data.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/inventory_pharmacy/add_medicine_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/navigation/patient_main_screen.dart';
@@ -20,7 +25,7 @@ class AppPages {
     routes: [
       GoRoute(
         path: AppRoutes.home,
-        builder: (context, state) => const MainScreen(),
+        builder: (context, state) => const PharmacyProfileScreen(),
       ),
       GoRoute(
         path: AppRoutes.checkout,
@@ -38,6 +43,22 @@ class AppPages {
       GoRoute(
         path: AppRoutes.deliveryMain,
         builder: (context, state) => const DeliveryMainScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.pharmacyReport,
+        builder: (context, state) => const ReportScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.salesOverview,
+        builder: (context, state) => const SalesOverviewScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.lowStockTrends,
+        builder: (context, state) => const LowStockTrendsScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.medicineUsageInsights,
+        builder: (context, state) => const MedicineUsageInsightsScreen(),
       ),
       GoRoute(
         path: AppRoutes.cart,

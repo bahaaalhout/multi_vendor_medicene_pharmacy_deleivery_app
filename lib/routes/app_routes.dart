@@ -12,5 +12,10 @@ class AppRoutes {
   
   static const pharmacyOrders = '/pharmacyOrders';
   static const medicationReminder = '/medication-reminder';
+
+  static const pharmacyReport = '/pharmacy/report';
+  static const salesOverview = '/pharmacy/sales-overview';
+  static const lowStockTrends = '/pharmacy/low-stock-trends';
+  static const medicineUsageInsights = '/pharmacy/medicine-usage-insights';
   static const inventoryScreen = '/inventory_screen';
 }
