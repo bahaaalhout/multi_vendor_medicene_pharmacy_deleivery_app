@@ -38,7 +38,8 @@ class LoginButton extends StatelessWidget {
             AppButton(
               title: 'Login',
               onPressed: () {
-                context.read<LoginCubit>().login();
+                context.go(AppRoutes.home);
+                // context.read<LoginCubit>().login();
               },
             ),
             8.verticalSpace,

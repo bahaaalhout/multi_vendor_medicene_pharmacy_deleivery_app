@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/onboarding/controller/onboarding_cubit.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/onboarding/data/onboarding_content.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/routes/app_routes.dart';
 
 class NavigationButtonsOnboard extends StatelessWidget {
   const NavigationButtonsOnboard({
@@ -27,6 +29,7 @@ class NavigationButtonsOnboard extends StatelessWidget {
             _controller.jumpToPage(onboardingPages.length - 1);
 
             context.read<OnboardingCubit>().skip(onboardingPages.length - 1);
+            context.go(AppRoutes.select);
           },
           child: Text(
             index != onboardingPages.length - 1 ? "Skip" : "Next",
@@ -45,7 +48,9 @@ class NavigationButtonsOnboard extends StatelessWidget {
               context.read<OnboardingCubit>().updatePage(
                 state.currentIndex + 1,
               );
-            } else {}
+            } else {
+              context.go(AppRoutes.select);
+            }
           },
           child: SvgPicture.asset('assets/icons/next_button_onboard.svg'),
         ),

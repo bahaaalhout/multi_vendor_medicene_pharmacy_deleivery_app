@@ -72,15 +72,15 @@ class _SelectTypeScreenState extends State<SelectTypeScreen> {
 
                                 switch (type) {
                                   case 'Patient':
-                                    context.go(AppRoutes.home);
+                                    context.go(AppRoutes.login);
                                     break;
 
                                   case 'Pharmacist':
-                                    context.go(AppRoutes.forgetPassword);
+                                    context.go(AppRoutes.signUpPharmacy);
                                     break;
 
                                   case 'Delivery':
-                                    context.go(AppRoutes.deliveryMain);
+                                    context.go(AppRoutes.login);
                                     break;
                                 }
                               });
