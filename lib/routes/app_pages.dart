@@ -10,11 +10,13 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/no
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/view/medication/medication_reminder_page.dart';
 import '../features/patient/navigation/patient_main_screen.dart';
 import '../features/inventory_pharmacy/inventory_screen.dart';
+import '../features/pharmacy/orders/screens/pharmacy_orders_list_screen.dart';
 import 'app_routes.dart';
 
 class AppPages {
   static final GoRouter router = GoRouter(
     initialLocation: AppRoutes.inventoryScreen,
+    initialLocation: AppRoutes.pharmacyOrders,
     routes: [
       GoRoute(
         path: AppRoutes.home,
@@ -56,6 +58,12 @@ class AppPages {
       GoRoute(
         path: AppRoutes.addMedicine,
         builder: (context, state) => const AddMedicineScreen(),
+        path: AppRoutes.pharmacyOrders,
+        builder: (context, state) => const PharmacyOrdersListScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.pharmacyOrders,
+        builder: (context, state) => const PharmacyOrdersListScreen(),
       ),
     ],
   );
