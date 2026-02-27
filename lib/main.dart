@@ -3,11 +3,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/data/fake_data.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/inventory_pharmacy/for_delete.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/cubit/notifications_cubit.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/cubit/reminder_cubit.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/routes/app_pages.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  print("MAIN STARTED");
+
+  final prefs = await SharedPreferences.getInstance();
+  final login = await AuthService().login(
+    "pharmacy@test.com",
+    "Pharmacy@12345",
+  );
   runApp(const MyApp());
 }
 

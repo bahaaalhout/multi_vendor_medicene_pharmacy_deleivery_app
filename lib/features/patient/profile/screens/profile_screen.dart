@@ -6,7 +6,7 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/hi
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/profile/screens/edit_profile_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/saved/screens/saved_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/profile/widgets/notification_card.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/profile/widgets/profile_card.dart';
+
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/profile/widgets/settings_item.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/profile/widgets/toggle.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
@@ -110,6 +110,8 @@ class _ProfileView extends StatelessWidget {
                       icon: "assets/icons/history.png",
                       title: 'History',
                       subtitle: 'Orders & Activity',
+                      hasToggle: false,
+                      toggleValue: false,
                       onTap: () {
                         Navigator.push(
                           context,
@@ -126,6 +128,8 @@ class _ProfileView extends StatelessWidget {
                       icon: "assets/icons/saved.png",
                       title: 'Saved items',
                       subtitle: 'medicines & Healthy products',
+                      hasToggle: false,
+                      toggleValue: false,
                       onTap: () {
                         Navigator.push(
                           context,
@@ -444,11 +448,8 @@ class _SettingsItem extends StatelessWidget {
     this.icon,
     required this.title,
     this.subtitle,
-    this.hasToggle = false,
-    this.toggleValue = false,
-    this.onToggle,
     this.onTap,
-    required this.isSubItem,
+    required this.isSubItem, required this.hasToggle, required this.toggleValue, this.onToggle,
   });
 
   @override

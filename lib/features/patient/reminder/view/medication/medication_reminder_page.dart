@@ -6,9 +6,7 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_
 
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_buttons/app_bar_buttons/more_button.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_buttons/app_bar_buttons/navigate_back_button.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_primary_app_bar.dart';
+
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/data/fake_data.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/helpers/medication_actions.dart'
     as act;
@@ -22,7 +20,6 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/re
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/medication_reminder_widgets/medication_reminder_tabs.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/medication_reminder_widgets/selected_medication_section_widgets/selected_medication_section.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/models/adjusted_schedule_result.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/routes/app_routes.dart';
 
 class MedicationReminderPage extends StatefulWidget {
   const MedicationReminderPage({super.key});

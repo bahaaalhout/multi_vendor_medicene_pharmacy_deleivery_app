@@ -11,7 +11,40 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/pharmac
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/models/reminder_item.dart';
 
 final now = DateTime.now();
-
+// final List<InventoryModel> inventoryItems = [
+//   InventoryModel(
+//     id: "1",
+//     name: "Paracetamol 500mg",
+//     manufacturer: "GSK",
+//     quantity: "30 pacs",
+//     expiry: "Ex :12 month",
+//     status: StockStatus.inStock,
+//   ),
+//   InventoryModel(
+//     id: "2",
+//     name: "Paracetamol 500mg",
+//     manufacturer: "GSK",
+//     quantity: "30 pacs",
+//     expiry: "Ex :12 month",
+//     status: StockStatus.lowStock,
+//   ),
+//   InventoryModel(
+//     id: "3",
+//     name: "Paracetamol 500mg",
+//     manufacturer: "GSK",
+//     quantity: "30 pacs",
+//     expiry: "Ex :12 month",
+//     status: StockStatus.outOfStock,
+//   ),
+//   InventoryModel(
+//     id: "4",
+//     name: "Paracetamol 500mg",
+//     manufacturer: "GSK",
+//     quantity: "30 pacs",
+//     expiry: "Ex :12 month",
+//     status: StockStatus.inStock,
+//   ),
+// ];
 final List<AddressModel> address = [
   AddressModel(
     id: "1",
@@ -528,7 +561,6 @@ final deliveryAvailable = DeliveryModel(
   price: 0.0,
   rating: 0.0,
   statusMessage: "Preparing order's products",
-
 );
 
 /// State 2: Picked up, ready to start (On the way step)
