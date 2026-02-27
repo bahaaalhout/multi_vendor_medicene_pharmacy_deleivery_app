@@ -18,13 +18,13 @@ class CustomToggle extends StatelessWidget {
         decoration: BoxDecoration(
           color: value ? const Color(0xFF1B952B) : Colors.grey.shade500,
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.transparent), // بدون حدود
+          border: Border.all(color: Colors.transparent),
         ),
         child: Align(
           alignment: value ? Alignment.centerRight : Alignment.centerLeft,
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 200),
-            width: value ? 16 : 18, // ⬅ تكبير الدائرة عند الإيقاف
+            width: value ? 16 : 18,
             height: value ? 16 : 18,
             decoration: const BoxDecoration(
               color: Colors.white,

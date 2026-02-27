@@ -26,6 +26,7 @@ class AppColors {
   static const Color secondaryDarker = Color(0xFF212f4d);
   static const Color secondaryDarker1 = Color(0xFF111111);
   static const Color secondaryDarker2 = Color(0xFF17234D);
+  static const Color secondaryDarker3 = Color(0xFF374957);
 
   /// error colors
   static const Color errorLight = Color(0xFFfbecec);
@@ -72,6 +73,7 @@ class AppColors {
   static const Color neutralNormalHover = Color(0xFFb6b2b0);
   static const Color neutralNormalActive = Color(0xFFa29e9d);
   static const Color neutralDark = Color(0xFF989593);
+  static const Color neutralDark1 = Color(0xFF666666);
   static const Color neutralDarkHover = Color(0xFF797776);
   static const Color neutralDarkActive = Color(0xFF5b5958);
   static const Color neutralDarker = Color(0xFF474545);
@@ -82,5 +84,11 @@ class AppColors {
   static const Color toggleGreen = Color(0xFF4CAF50); // Green for toggle switches
   static const Color textDark = Color(0xFF212121); // Dark text
   static const Color textLight = Color(0xFF757575); // Light gray text
-  static const Color inactiveGray = Color(0xFF9E9E9E); // Inactive navigation items
+  static const Color inactiveGray = Color(0xFF9E9E9E); 
+  static const Color inactiveGray1 = Color(0xFFA4A4A4);
+  static const Color inactiveGray2 = Color(0xFF8D8D8D); // Inactive navigation items
+
+
+  // Report screens colors
+  static const Color chartNeutral = Color(0xFF615E83); // Inactive navigation items
 }

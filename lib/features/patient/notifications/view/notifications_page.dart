@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
+
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_buttons/app_bar_buttons/more_button.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_buttons/app_bar_buttons/navigate_back_button.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_date_label.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_date_selector.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_primary_app_bar.dart';
+
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/cubit/notifications_cubit.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/cubit/notifications_states.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/models/notification_item.dart';
@@ -56,12 +60,6 @@ class _NotificationsPageState extends State<NotificationsPage> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppPrimaryAppBar(
-        title: 'Notification',
-        onBack: () {
-          context.pop();
-        },
-      ),
       body: Container(
         margin: EdgeInsets.only(bottom: 54.h),
         padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -91,6 +89,24 @@ class _NotificationsPageState extends State<NotificationsPage> {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(height: 34.h),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        NavigateBackButton(),
+                        Text(
+                          'Notifications',
+                          style: AppTextStyles.bold25.copyWith(
+                            height: 1.5,
+                            color: AppColors.primaryDarker,
+                          ),
+                        ),
+                        MoreButton(fun: () {}),
+                      ],
+                    ),
+                  ),
                   SizedBox(height: 8.h),
                   //tabs filter
                   NotificationFilterTabs(
