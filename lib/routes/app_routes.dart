@@ -10,4 +10,5 @@ class AppRoutes {
   static const deliveryMain = '/deliveryMain';
   
   static const pharmacyOrders = '/pharmacyOrders';
+  static const medicationReminder = '/medication-reminder';
 }
