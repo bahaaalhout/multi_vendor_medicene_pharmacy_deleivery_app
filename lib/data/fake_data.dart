@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/address_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/cart_item_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/delivery_model.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/inventory_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/order_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/pharmacy_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_model.dart';
@@ -12,40 +11,40 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/pharmac
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/models/reminder_item.dart';
 
 final now = DateTime.now();
-final List<InventoryModel> inventoryItems = [
-  InventoryModel(
-    id: "1",
-    name: "Paracetamol 500mg",
-    manufacturer: "GSK",
-    quantity: "30 pacs",
-    expiry: "Ex :12 month",
-    status: StockStatus.inStock,
-  ),
-  InventoryModel(
-    id: "2",
-    name: "Paracetamol 500mg",
-    manufacturer: "GSK",
-    quantity: "30 pacs",
-    expiry: "Ex :12 month",
-    status: StockStatus.lowStock,
-  ),
-  InventoryModel(
-    id: "3",
-    name: "Paracetamol 500mg",
-    manufacturer: "GSK",
-    quantity: "30 pacs",
-    expiry: "Ex :12 month",
-    status: StockStatus.outOfStock,
-  ),
-  InventoryModel(
-    id: "4",
-    name: "Paracetamol 500mg",
-    manufacturer: "GSK",
-    quantity: "30 pacs",
-    expiry: "Ex :12 month",
-    status: StockStatus.inStock,
-  ),
-];
+// final List<InventoryModel> inventoryItems = [
+//   InventoryModel(
+//     id: "1",
+//     name: "Paracetamol 500mg",
+//     manufacturer: "GSK",
+//     quantity: "30 pacs",
+//     expiry: "Ex :12 month",
+//     status: StockStatus.inStock,
+//   ),
+//   InventoryModel(
+//     id: "2",
+//     name: "Paracetamol 500mg",
+//     manufacturer: "GSK",
+//     quantity: "30 pacs",
+//     expiry: "Ex :12 month",
+//     status: StockStatus.lowStock,
+//   ),
+//   InventoryModel(
+//     id: "3",
+//     name: "Paracetamol 500mg",
+//     manufacturer: "GSK",
+//     quantity: "30 pacs",
+//     expiry: "Ex :12 month",
+//     status: StockStatus.outOfStock,
+//   ),
+//   InventoryModel(
+//     id: "4",
+//     name: "Paracetamol 500mg",
+//     manufacturer: "GSK",
+//     quantity: "30 pacs",
+//     expiry: "Ex :12 month",
+//     status: StockStatus.inStock,
+//   ),
+// ];
 final List<AddressModel> address = [
   AddressModel(
     id: "1",

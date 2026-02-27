@@ -8,12 +8,13 @@ class MedicineNameSection extends StatelessWidget {
   final TextEditingController nameController;
   final String selectedType;
   final Function(String?) onTypeChanged;
-
+  final String? Function(String?)? nameValidator;
   const MedicineNameSection({
     super.key,
     required this.nameController,
     required this.selectedType,
     required this.onTypeChanged,
+    this.nameValidator,
   });
 
   @override
@@ -101,6 +102,7 @@ class MedicineNameSection extends StatelessWidget {
             height: 50.h,
             child: TextFormField(
               controller: nameController,
+              validator: nameValidator,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.symmetric(
                   horizontal: 16.w,

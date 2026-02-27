@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/inventory_pharmacy/inventory_screen.dart';
 
 class DeleteConfirmationDialog extends StatelessWidget {
   final VoidCallback onDelete;
@@ -60,12 +59,7 @@ class DeleteConfirmationDialog extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed: () {
                             onDelete();
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => InventoryScreen(),
-                              ),
-                            );
+                            Navigator.of(context).pop(true);
                           },
                           style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.symmetric(vertical: 16.h),

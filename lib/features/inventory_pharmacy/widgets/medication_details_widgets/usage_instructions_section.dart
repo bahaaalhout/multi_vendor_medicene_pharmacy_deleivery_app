@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/inventory_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/inventory_pharmacy/widgets/medication_details_widgets/bullet_points.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/inventory_pharmacy/widgets/medication_details_widgets/sub_header_text.dart';
 
 class UsageInstructionsSection extends StatelessWidget {
-  const UsageInstructionsSection({super.key});
-
+  const UsageInstructionsSection({super.key, required this.inventoryModel});
+  final InventoryModel inventoryModel;
   @override
   Widget build(BuildContext context) {
     return Container(

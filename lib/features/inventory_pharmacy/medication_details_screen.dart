@@ -3,13 +3,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/inventory_pharmacy/widgets/medication_details_widgets/drug_info_section.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/inventory_model.dart';
 
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/inventory_pharmacy/widgets/medication_details_widgets/drug_info_section.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/inventory_pharmacy/widgets/medication_details_widgets/medicine_header_section.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/inventory_pharmacy/widgets/medication_details_widgets/usage_instructions_section.dart';
 
 class MedicineDetailsScreen extends StatelessWidget {
-  const MedicineDetailsScreen({super.key});
+  // 🚀 2. Require the model in the constructor
+  final InventoryModel inventoryItem;
+
+  const MedicineDetailsScreen({super.key, required this.inventoryItem});
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +35,15 @@ class MedicineDetailsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            MedicineHeaderSection(),
+            MedicineHeaderSection(inventoryModel: inventoryItem),
             16.verticalSpace,
 
-            DrugInfoSection(),
+            DrugInfoSection(inventoryModel: inventoryItem),
 
             16.verticalSpace,
 
-            UsageInstructionsSection(),
+            // You can pass the whole item or just the strings you need here
+            UsageInstructionsSection(inventoryModel: inventoryItem),
 
             105.verticalSpace,
           ],

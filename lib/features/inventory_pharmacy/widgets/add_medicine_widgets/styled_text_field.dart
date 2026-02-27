@@ -11,12 +11,14 @@ class StyledTextField extends StatelessWidget {
     required this.textHint,
     this.suffixIcon,
     this.keyboardType = TextInputType.text,
+    this.validator,
   });
   final TextEditingController controller;
   final String title;
   final String textHint;
   final Widget? suffixIcon;
   final TextInputType keyboardType;
+  final String? Function(String?)? validator;
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -30,41 +32,39 @@ class StyledTextField extends StatelessWidget {
             ),
           ),
           8.verticalSpace,
-          SizedBox(
-            height: 50,
-            child: TextFormField(
-              controller: controller,
-              keyboardType: keyboardType,
-              decoration: InputDecoration(
-                hintText: textHint,
-                hintStyle: AppTextStyles.reqular14.copyWith(
-                  color: AppColors.neutralDark,
-                ),
-
-                contentPadding: EdgeInsets.symmetric(horizontal: 16),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(
-                    width: 1,
-                    color: AppColors.neutralLightActive,
-                  ),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12.r),
-                  borderSide: BorderSide(color: AppColors.neutralLightActive),
-                ),
-
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12.r),
-
-                  borderSide: BorderSide(
-                    color: AppColors.primaryNormal,
-                    width: 1.5,
-                  ),
-                ),
-
-                suffixIcon: suffixIcon,
+          TextFormField(
+            validator: validator,
+            controller: controller,
+            keyboardType: keyboardType,
+            decoration: InputDecoration(
+              hintText: textHint,
+              hintStyle: AppTextStyles.reqular14.copyWith(
+                color: AppColors.neutralDark,
               ),
+
+              contentPadding: EdgeInsets.symmetric(horizontal: 16),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(
+                  width: 1,
+                  color: AppColors.neutralLightActive,
+                ),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.r),
+                borderSide: BorderSide(color: AppColors.neutralLightActive),
+              ),
+
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.r),
+
+                borderSide: BorderSide(
+                  color: AppColors.primaryNormal,
+                  width: 1.5,
+                ),
+              ),
+
+              suffixIcon: suffixIcon,
             ),
           ),
         ],

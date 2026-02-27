@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/inventory_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
 
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/inventory_pharmacy/widgets/medication_details_widgets/drug_info_row.dart';
 
 class DrugInfoSection extends StatelessWidget {
-  const DrugInfoSection({super.key});
+  const DrugInfoSection({super.key, required this.inventoryModel});
+  final InventoryModel inventoryModel;
 
   @override
   Widget build(BuildContext context) {
@@ -34,15 +36,32 @@ class DrugInfoSection extends StatelessWidget {
             ),
           ),
           16.verticalSpace,
-          InfoRow(label: "Generic Name:", value: "Paracetamol"),
+          InfoRow(
+            label: "Generic Name:",
+            value: inventoryModel.medicine?.name ?? "N/A",
+          ),
           16.verticalSpace,
-          InfoRow(label: "Brand Name:", value: "Panadol"),
+          InfoRow(
+            label: "Brand Name:",
+            value: inventoryModel.medicine?.name ?? "N/A",
+          ),
           16.verticalSpace,
-          InfoRow(label: "Category:", value: "Analgesic"),
+          InfoRow(
+            label: "Category:",
+            value: inventoryModel.medicine?.category ?? "N/A",
+          ),
           16.verticalSpace,
-          InfoRow(label: "Manufacturer:", value: "GlaxoSmithKline"),
+          InfoRow(
+            label: "Manufacturer:",
+            value: inventoryModel.medicine?.manufacturer ?? "N/A",
+          ),
           16.verticalSpace,
-          InfoRow(label: "Prescription:", value: "No"),
+          InfoRow(
+            label: "Prescription:",
+            value: inventoryModel.medicine?.requiresPrescription == true
+                ? "Yes"
+                : "No",
+          ),
         ],
       ),
     );

@@ -1,5 +1,8 @@
 import 'package:go_router/go_router.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_model.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/data/fake_data.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/inventory_pharmacy/add_medicine_screen.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/navigation/patient_main_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/cart/screens/cart_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/cart/screens/checkout_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/navigation/delivery_main_screen.dart';
@@ -44,7 +47,15 @@ class AppPages {
       ),
       GoRoute(
         path: AppRoutes.inventoryScreen,
-        builder: (context, state) => const InventoryScreen(),
+        builder: (context, state) => InventoryScreen(pharmacy: pharmacies[0]),
+      ),
+      // GoRoute(
+      //   path: AppRoutes.medicineDetails,
+      //   builder: (context, state) => const MedicineDetailsScreen(inventoryItem: null,),
+      // ),
+      GoRoute(
+        path: AppRoutes.addMedicine,
+        builder: (context, state) => const AddMedicineScreen(),
       ),
     ],
   );

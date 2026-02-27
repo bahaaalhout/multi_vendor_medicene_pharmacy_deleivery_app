@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/inventory_model.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_inventory_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
 
 class InventoryCard extends StatelessWidget {
@@ -42,7 +43,10 @@ class InventoryCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(item.name, style: AppTextStyles.semiBold16),
+              Text(
+                item.medicine?.name ?? "Unknown Medicine",
+                style: AppTextStyles.semiBold16,
+              ),
               Container(
                 padding: EdgeInsets.symmetric(
                   horizontal: 12.w,
@@ -63,7 +67,7 @@ class InventoryCard extends StatelessWidget {
           ),
 
           Text(
-            item.manufacturer,
+            item.medicine?.manufacturer ?? "Unknown Manufacturer",
             style: AppTextStyles.reqular12.copyWith(
               color: AppColors.neutralDarker,
             ),
@@ -75,13 +79,13 @@ class InventoryCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                item.quantity,
+                item.stockQuantity.toString(),
                 style: AppTextStyles.reqular12.copyWith(
                   color: AppColors.neutralDarker,
                 ),
               ),
               Text(
-                'EX : ${item.expiry}',
+                'EX : ${item.expiryDate}',
                 style: AppTextStyles.medium12.copyWith(
                   color: AppColors.neutralDarkActive,
                 ),

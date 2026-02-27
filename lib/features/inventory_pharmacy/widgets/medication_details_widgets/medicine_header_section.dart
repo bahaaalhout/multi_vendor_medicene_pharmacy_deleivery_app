@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/inventory_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/inventory_pharmacy/inventory_services.dart';
+
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/inventory_pharmacy/widgets/medication_details_widgets/delete_confirmation_dialog.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/inventory_pharmacy/widgets/medication_details_widgets/out_of_stock_button.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/inventory_pharmacy/widgets/medication_details_widgets/update_stoke_button.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/inventory_pharmacy/widgets/medication_details_widgets/upload_inventory_dialog.dart';
 
 class MedicineHeaderSection extends StatelessWidget {
-  const MedicineHeaderSection({super.key});
-
+  const MedicineHeaderSection({super.key, required this.inventoryModel});
+  final InventoryModel inventoryModel;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,7 +33,7 @@ class MedicineHeaderSection extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Paracetamol 500mg",
+                    inventoryModel.medicine?.name ?? "Unknown Medicine",
                     style: AppTextStyles.bold16.copyWith(
                       fontSize: 20.sp,
                       color: Colors.black,
@@ -36,7 +41,7 @@ class MedicineHeaderSection extends StatelessWidget {
                   ),
                   4.verticalSpace,
                   Text(
-                    "Tablet - 500mg",
+                    inventoryModel.medicine?.type ?? 'Unknown Type',
                     style: AppTextStyles.medium14.copyWith(
                       color: AppColors.neutralDark,
                     ),
@@ -58,14 +63,31 @@ class MedicineHeaderSection extends StatelessWidget {
                       builder: (context) => UploadInventoryDialog(),
                     );
                   } else if (value == 'delete') {
-                    showDialog(
+                    showDialog<bool>(
                       context: context,
-                      builder: (context) => DeleteConfirmationDialog(
-                        onDelete: () {
-                          Navigator.pop(context);
+                      builder: (dialogContext) => DeleteConfirmationDialog(
+                        onDelete: () async {
+                          try {
+                            await InventoryApiService().deleteMedicine(
+                              inventoryModel.medicineId,
+                            );
+                            if (dialogContext.mounted) {
+                              Navigator.of(dialogContext).pop(true);
+                            }
+                          } catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text("Failed to delete medicine: $e"),
+                              ),
+                            );
+                          }
                         },
                       ),
-                    );
+                    ).then((wasDeleted) {
+                      if (wasDeleted == true && context.mounted) {
+                        context.pop();
+                      }
+                    });
                   }
                 },
                 itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
@@ -103,8 +125,9 @@ class MedicineHeaderSection extends StatelessWidget {
 
           8.verticalSpace,
           Center(
-            child: Image.asset(
-              'assets/images/panadol1.png',
+            child: SvgPicture.asset(
+              inventoryModel.medicine?.imageUrl ??
+                  'assets/images/medicine_placeholder.svg',
 
               fit: BoxFit.contain,
             ),

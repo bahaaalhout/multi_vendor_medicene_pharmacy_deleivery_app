@@ -9,11 +9,14 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/inventory_
 class StockExpirySection extends StatelessWidget {
   final TextEditingController stockController;
   final TextEditingController expiryController;
-
+  final String? Function(String?)? stockValidator;
+  final String? Function(String?)? expiryValidator;
   const StockExpirySection({
     super.key,
     required this.stockController,
     required this.expiryController,
+    this.stockValidator,
+    this.expiryValidator,
   });
 
   @override
@@ -24,6 +27,7 @@ class StockExpirySection extends StatelessWidget {
         Row(
           children: [
             StyledTextField(
+              validator: stockValidator,
               controller: stockController,
               title: "Stock Quantity",
               textHint: "0",
@@ -33,6 +37,7 @@ class StockExpirySection extends StatelessWidget {
             8.horizontalSpace,
             StyledTextField(
               controller: expiryController,
+              validator: expiryValidator,
               title: "Expiry Date",
               textHint: "${DateTime.now()}",
               suffixIcon: IconButton(
