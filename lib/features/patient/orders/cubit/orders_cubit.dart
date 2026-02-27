@@ -18,10 +18,12 @@ class OrdersCubit extends Cubit<OrdersState> {
     ));
 
     try {
-      final orders = await OrdersRepository.fetchMyOrders(
-        page: 1,
-        limit: 50,
-      );
+     final orders = await OrdersRepository.fetchMyOrders(
+  page: 1,
+  limit: 50,
+  filter: 'ALL',
+  sortOrder: 'desc',
+);
 
       final filtered = OrderFilters.applyTab(orders, state.tab);
 

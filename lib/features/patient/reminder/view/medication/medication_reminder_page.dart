@@ -55,127 +55,164 @@ class MedicationReminderPageState extends State<MedicationReminderPage> {
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final prescriptions = medicineData.where((m) => m.requiresPrescription).toList();
-    final recents = medicineData.where((m) => !m.requiresPrescription).toList();
+@override
+Widget build(BuildContext context) {
+  final prescriptions =
+      medicineData.where((m) => m.requiresPrescription).toList();
+  final recents = medicineData.where((m) => !m.requiresPrescription).toList();
 
-    final selectedMedicines = act.getSelectedMeds(
-      selectedIds: selectedIds,
-      listA: prescriptions,
-      listB: recents,
-    );
+  final selectedMedicines = act.getSelectedMeds(
+    selectedIds: selectedIds,
+    listA: prescriptions,
+    listB: recents,
+  );
 
-    return BlocBuilder<ReminderCubit, ReminderStates>(
-      builder: (context, state) {
-        final cubit = context.read<ReminderCubit>();
-        final allReminders = cubit.allReminders;
+  return BlocBuilder<ReminderCubit, ReminderStates>(
+    builder: (context, state) {
+      final cubit = context.read<ReminderCubit>();
+      final allReminders = cubit.allReminders;
 
-        final scheduleInfo = getScheduleForMedicines(
-          medicines: selectedMedicines,
-          reminders: allReminders,
-        );
+      final scheduleInfo = getScheduleForMedicines(
+        medicines: selectedMedicines,
+        reminders: allReminders,
+      );
 
-        final effective = resolveEffectiveSchedule(
-          selectedIds: selectedIds,
-          singleOverrides: singleOverrides,
-          multiOverride: multiOverride,
-          allMedicines: [...prescriptions, ...recents],
-          reminders: allReminders,
-        );
+      final effective = resolveEffectiveSchedule(
+        selectedIds: selectedIds,
+        singleOverrides: singleOverrides,
+        multiOverride: multiOverride,
+        allMedicines: [...prescriptions, ...recents],
+        reminders: allReminders,
+      );
 
-        final schedule = effective.isValid ? effective.toAdjusted() : defaultSchedule;
+      final schedule =
+          effective.isValid ? effective.toAdjusted() : defaultSchedule;
 
-        return Scaffold(
-          backgroundColor: Colors.white,
-          body: Padding(
-            padding: EdgeInsets.all(16.w),
-            child: Column(
-              children: [
-                SizedBox(height: 34.h),
+      final hasFooter = selectedMedicines.isNotEmpty;
 
-                Row(
-                  children: [
-                    IconButton(
-                      onPressed: () => context.pop(),
-                      icon: SvgPicture.asset("assets/icons/back.svg"),
-                    ),
-                    SizedBox(width: 12.w),
-                    Text(
-                      'Medication Reminder',
-                      style: AppTextStyles.bold22.copyWith(
-                        color: AppColors.primaryDarker,
+      return Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: Column(
+            children: [
+              // ✅ المحتوى الرئيسي مع padding
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.all(16.w),
+                  child: Column(
+                    children: [
+                      SizedBox(height: 18.h),
+
+                      Row(
+                        children: [
+                          IconButton(
+                            onPressed: () => context.pop(),
+                            icon: SvgPicture.asset("assets/icons/back.svg"),
+                          ),
+                          SizedBox(width: 12.w),
+                          Text(
+                            'Medication Reminder',
+                            style: AppTextStyles.bold22.copyWith(
+                              color: AppColors.primaryDarker,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
 
-                SizedBox(height: 16.h),
+                      SizedBox(height: 16.h),
 
-                Expanded(
-                  child: MainFrame(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const MedicationHeaderSection(),
-                        SizedBox(height: 24.h),
-
-                        MedicationReminderTabs(
-                          selected: tab,
-                          prescriptionsCount: prescriptions.length,
-                          onChanged: (v) async {
-                            setState(() => tab = v);
-                            await animateToTab(v);
-                          },
-                        ),
-
-                        SizedBox(height: 12.h),
-
-                        Expanded(
-                          child: PageView(
-                            controller: pageController,
-                            physics: const BouncingScrollPhysics(),
-                            onPageChanged: (index) => setState(() => tab = MedicationReminderTab.values[index]),
+                      Expanded(
+                        child: MainFrame(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              MedicationListSection(
-                                items: prescriptions,
-                                selectedIds: selectedIds,
-                                reminders: allReminders,
-                                onToggleSelect: toggleSelectWithDefault,
-                                onSetReminder: (m) => setState(() => selectedIds.add(m.id)),
+                              const MedicationHeaderSection(),
+                              SizedBox(height: 24.h),
+
+                              MedicationReminderTabs(
+                                selected: tab,
+                                prescriptionsCount: prescriptions.length,
+                                onChanged: (v) async {
+                                  setState(() => tab = v);
+                                  await animateToTab(v);
+                                },
                               ),
-                              MedicationListSection(
-                                items: recents,
-                                selectedIds: selectedIds,
-                                reminders: allReminders,
-                                onToggleSelect: toggleSelectWithDefault,
-                                onSetReminder: (m) => setState(() => selectedIds.add(m.id)),
+
+                              SizedBox(height: 12.h),
+
+                              Expanded(
+                                child: PageView(
+                                  controller: pageController,
+                                  physics: const BouncingScrollPhysics(),
+                                  onPageChanged: (index) => setState(
+                                    () => tab =
+                                        MedicationReminderTab.values[index],
+                                  ),
+                                  children: [
+                                    MedicationListSection(
+                                      items: prescriptions,
+                                      selectedIds: selectedIds,
+                                      reminders: allReminders,
+                                      onToggleSelect: toggleSelectWithDefault,
+                                      onSetReminder: (m) => setState(
+                                        () => selectedIds.add(m.id),
+                                      ),
+                                      bottomPadding: hasFooter ? 240.h : 16.h,
+                                    ),
+                                    MedicationListSection(
+                                      items: recents,
+                                      selectedIds: selectedIds,
+                                      reminders: allReminders,
+                                      onToggleSelect: toggleSelectWithDefault,
+                                      onSetReminder: (m) => setState(
+                                        () => selectedIds.add(m.id),
+                                      ),
+
+                                      bottomPadding: hasFooter ? 240.h : 16.h,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
+              ),
 
-                if (selectedMedicines.isNotEmpty) ...[
-                  SafeArea(
-                    top: false,
-
+              if (hasFooter)
+                SafeArea(
+                  top: false,
+                  child: Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 12.h),
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 12,
+                          color: Colors.black12,
+                          offset: Offset(0, -2),
+                        ),
+                      ],
+                    ),
                     child: ConstrainedBox(
-              constraints: BoxConstraints(maxHeight: 260.h),
+                      constraints: BoxConstraints(maxHeight: 240.h),
                       child: SingleChildScrollView(
                         physics: const BouncingScrollPhysics(),
                         child: SelectedMedicationsSection(
                           medicines: selectedMedicines,
-                          sameSchedule: multiOverride != null || scheduleInfo.sameSchedule,
+                          sameSchedule: multiOverride != null ||
+                              scheduleInfo.sameSchedule,
                           groupTimes: schedule.times,
                           groupDays: schedule.days,
                           groupFrequency: schedule.frequency,
                           singleOverrides: singleOverrides,
-                      
-                          onRemoveMedicine: (id) => act.removeMedicineWithOverrides(
+
+                          onRemoveMedicine: (id) =>
+                              act.removeMedicineWithOverrides(
                             setState: setState,
                             selectedIds: selectedIds,
                             singleOverrides: singleOverrides,
@@ -183,57 +220,58 @@ class MedicationReminderPageState extends State<MedicationReminderPage> {
                             setMultiOverride: (v) => multiOverride = v,
                             id: id,
                           ),
-                      
+
                           onClearAll: () => act.clearAllWithOverrides(
                             setState: setState,
                             selectedIds: selectedIds,
                             singleOverrides: singleOverrides,
                             setMultiOverride: (v) => multiOverride = v,
                           ),
-                      
+
                           onCreateReminders: (meds) async {
                             if (meds.isEmpty) return;
-                      
-                            final hasDifferent = meds.length > 1 && scheduleInfo.sameSchedule == false;
+
+                            final hasDifferent =
+                                meds.length > 1 &&
+                                scheduleInfo.sameSchedule == false;
+
                             if (hasDifferent && multiOverride == null) {
                               final unify = await showUnifyDialog();
                               if (!unify) return;
                               setState(() => multiOverride = schedule);
                             }
-                      
+
                             final args = ConfirmReminderArgs(
                               medicines: meds,
                               schedule: schedule,
                             );
-                      
+
                             final res = await context.push(
                               AppRoutes.confirmReminder,
                               extra: args,
                             );
-                      
+
                             if (res is List<ReminderItem>) {
                               cubit.replaceRemindersForMedicines(
                                 res,
                                 currentDate: DateTime.now(),
                               );
-                      
                               if (!mounted) return;
                               context.pop();
                             }
                           },
-                      
+
                           onAdjustSingle: adjustSingle,
                           onAdjustMulti: (m) => adjustMulti(m),
                         ),
                       ),
                     ),
                   ),
-                ],
-              ],
-            ),
+                ),
+            ],
           ),
-        );
-      },
-    );
-  }
-}
+        ),
+      );
+    },
+  );
+}}

@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/order_model.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/orders/models/my_order_details_model.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/orders/models/my_order_summary_model.dart';
+
 
 enum OrderMenuAction { trackOrder, viewDetails }
 
 Future<OrderMenuAction?> showOrderActionsMenu({
   required BuildContext context,
   required Offset tapPosition,
-  required OrderModel order,
+  required MyOrderSummaryModel order,
+  MyOrderDetailsModel? details, 
 }) async {
   final overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
 
-  // Menu position near the long-press point
+  // Menu position near the long-press / anchor
   final position = RelativeRect.fromRect(
     Rect.fromPoints(tapPosition, tapPosition),
     Offset.zero & overlay.size,
@@ -28,15 +29,20 @@ Future<OrderMenuAction?> showOrderActionsMenu({
       PopupMenuItem<OrderMenuAction>(
         enabled: false,
         padding: EdgeInsets.zero,
-        child: _OrderMenuCard(order: order),
+        child: _OrderMenuCard(order: order, details: details),
       ),
     ],
   );
 }
 
 class _OrderMenuCard extends StatelessWidget {
-  final OrderModel order;
-  const _OrderMenuCard({required this.order});
+  final MyOrderSummaryModel order;
+  final MyOrderDetailsModel? details;
+
+  const _OrderMenuCard({
+    required this.order,
+    required this.details,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -76,31 +82,48 @@ class _OrderMenuCard extends StatelessWidget {
               },
             ),
             SizedBox(height: 10.h),
-            _EtaChip(text: _estimatedDeliveryText(order)),
+            _EtaChip(text: estimatedDeliveryText(order, details)),
           ],
         ),
       ),
     );
   }
 
-  // ✅ FIXED TIME: ETA = NOW + estimatedTimeMinutes
-  // This matches typical UX and avoids wrong times when createdAt is old.
-  String _estimatedDeliveryText(OrderModel order) {
+  ///  ETA UX:
+
+  String estimatedDeliveryText(MyOrderSummaryModel order, MyOrderDetailsModel? details) {
+    final estimatedMinutes = _estimateMinutesFromStatus(order.status);
+
     final now = DateTime.now();
-    final eta = now.add(Duration(minutes: order.estimatedTimeMinutes.round()));
+    final eta = now.add(Duration(minutes: estimatedMinutes));
 
     final time = _format12h(eta);
     final today = _isSameDay(now, eta);
 
-    if (today) {
-      return 'Estimated delivery\nToday, $time';
-    }
-    return 'Estimated delivery\n${_month(eta.month)} ${eta.day}, $time';
+    final header = 'Estimated delivery';
+    if (today) return '$header\nToday, $time';
+    return '$header\n${_month(eta.month)} ${eta.day}, $time';
   }
 
-  bool _isSameDay(DateTime a, DateTime b) {
-    return a.year == b.year && a.month == b.month && a.day == b.day;
+  int _estimateMinutesFromStatus(MyOrderStatus s) {
+    switch (s) {
+      case MyOrderStatus.placed:
+        return 45;
+      case MyOrderStatus.processing:
+        return 30;
+      case MyOrderStatus.enRoute:
+        return 15;
+      case MyOrderStatus.delivered:
+        return 0;
+      case MyOrderStatus.cancelled:
+        return 0;
+      case MyOrderStatus.unknown:
+        return 35;
+    }
   }
+
+  bool _isSameDay(DateTime a, DateTime b) =>
+      a.year == b.year && a.month == b.month && a.day == b.day;
 
   String _format12h(DateTime d) {
     int h = d.hour % 12;
@@ -142,7 +165,7 @@ class _MenuButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final primaryColor = const Color(0xFF2F4BB8);
+    const primaryColor = Color(0xFF2F4BB8);
 
     return InkWell(
       borderRadius: BorderRadius.circular(12.r),
@@ -151,15 +174,20 @@ class _MenuButton extends StatelessWidget {
         width: double.infinity,
         padding: EdgeInsets.symmetric(vertical: 12.h),
         decoration: BoxDecoration(
-          color: isPrimary ? AppColors.primaryNormal : Colors.white,
+          color: isPrimary ? primaryColor : Colors.white,
           borderRadius: BorderRadius.circular(12.r),
-          border: Border.all(color: primaryColor, width: 1.2),
+          border: Border.all(
+            color: primaryColor,
+            width: 1.2,
+          ),
         ),
         alignment: Alignment.center,
         child: Text(
           title,
-          style: AppTextStyles.medium12.copyWith(
-            color: isPrimary ? Colors.white : AppColors.primaryNormal,
+          style: TextStyle(
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w600,
+            color: isPrimary ? Colors.white : primaryColor,
           ),
         ),
       ),
@@ -177,13 +205,18 @@ class _EtaChip extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
       decoration: BoxDecoration(
-        color: AppColors.successLightActive,
+        color: const Color(0xFFD6F3DF),
         borderRadius: BorderRadius.circular(12.r),
       ),
       child: Text(
         text,
         textAlign: TextAlign.center,
-        style: AppTextStyles.medium10.copyWith(color: AppColors.successDark),
+        style: TextStyle(
+          fontSize: 12.sp,
+          fontWeight: FontWeight.w600,
+          color: const Color(0xFF2E7D32),
+          height: 1.25,
+        ),
       ),
     );
   }

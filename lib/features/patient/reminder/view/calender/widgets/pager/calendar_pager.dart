@@ -32,25 +32,24 @@ class CalendarPager extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.ltr,
-      child: PageView(
-        controller: controller,
-        reverse: true,
-        physics: const BouncingScrollPhysics(),
-        onPageChanged: (index) => onTabChangedFromSwipe(_indexToTab(index)),
-        children: [
-          MonthCalenderSection(
+    return PageView(
+      controller: controller,
+      reverse: true,
+      physics: const BouncingScrollPhysics(),
+      onPageChanged: (index) => onTabChangedFromSwipe(_indexToTab(index)),
+      children: [
+         SizedBox.expand(
+          child: MonthCalenderSection(
             search: search,
             currentMonth: currentMonth,
             selectedDate: selectedDate,
             onSelectDate: onSelectDate,
             onChangeMonth: onChangeMonth,
           ),
-          WeekCalenderSection(onSelectedDateChanged: onSelectDate),
-          const DayCalenderSection(),
-        ],
-      ),
+        ),
+         SizedBox.expand(child: WeekCalenderSection(onSelectedDateChanged: onSelectDate)),
+          SizedBox.expand(child: DayCalenderSection()),
+      ],
     );
   }
 

@@ -9,11 +9,13 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/re
 class ReminderItemsList extends StatelessWidget {
   final List<ReminderItem> items;
   final EdgeInsets? padding;
+  final bool scrollable;
 
   const ReminderItemsList({
     super.key,
     required this.items,
     this.padding,
+    this.scrollable=false
   });
 
   @override
@@ -23,7 +25,10 @@ class ReminderItemsList extends StatelessWidget {
     return ListView.separated(
       padding: padding ?? EdgeInsets.zero,
       itemCount: items.length,
-      physics: const BouncingScrollPhysics(),
+      shrinkWrap: !scrollable,
+      physics: scrollable
+      ? const BouncingScrollPhysics()
+          : const NeverScrollableScrollPhysics(),
       separatorBuilder: (_, __) => SizedBox(height: 12.h),
       itemBuilder: (context, i) => ReminderListItem(item: items[i]),
     );

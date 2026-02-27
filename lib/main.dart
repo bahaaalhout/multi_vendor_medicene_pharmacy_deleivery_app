@@ -15,11 +15,15 @@ Future<void> main() async {
   await reminderCubit.initLocal(allMedicines: medicineData);
   reminderCubit.loadReminders(date: DateTime.now());
 
-  await AuthService().login("patient@test.com", "Patient@12345");
+  try {
+    final ok = await AuthService().login("patient@test.com", "Patient@12345");
+    debugPrint("LOGIN OK? $ok");
+  } catch (e) {
+    debugPrint("LOGIN ERROR: $e");
+  }
 
   runApp(MyApp(reminderCubit: reminderCubit));
 }
-
 class MyApp extends StatelessWidget {
   final ReminderCubit reminderCubit;
 

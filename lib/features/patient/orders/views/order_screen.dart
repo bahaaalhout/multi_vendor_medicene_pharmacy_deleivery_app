@@ -61,14 +61,14 @@ class _OrdersView extends StatelessWidget {
 
                             return OrderCard(
                               order: o,
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => OrderDetailsScreen(orderId: o.id),
-                                  ),
-                                );
-                              },
+                              // onTap: () {
+                              //   Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //       builder: (_) => OrderDetailsScreen(orderId: o.id),
+                              //     ),
+                              //   );
+                              // },
                             );
                           },
                         ),

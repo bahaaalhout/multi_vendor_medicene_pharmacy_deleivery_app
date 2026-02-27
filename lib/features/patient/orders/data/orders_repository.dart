@@ -1,26 +1,34 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:http/http.dart' as http;
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/services/auth_service.dart';
 
-import '../models/my_order_summary_model.dart';
 import '../models/my_order_details_model.dart';
+import '../models/my_order_summary_model.dart';
 
 class OrdersRepository {
   static Future<List<MyOrderSummaryModel>> fetchMyOrders({
     int page = 1,
     int limit = 50,
+    String filter = 'ALL',
+    String sortOrder = 'desc',
   }) async {
     final token = await AuthService().getAccessToken();
     if (token == null || token.isEmpty) {
       throw Exception("Missing access token (login required)");
     }
 
-    final url = "${AuthService.baseUrl}/orders/my?page=$page&limit=$limit";
+    final uri = Uri.parse("${AuthService.baseUrl}/orders").replace(
+      queryParameters: {
+        "page": page.toString(),
+        "limit": limit.toString(),
+        "filter": filter,
+        "sortOrder": sortOrder,
+      },
+    );
 
     final response = await http.get(
-      Uri.parse(url),
+      uri,
       headers: {
         "Authorization": "Bearer $token",
         "Content-Type": "application/json",
@@ -32,15 +40,24 @@ class OrdersRepository {
     log(response.body);
 
     if (response.statusCode < 200 || response.statusCode >= 300) {
-      throw Exception("Fetch orders failed: ${response.statusCode} - ${response.body}");
+      throw Exception(
+        "Fetch orders failed: ${response.statusCode} - ${response.body}",
+      );
     }
 
     final decoded = jsonDecode(response.body);
 
-    List<MyOrderSummaryModel> orders = [];
-    if (decoded is Map && decoded["data"] is List) {
-      for (Map map in decoded["data"]) {
-        orders.add(MyOrderSummaryModel.fromJson(map));
+    // Swagger: { success: true, data: [], meta: {...} }
+    final data = (decoded is Map) ? decoded["data"] : null;
+
+    final orders = <MyOrderSummaryModel>[];
+    if (data is List) {
+      for (final item in data) {
+        if (item is Map<String, dynamic>) {
+          orders.add(MyOrderSummaryModel.fromJson(item));
+        } else if (item is Map) {
+          orders.add(MyOrderSummaryModel.fromJson(item.cast<String, dynamic>()));
+        }
       }
     }
 
@@ -53,10 +70,10 @@ class OrdersRepository {
       throw Exception("Missing access token (login required)");
     }
 
-    final url = "${AuthService.baseUrl}/orders/my/$id";
+    final uri = Uri.parse("${AuthService.baseUrl}/orders/$id");
 
     final response = await http.get(
-      Uri.parse(url),
+      uri,
       headers: {
         "Authorization": "Bearer $token",
         "Content-Type": "application/json",
@@ -68,12 +85,19 @@ class OrdersRepository {
     log(response.body);
 
     if (response.statusCode < 200 || response.statusCode >= 300) {
-      throw Exception("Fetch details failed: ${response.statusCode} - ${response.body}");
+      throw Exception(
+        "Fetch details failed: ${response.statusCode} - ${response.body}",
+      );
     }
 
     final decoded = jsonDecode(response.body);
-    if (decoded is Map) {
-      return MyOrderDetailsModel.fromJson(decoded);
+
+    final data = (decoded is Map && decoded["data"] is Map)
+        ? decoded["data"]
+        : decoded;
+
+    if (data is Map) {
+      return MyOrderDetailsModel.fromJson(data.cast<String, dynamic>());
     }
 
     throw Exception("Invalid order details response");
@@ -85,10 +109,10 @@ class OrdersRepository {
       throw Exception("Missing access token (login required)");
     }
 
-    final url = "${AuthService.baseUrl}/orders/my/$id/cancel";
+    final uri = Uri.parse("${AuthService.baseUrl}/orders/$id/cancel");
 
     final response = await http.patch(
-      Uri.parse(url),
+      uri,
       headers: {
         "Authorization": "Bearer $token",
         "Content-Type": "application/json",
@@ -100,7 +124,9 @@ class OrdersRepository {
     log(response.body);
 
     if (response.statusCode < 200 || response.statusCode >= 300) {
-      throw Exception("Cancel failed: ${response.statusCode} - ${response.body}");
+      throw Exception(
+        "Cancel failed: ${response.statusCode} - ${response.body}",
+      );
     }
   }
 }
