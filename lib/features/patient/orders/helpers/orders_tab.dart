@@ -1,0 +1,1 @@
+enum OrdersTab { all, active, delivered, cancelled }

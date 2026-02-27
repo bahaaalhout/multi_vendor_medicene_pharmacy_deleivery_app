@@ -356,100 +356,31 @@ List<PharmacyOfferModel> offers = [
     medicine: medicineData[1],
   ),
 ];
-
 List<ReminderItem> reminders = [
   ReminderItem(
-    id: '1',
-    medicine: medicineData[0],
-    time: const TimeOfDay(hour: 8, minute: 20),
+    id: 'r_${medicineData[0].id}_0800',
+    medicine: medicineData[0], // Panadol Extra
+    time: const TimeOfDay(hour: 8, minute: 0),
     dose: 1,
-    startDate: DateTime(now.year, now.month, now.day),
-    endDate: DateTime(now.year, now.month, now.day + 30),
-    days: [1, 3, 5],
-    done: false,
-
-    timesPerDay: 3,
+    days: [1, 2, 3], // Mon, Tue, Wed
     frequency: 'Daily',
-  ),
-  ReminderItem(
-    id: '2',
-    medicine: medicineData[1],
-    time: const TimeOfDay(hour: 10, minute: 0),
-    dose: 2,
-    startDate: DateTime(now.year, now.month, now.day),
-    endDate: DateTime(now.year, now.month, now.day + 30),
-    days: [2, 4],
+    startDate: DateTime(2026, 2, 1),
+    endDate: DateTime(2026, 3, 1),
     done: false,
-
-    timesPerDay: 2,
-    frequency: 'Weekly',
   ),
+
   ReminderItem(
-    id: '3',
-    medicine: medicineData[2],
-    time: const TimeOfDay(hour: 12, minute: 30),
+    id: 'r_${medicineData[1].id}_0800',
+    medicine: medicineData[1], // Voltaren
+    time: const TimeOfDay(hour: 8, minute: 0),
     dose: 1,
-    startDate: DateTime(now.year, now.month, now.day),
-    endDate: DateTime(now.year, now.month, now.day + 30),
-    days: [2, 4, 6],
-    done: true,
-
-    timesPerDay: 1,
-    frequency: 'Weekly',
-  ),
-  ReminderItem(
-    id: '4',
-    medicine: medicineData[3],
-    time: const TimeOfDay(hour: 18, minute: 45),
-    dose: 3,
-    startDate: DateTime(now.year, now.month, now.day),
-    endDate: DateTime(now.year, now.month, now.day + 30),
-    days: [1, 2, 3, 4, 5],
-    done: true,
-
-    timesPerDay: 3,
+    days: [1, 2, 3], // Mon, Tue, Wed
     frequency: 'Daily',
-  ),
-  // ReminderItem(
-  //   id: '5',
-  //   medicine: medicineData[4],
-  //   time: const TimeOfDay(hour: 8, minute: 20),
-  //   dose: 1,
-  //   startDate: DateTime(now.year, now.month, now.day),
-  //   endDate: DateTime(now.year, now.month, now.day + 30),
-  //   days: [1, 3, 5],
-  //   done: false,
-
-  //   timesPerDay: 2,
-  //   frequency: 'Weekly',
-  // ),
-  // ReminderItem(
-  //   id: '6',
-  //   medicine: medicineData[5],
-  //   time: const TimeOfDay(hour: 8, minute: 20),
-  //   dose: 1,
-  //   startDate: DateTime(now.year, now.month, now.day),
-  //   endDate: DateTime(now.year, now.month, now.day + 30),
-  //   days: [1, 3, 5],
-  //   done: false,
-  //   timesPerDay: 2,
-  //   frequency: 'Weekly',
-  // ),
-  //
-  ReminderItem(
-    id: '7',
-    medicine: medicineData[6],
-    time: const TimeOfDay(hour: 14, minute: 0),
-    dose: 1,
-    startDate: DateTime(now.year, now.month, now.day),
-    endDate: DateTime(now.year, now.month, now.day + 30),
-    days: [1, 2, 3, 4, 5],
+    startDate: DateTime(2026, 2, 1),
+    endDate: DateTime(2026, 3, 1),
     done: false,
-    timesPerDay: 3,
-    frequency: 'Daily',
   ),
 ];
-
 List<NotificationItem> notifications = [
   NotificationItem(
     id: 'n1',
@@ -710,6 +641,18 @@ final sampleOrders = [
     customerEmail: 'example20@gmail.com',
     estimatedTimeMinutes: 18,
     paymentMethod: 'Visa',
+  ),
+  OrderModel(
+    id: 'O999',
+    status: OrderStatus.cancelled,
+    items: cartItems,
+    deliveryAddress: customerAddress,
+    createdAt: DateTime.now(),
+    customerName: 'Test',
+    customerPhone: '+970...',
+    customerEmail: 't@test.com',
+    estimatedTimeMinutes: 20,
+    paymentMethod: 'Cash',
   ),
 ];
 

@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_sizes.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/view/notifications_page.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/notifications/view/pharmacy_notifications_page.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/routes/app_routes.dart';
 
 class HeaderWidget extends StatelessWidget {
@@ -48,7 +48,13 @@ class HeaderWidget extends StatelessWidget {
           backgroundColor: AppColors.primaryLight,
           child: IconButton(
             onPressed: () {
-              context.push(AppRoutes.notifications);
+              //context.push(AppRoutes.notifications);
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PharmacyNotificationsPage(),
+                ),
+              );
             },
             icon: SvgPicture.asset(
               'assets/images/notifications.svg',

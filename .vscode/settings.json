@@ -1,1 +1,20 @@
-{}
+{
+    "files.watcherExclude": {
+        "**/build/**": true,
+        "**/.dart_tool/**": true,
+        "**/android/**": true,
+        "**/ios/**": true,
+        "**/node_modules/**": true
+    },
+    "search.exclude": {
+        "**/build/**": true,
+        "**/.dart_tool/**": true,
+        "**/node_modules/**": true
+    },
+    "dart.analysisExcludedFolders": [
+        "**/build/**",
+        "**/.dart_tool/**"
+    ],
+    "dart.enableSdkFormatter": false,
+    "editor.formatOnSave": false
+}

@@ -56,5 +56,6 @@ class ProfileCubit extends Cubit<ProfileState> {
   void toggleRatingRequests(bool value) {
     emit(state.copyWith(ratingRequestsEnabled: value));
   }
+  
 }
 

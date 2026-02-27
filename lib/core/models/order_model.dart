@@ -9,6 +9,7 @@ enum OrderStatus {
   enRoute,
   delivered,
   receiveConfirmed,
+  cancelled,
 }
 
 class OrderModel {
@@ -46,5 +47,6 @@ class OrderModel {
   PharmacyModel get pharmacy => items.first.pharmacyOffer.pharmacy;
   String get pharmacyId => items.first.pharmacyOffer.pharmacy.id;
   String get pharmacyName => items.first.pharmacyOffer.pharmacy.name;
-  AddressModel get pharmacyAddress => items.first.pharmacyOffer.pharmacy.address;
+  AddressModel get pharmacyAddress =>
+      items.first.pharmacyOffer.pharmacy.address;
 }

@@ -19,7 +19,7 @@ class OrderCard extends StatelessWidget {
   });
 
   String get _formattedId => FormattingUtils.formatOrderId(order.id);
-  
+
   String get _statusText {
     final date = order.createdAt;
     final month = _getMonthName(date.month);
@@ -30,7 +30,7 @@ class OrderCard extends StatelessWidget {
     final period = hour >= 12 ? 'PM' : 'AM';
     final displayHour = hour > 12 ? hour - 12 : (hour == 0 ? 12 : hour);
     final displayMinute = minute.toString().padLeft(2, '0');
-    
+
     switch (order.status) {
       case OrderStatus.delivered:
       case OrderStatus.receiveConfirmed:
@@ -41,17 +41,29 @@ class OrderCard extends StatelessWidget {
         return 'On the way on $month $day, $year at $displayHour:$displayMinute $period';
       case OrderStatus.placed:
         return 'Placed on $month $day, $year at $displayHour:$displayMinute $period';
+      case OrderStatus.cancelled:
+        return 'Cancelled on $month $day, $year at $displayHour:$displayMinute $period';
     }
   }
-  
+
   String _getMonthName(int month) {
     const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Des'
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Des',
     ];
     return months[month - 1];
   }
-  
+
   Color get _statusColor {
     switch (order.status) {
       case OrderStatus.delivered:
@@ -62,9 +74,11 @@ class OrderCard extends StatelessWidget {
         return AppColors.warningLightActive;
       case OrderStatus.placed:
         return AppColors.primaryLight;
+      case OrderStatus.cancelled:
+        return AppColors.errorLight;
     }
   }
-  
+
   Color get _statusTextColor {
     switch (order.status) {
       case OrderStatus.delivered:
@@ -75,13 +89,18 @@ class OrderCard extends StatelessWidget {
         return AppColors.warningDarker;
       case OrderStatus.placed:
         return AppColors.primaryDarker;
+      case OrderStatus.cancelled:
+        return AppColors.errorDarker;
     }
   }
-  
+
   String get _totalPrice {
     final total = order.items.fold<double>(
       0.0,
-      (sum, item) => sum + (item.pharmacyOffer.discountedPrice ?? item.pharmacyOffer.price) * item.quantity,
+      (sum, item) =>
+          sum +
+          (item.pharmacyOffer.discountedPrice ?? item.pharmacyOffer.price) *
+              item.quantity,
     );
     return FormattingUtils.formatPrice(total);
   }
@@ -107,14 +126,14 @@ class OrderCard extends StatelessWidget {
                   children: [
                     TextSpan(
                       text: "Order ID: ",
-                      style: AppTextStyles.medium12.copyWith(
-                        color: AppColors.neutralNormalActive,
+                      style: AppTextStyles.semiBold14.copyWith(
+                        color: AppColors.primaryDarkActive,
                       ),
                     ),
                     TextSpan(
                       text: _formattedId,
                       style: AppTextStyles.semiBold14.copyWith(
-                        color: AppColors.primaryBlue,
+                        color: AppColors.primaryDarkActive,
                         letterSpacing: 0.5,
                       ),
                     ),
@@ -137,8 +156,7 @@ class OrderCard extends StatelessWidget {
             ],
           ),
 
-          Divider(height: 20.h, color: AppColors.neutralLightActive),
-
+          SizedBox(height: 8.h),
           Row(
             children: [
               Container(
@@ -259,7 +277,8 @@ class OrderCard extends StatelessWidget {
                               ),
                             ),
                             TextSpan(
-                              text: "(${order.totalItems} ${order.totalItems == 1 ? 'item' : 'items'})",
+                              text:
+                                  "(${order.totalItems} ${order.totalItems == 1 ? 'item' : 'items'})",
                               style: AppTextStyles.medium10.copyWith(
                                 color: AppColors.neutralDark,
                               ),
@@ -326,7 +345,10 @@ class OrderCard extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.r),
                     ),
-                    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16.w,
+                      vertical: 8.h,
+                    ),
                   ),
                   child: Text(
                     "Reorder",

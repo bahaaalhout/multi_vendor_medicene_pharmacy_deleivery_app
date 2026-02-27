@@ -1,7 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_model.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/helpers/reminder_datetime.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/helpers/date_time_utils.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/models/adjusted_schedule_result.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/models/reminder_item.dart';
 
+/// Converts a day code (Mon/Tue/...) to DateTime weekday int (Mon=1..Sun=7).
+int dayCodeToWeekday(String d) {
+  switch (d.trim()) {
+    case 'Mon':
+      return DateTime.monday;
+    case 'Tue':
+      return DateTime.tuesday;
+    case 'Wed':
+      return DateTime.wednesday;
+    case 'Thu':
+      return DateTime.thursday;
+    case 'Fri':
+      return DateTime.friday;
+    case 'Sat':
+      return DateTime.saturday;
+    case 'Sun':
+      return DateTime.sunday;
+    default:
+      return DateTime.sunday;
+  }
+}
+
+/// Filters reminders by selected date:
+/// - Must be within [startDate..endDate]
+/// - Must match the selected weekday
+List<ReminderItem> filterRemindersByDate(
+  List<ReminderItem> reminders,
+  DateTime date,
+) {
+  final d = dateOnly(date);
+  final weekday = d.weekday;
+
+  return reminders.where((r) {
+    final start = dateOnly(r.startDate);
+    final end = dateOnly(r.endDate);
+
+    final inRange = !d.isBefore(start) && !d.isAfter(end);
+    final matchesDay = r.days.contains(weekday);
+
+    return inRange && matchesDay;
+  }).toList();
+}
+
+/// Schedule result derived from existing reminders.
+/// Used for displaying/labeling schedules and comparing schedules.
 class ReminderScheduleResult {
   final List<String> times;
   final List<String> days;
@@ -23,8 +71,18 @@ class ReminderScheduleResult {
       sameSchedule: true,
     );
   }
+
+  ReminderScheduleResult copyWith({bool? sameSchedule}) {
+    return ReminderScheduleResult(
+      times: times,
+      days: days,
+      frequency: frequency,
+      sameSchedule: sameSchedule ?? this.sameSchedule,
+    );
+  }
 }
 
+/// Effective schedule computed from overrides or existing reminders.
 class EffectiveSchedule {
   final List<String> times;
   final List<String> days;
@@ -45,19 +103,7 @@ class EffectiveSchedule {
   }
 }
 
-List<ReminderItem> filterRemindersByDate(
-  List<ReminderItem> reminders,
-  DateTime date,
-) {
-  final weekday = date.weekday; // 1..7 (Mon..Sun)
-
-  return reminders.where((r) {
-    final inRange = !date.isBefore(r.startDate) && !date.isAfter(r.endDate);
-    final matchesDay = r.days.contains(weekday);
-    return inRange && matchesDay;
-  }).toList();
-}
-
+/// Returns schedule for a single medicine based on existing reminders.
 ReminderScheduleResult getScheduleForOneMedicine({
   required MedicineModel medicine,
   required List<ReminderItem> reminders,
@@ -70,16 +116,19 @@ ReminderScheduleResult getScheduleForOneMedicine({
 
   related.sort((a, b) => _todMinutes(a.time).compareTo(_todMinutes(b.time)));
 
-  final times = related.map((r) => _formatTime12(r.time)).toSet().toList()
-    ..sort(_timeTextCompare);
+  final times = related
+      .map((r) => ReminderDateTime.formatTime(r.time))
+      .toSet()
+      .toList()
+    ..sort(compareTimeStrings);
 
   final daySet = <int>{};
   for (final r in related) {
     daySet.addAll(r.days);
   }
-  final dayList = daySet.toList()..sort();
-  final days = dayList.map(_dayNameShort).toList();
 
+  final dayList = daySet.toList()..sort();
+  final days = dayList.map(_weekdayToCode).toList();
   final freq = (dayList.length == 7) ? 'Daily' : 'Weekly';
 
   return ReminderScheduleResult(
@@ -90,6 +139,8 @@ ReminderScheduleResult getScheduleForOneMedicine({
   );
 }
 
+/// Returns combined schedule information for multiple medicines.
+/// The schedule is marked as `sameSchedule=false` if the medicines do not match.
 ReminderScheduleResult getScheduleForMedicines({
   required List<MedicineModel> medicines,
   required List<ReminderItem> reminders,
@@ -115,12 +166,11 @@ ReminderScheduleResult getScheduleForMedicines({
 
   final base = schedules.first;
 
-  final same = schedules.every(
-    (s) =>
-        _sameList(s.times, base.times) &&
+  final same = schedules.every((s) {
+    return _sameList(s.times, base.times) &&
         _sameList(s.days, base.days) &&
-        s.frequency == base.frequency,
-  );
+        s.frequency == base.frequency;
+  });
 
   return ReminderScheduleResult(
     times: base.times,
@@ -130,10 +180,14 @@ ReminderScheduleResult getScheduleForMedicines({
   );
 }
 
+/// Resolves effective schedule using:
+/// - multiOverride (highest priority)
+/// - singleOverrides (if selection supports it)
+/// - otherwise falls back to existing reminders schedule
 EffectiveSchedule resolveEffectiveSchedule({
   required Set<String> selectedIds,
-  required Map<String, dynamic> singleOverrides,
-  dynamic multiOverride,
+  required Map<String, AdjustedScheduleResult> singleOverrides,
+  required AdjustedScheduleResult? multiOverride,
   required List<MedicineModel> allMedicines,
   required List<ReminderItem> reminders,
 }) {
@@ -149,57 +203,118 @@ EffectiveSchedule resolveEffectiveSchedule({
 
   final selectedMeds = _mapSelectedMedicines(selectedIds, allMedicines);
 
-  final baseSchedule = getScheduleForMedicines(
-    medicines: selectedMeds,
-    reminders: reminders,
-  );
-
   if (selectedIds.length == 1) {
-    final onlyId = selectedIds.first;
-    final ov = singleOverrides[onlyId];
-    if (ov == null) {
+    final id = selectedIds.first;
+    final ov = singleOverrides[id];
+
+    if (ov != null) {
       return EffectiveSchedule(
-        times: baseSchedule.times,
-        days: baseSchedule.days,
-        frequency: baseSchedule.frequency,
+        times: List<String>.from(ov.times),
+        days: List<String>.from(ov.days),
+        frequency: ov.frequency,
       );
     }
+
+    final base = getScheduleForMedicines(
+      medicines: selectedMeds,
+      reminders: reminders,
+    );
+
+    return EffectiveSchedule(
+      times: base.times,
+      days: base.days,
+      frequency: base.frequency,
+    );
   }
 
   EffectiveSchedule? first;
+
   for (final id in selectedIds) {
-    final override = singleOverrides[id];
-    if (override == null) {
+    final ov = singleOverrides[id];
+
+    if (ov == null) {
+      final base = getScheduleForMedicines(
+        medicines: selectedMeds,
+        reminders: reminders,
+      );
       return EffectiveSchedule(
-        times: baseSchedule.times,
-        days: baseSchedule.days,
-        frequency: baseSchedule.frequency,
+        times: base.times,
+        days: base.days,
+        frequency: base.frequency,
       );
     }
 
     final current = EffectiveSchedule(
-      times: List<String>.from(override.times),
-      days: List<String>.from(override.days),
-      frequency: override.frequency,
+      times: List<String>.from(ov.times),
+      days: List<String>.from(ov.days),
+      frequency: ov.frequency,
     );
 
     first ??= current;
 
     if (!_sameEffective(first, current)) {
+      final base = getScheduleForMedicines(
+        medicines: selectedMeds,
+        reminders: reminders,
+      );
       return EffectiveSchedule(
-        times: baseSchedule.times,
-        days: baseSchedule.days,
-        frequency: baseSchedule.frequency,
+        times: base.times,
+        days: base.days,
+        frequency: base.frequency,
       );
     }
   }
 
-  return first ??
-      EffectiveSchedule(
-        times: baseSchedule.times,
-        days: baseSchedule.days,
-        frequency: baseSchedule.frequency,
+  return first ?? EffectiveSchedule.empty();
+}
+
+/// Parses both "8:00 AM" and "20:00" safely.
+TimeOfDay parseTimeFlexible(String s) {
+  return ReminderDateTime.parseTime(s);
+}
+
+/// Compares time strings by parsing to TimeOfDay.
+int compareTimeStrings(String a, String b) {
+  final ta = ReminderDateTime.parseTime(a);
+  final tb = ReminderDateTime.parseTime(b);
+  return ReminderDateTime.compareTime(ta, tb);
+}
+
+/// Builds reminders for selected medicines given:
+/// - times (string list)
+/// - days (Mon/Tue/...)
+/// - date range
+List<ReminderItem> buildRemindersForMedicines({
+  required List<MedicineModel> medicines,
+  required List<String> times,
+  required List<String> days,
+  required DateTime startDate,
+  required DateTime endDate,
+  int dose = 1,
+}) {
+  final result = <ReminderItem>[];
+  final weekdayInts = days.map(dayCodeToWeekday).toList();
+
+  for (final med in medicines) {
+    for (final t in times) {
+      final tod = parseTimeFlexible(t);
+
+      result.add(
+        ReminderItem(
+          id: 'r_${med.id}_${tod.hour}_${tod.minute}',
+          medicine: med,
+          time: tod,
+          dose: dose,
+          days: weekdayInts,
+          startDate: startDate,
+          endDate: endDate,
+          frequency: days.length == 7 ? 'Daily' : 'Weekly',
+        ),
       );
+    }
+  }
+
+  return result;
 }
 
 List<MedicineModel> _mapSelectedMedicines(
@@ -212,54 +327,24 @@ List<MedicineModel> _mapSelectedMedicines(
 
 int _todMinutes(TimeOfDay t) => t.hour * 60 + t.minute;
 
-String _formatTime12(TimeOfDay t) {
-  final hour12 = (t.hour % 12 == 0) ? 12 : (t.hour % 12);
-  final minute = t.minute.toString().padLeft(2, '0');
-  final suffix = (t.hour >= 12) ? 'PM' : 'AM';
-  return '$hour12:$minute $suffix';
-}
-
-int _timeTextCompare(String a, String b) {
-  final am = _timeTextToMinutes(a);
-  final bm = _timeTextToMinutes(b);
-  return am.compareTo(bm);
-}
-
-int _timeTextToMinutes(String s) {
-  final cleaned = s.toLowerCase().replaceAll(' ', '');
-  final isPm = cleaned.endsWith('pm');
-  final isAm = cleaned.endsWith('am');
-
-  final timePart = cleaned.replaceAll('am', '').replaceAll('pm', '');
-  final parts = timePart.split(':');
-
-  var hour = int.tryParse(parts[0]) ?? 0;
-  final minute = int.tryParse(parts.length > 1 ? parts[1] : '0') ?? 0;
-
-  if (isPm && hour != 12) hour += 12;
-  if (isAm && hour == 12) hour = 0;
-
-  return hour * 60 + minute;
-}
-
-String _dayNameShort(int d) {
+String _weekdayToCode(int d) {
   switch (d) {
-    case 1:
+    case DateTime.monday:
       return 'Mon';
-    case 2:
+    case DateTime.tuesday:
       return 'Tue';
-    case 3:
+    case DateTime.wednesday:
       return 'Wed';
-    case 4:
+    case DateTime.thursday:
       return 'Thu';
-    case 5:
+    case DateTime.friday:
       return 'Fri';
-    case 6:
+    case DateTime.saturday:
       return 'Sat';
-    case 7:
+    case DateTime.sunday:
       return 'Sun';
     default:
-      return '--';
+      return 'Mon';
   }
 }
 
@@ -276,13 +361,13 @@ bool _sameEffective(EffectiveSchedule a, EffectiveSchedule b) {
       a.frequency == b.frequency;
 }
 
-extension _Copy on ReminderScheduleResult {
-  ReminderScheduleResult copyWith({bool? sameSchedule}) {
-    return ReminderScheduleResult(
-      times: times,
-      days: days,
-      frequency: frequency,
-      sameSchedule: sameSchedule ?? this.sameSchedule,
-    );
-  }
+extension EffectiveScheduleX on EffectiveSchedule {
+  bool get isValid =>
+      times.isNotEmpty && days.isNotEmpty && frequency.trim().isNotEmpty;
+
+  AdjustedScheduleResult toAdjusted() => AdjustedScheduleResult(
+        times: List<String>.from(times),
+        days: List<String>.from(days),
+        frequency: frequency,
+      );
 }

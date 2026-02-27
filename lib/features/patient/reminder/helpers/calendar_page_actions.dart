@@ -5,7 +5,7 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/re
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/helpers/calendar_actions.dart'
     as nav;
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/helpers/calendar_formatters.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/calender_widgets/calendar_tabs.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/view/calender/widgets/sections/calendar_tabs.dart';
 
 void selectDate({
   required BuildContext context,

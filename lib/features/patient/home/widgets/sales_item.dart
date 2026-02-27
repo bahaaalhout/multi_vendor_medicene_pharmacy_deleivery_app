@@ -6,7 +6,6 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/pharmacy_model.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/product_details/screens/product_detail_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/widgets/medicine_form.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/routes/app_routes.dart';
 

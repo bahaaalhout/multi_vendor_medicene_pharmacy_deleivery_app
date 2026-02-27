@@ -1,104 +1,55 @@
-//this file contains shared date & time utility functions
-//used across the app (notifications, reminders, logs, etc)
-
-///----------------------------
-/// TIME FORMATTING
-///----------------------------
 library;
 
 import 'package:flutter/material.dart' show TimeOfDay;
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/helpers/reminder_datetime.dart';
 
-//format time into human readable text
-//example: Now, 5 min ago, 2h ago, Yesterday, 3d ago
+// Human-readable "time ago"
 String timeAgo(DateTime time) {
   final now = DateTime.now();
   final diff = now.difference(time);
 
-  if (diff.inMinutes < 1) {
-    return 'Now';
-  } else if (diff.inHours < 1) {
-    return '${diff.inMinutes} min ago';
-  } else if (diff.inHours < 24) {
-    return '${diff.inHours}h ago';
-  } else if (diff.inDays == 1) {
-    return 'Yesterday';
-  } else {
-    return '${diff.inDays}d ago';
-  }
+  if (diff.inMinutes < 1) return 'Now';
+  if (diff.inHours < 1) return '${diff.inMinutes} min ago';
+  if (diff.inHours < 24) return '${diff.inHours}h ago';
+  if (diff.inDays == 1) return 'Yesterday';
+  return '${diff.inDays}d ago';
 }
 
-///----------------------------
-/// DATE NAVIGATION
-///----------------------------
+// Date navigation
+DateTime dateOnly(DateTime d) => ReminderDateTime.dateOnly(d);
+DateTime nextDay(DateTime d) => ReminderDateTime.nextDay(d);
+DateTime prevDay(DateTime d) => ReminderDateTime.prevDay(d);
+DateTime nextWeek(DateTime d) => ReminderDateTime.nextWeek(d);
+DateTime prevWeek(DateTime d) => ReminderDateTime.prevWeek(d);
 
-//return next day from given date
-DateTime nextDay(DateTime currentDate) {
-  return currentDate.add(const Duration(days: 7));
-}
+// Time helpers
+int timeToMinutes(TimeOfDay t) => ReminderDateTime.timeToMinutes(t);
+DateTime combineDateTime(DateTime day, TimeOfDay t) => ReminderDateTime.combine(day, t);
 
-//return previous day from given date
-DateTime prevDay(DateTime currentDate) {
-  return currentDate.subtract(const Duration(days: 7));
-}
-
-///----------------------------
-/// DATE COMPARISON
-///----------------------------
-
-//check if two dates are the same day (ignore time)
-bool isSameDay(DateTime a, DateTime b) {
-  return a.year == b.year && a.month == b.month && a.day == b.day;
-}
-
-//check if given date is today (real current day)
-bool isToday(DateTime date) {
-  return isSameDay(date, DateTime.now());
-}
-
-int timeToMinutes(TimeOfDay t) => (t.hour * 60) + t.minute;
-
-DateTime combineDateTime(DateTime day, TimeOfDay t) {
-  return DateTime(day.year, day.month, day.day, t.hour, t.minute);
-}
+// Date comparison
+bool isSameDay(DateTime a, DateTime b) => ReminderDateTime.isSameDay(a, b);
+bool isToday(DateTime date) => isSameDay(date, DateTime.now());
 
 bool isBeforeDay(DateTime a, DateTime b) {
-  final da = DateTime(a.year, a.month, a.day);
-  final db = DateTime(b.year, b.month, b.day);
+  final da = dateOnly(a);
+  final db = dateOnly(b);
   return da.isBefore(db);
 }
 
 bool isAfterDay(DateTime a, DateTime b) {
-  final da = DateTime(a.year, a.month, a.day);
-  final db = DateTime(b.year, b.month, b.day);
+  final da = dateOnly(a);
+  final db = dateOnly(b);
   return da.isAfter(db);
 }
 
-///----------------------------
-/// DATE LABELS
-///----------------------------
-
-//weekday label: Mon, Tue, Wed...
+// Labels
 String weekdayLabel(DateTime d) {
   const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
   return days[d.weekday - 1];
 }
 
-TimeOfDay parseTime(String t) {
-  final cleaned = t.toLowerCase().replaceAll(' ', '');
-  final isPm = cleaned.endsWith('pm');
-  final isAm = cleaned.endsWith('am');
-
-  final timePart = cleaned.replaceAll('am', '').replaceAll('pm', '');
-  final parts = timePart.split(':');
-
-  int hour = int.parse(parts[0]);
-  final minute = int.parse(parts[1]);
-
-  if (isPm && hour != 12) hour += 12;
-  if (isAm && hour == 12) hour = 0;
-
-  return TimeOfDay(hour: hour, minute: minute);
-}
+// Parsing
+TimeOfDay parseTime(String t) => ReminderDateTime.parseTime(t);
 
 int dayToIndex(String d) {
   const map = {

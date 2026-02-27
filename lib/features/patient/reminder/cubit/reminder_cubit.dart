@@ -1,71 +1,94 @@
+import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter/material.dart' show TimeOfDay;
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/utils/helpers.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_model.dart';
 
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/models/medicine_model.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/helpers/date_time_utils.dart';
+
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/cubit/reminder_states.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/helpers/calendar_formatters.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/helpers/reminder_schedule.dart';
-
-import '../models/reminder_item.dart';
-import 'reminder_states.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/models/reminder_item.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/storage/reminder_local_storage.dart';
 
 class ReminderCubit extends Cubit<ReminderStates> {
-  // constructor(list of reminders) : super constructor takes initialState
   ReminderCubit(List<ReminderItem> reminders) : super(ReminderInitialState()) {
     allReminders = reminders;
   }
 
-  // all reminders list (source)
+  final ReminderLocalStorage _storage = ReminderLocalStorage();
   late List<ReminderItem> allReminders;
 
-  // load reminders for specific date
+  Future<void> initLocal({required List<MedicineModel> allMedicines}) async {
+    try {
+      allReminders = await _storage.loadReminders(allMedicines: allMedicines);
+    } catch (_) {
+      allReminders = [];
+      await _storage.clear();
+    }
+  }
+
+  Future<void> _persist() async {
+    await _storage.saveReminders(allReminders);
+  }
+
+  void clearAllReminders({required DateTime currentDate}) {
+    allReminders.clear();
+    unawaited(_persist());
+    loadReminders(date: currentDate);
+  }
+
+  void setReminders(
+    List<ReminderItem> newList, {
+    required DateTime currentDate,
+  }) {
+    allReminders = List<ReminderItem>.from(newList);
+    unawaited(_persist());
+    loadReminders(date: currentDate);
+  }
+
+  void replaceWithDefaults(
+    List<ReminderItem> defaults, {
+    required DateTime currentDate,
+  }) {
+    setReminders(defaults, currentDate: currentDate);
+  }
+
   void loadReminders({DateTime? date}) async {
     emit(ReminderLoadingState());
+
     try {
-      // if date provided -> use it, else use now
-      final selectedDate = date ?? DateTime.now();
-
-      // build days strip around selected date
-      final days = buildDaysStrip(selectedDate);
-
-      // filter reminders for the selected date
+      final selectedDate = dateOnly(date ?? DateTime.now());
+      final daysStrip = buildDaysStrip(selectedDate);
       final dayReminders = filterRemindersByDate(allReminders, selectedDate);
 
-      // 1) update reminder status based on selectedDate + time
       final now = DateTime.now();
 
       for (final r in dayReminders) {
-        // past day -> all completed
-        if (_isBeforeDay(selectedDate, now)) {
+        if (isBeforeDay(selectedDate, now)) {
           r.done = true;
           continue;
         }
 
-        // future day -> all waiting
-        if (_isAfterDay(selectedDate, now)) {
+        if (isAfterDay(selectedDate, now)) {
           r.done = false;
           continue;
         }
 
-        // today -> compare by time
-        final due = _combineDateTime(selectedDate, r.time);
-        r.done = !due.isAfter(now); // time passed or equal -> done
+        final due = combineDateTime(selectedDate, r.time);
+        r.done = !due.isAfter(now);
       }
 
-      // 2) sort: waiting first, completed last, then by time
       dayReminders.sort((a, b) {
-        final sa = a.done ? 1 : 0; // waiting=0, completed=1
+        final sa = a.done ? 1 : 0;
         final sb = b.done ? 1 : 0;
-
         if (sa != sb) return sa.compareTo(sb);
-
-        return _timeToMinutes(a.time).compareTo(_timeToMinutes(b.time));
+        return timeToMinutes(a.time).compareTo(timeToMinutes(b.time));
       });
 
       emit(
         ReminderSuccessState(
           selectedDate: selectedDate,
-          days: days,
+          days: daysStrip,
           dayReminders: dayReminders,
         ),
       );
@@ -74,24 +97,21 @@ class ReminderCubit extends Cubit<ReminderStates> {
     }
   }
 
-  // when user click next day icon -> plus one day -> reload
-  void nextDayPressed(DateTime currentDate) {
-    loadReminders(date: nextDay(currentDate));
+  // Week navigation (used by Week view)
+  void nextWeekPressed(DateTime currentDate) {
+    loadReminders(date: nextWeek(currentDate));
   }
 
-  // when user click prev day icon -> minus one day -> reload
-  void prevDayPressed(DateTime currentDate) {
-    loadReminders(date: prevDay(currentDate));
+  void prevWeekPressed(DateTime currentDate) {
+    loadReminders(date: prevWeek(currentDate));
   }
 
-  // when user click any day on strip -> reload that date
+  // Day selection from strip
   void selectDay(DateTime currentDate, int dayNumber) {
     final newDate = DateTime(currentDate.year, currentDate.month, dayNumber);
     loadReminders(date: newDate);
   }
 
-  // insert only if not exists
-  // returns true if there was any duplicate
   bool upsertMany(
     List<ReminderItem> incoming, {
     required DateTime currentDate,
@@ -100,63 +120,75 @@ class ReminderCubit extends Cubit<ReminderStates> {
 
     for (final r in incoming) {
       final exists = allReminders.any((x) => _sameReminder(x, r));
-
       if (exists) {
         hasDuplicate = true;
         continue;
       }
-
       allReminders.add(r);
     }
 
+    unawaited(_persist());
     loadReminders(date: currentDate);
     return hasDuplicate;
   }
-
-  // Delete all reminders for specific medicines
+void deleteSingleReminder(ReminderItem item, {required DateTime currentDate}) {
+  allReminders.removeWhere((r) => _sameReminder(r, item));
+  unawaited(_persist());
+  loadReminders(date: currentDate);
+}
   void deleteRemindersForMedicines(
     List<MedicineModel> medicines, {
     required DateTime currentDate,
   }) {
-    // We match by medicine ID
     final ids = medicines.map((m) => m.id).toSet();
+    allReminders.removeWhere((r) => ids.contains(r.medicine.id));
+    unawaited(_persist());
+    loadReminders(date: currentDate);
+  }
 
+  void replaceRemindersForMedicines(
+    List<ReminderItem> incoming, {
+    required DateTime currentDate,
+  }) {
+    if (incoming.isEmpty) {
+      loadReminders(date: currentDate);
+      return;
+    }
+
+    final ids = incoming.map((r) => r.medicine.id).toSet();
     allReminders.removeWhere((r) => ids.contains(r.medicine.id));
 
+    for (final r in incoming) {
+      final exists = allReminders.any((x) => _sameReminder(x, r));
+      if (!exists) allReminders.add(r);
+    }
+
+    unawaited(_persist());
+    loadReminders(date: currentDate);
+  }
+
+  bool hasAnyReminderForMedicines(List<MedicineModel> meds) {
+    final ids = meds.map((m) => m.id).toSet();
+    return allReminders.any((r) => ids.contains(r.medicine.id));
+  }
+
+  void replaceForMedicines({
+    required List<MedicineModel> medicines,
+    required List<ReminderItem> newReminders,
+    required DateTime currentDate,
+  }) {
+    final ids = medicines.map((m) => m.id).toSet();
+    allReminders.removeWhere((r) => ids.contains(r.medicine.id));
+    allReminders.addAll(newReminders);
+
+    unawaited(_persist());
     loadReminders(date: currentDate);
   }
 }
 
-// ============================
-// Helpers (local to this file)
-// ============================
-
-int _timeToMinutes(TimeOfDay t) => (t.hour * 60) + t.minute;
-
-DateTime _combineDateTime(DateTime day, TimeOfDay t) {
-  return DateTime(day.year, day.month, day.day, t.hour, t.minute);
-}
-
-// compare days only (ignore time)
-bool _isBeforeDay(DateTime a, DateTime b) {
-  final da = DateTime(a.year, a.month, a.day);
-  final db = DateTime(b.year, b.month, b.day);
-  return da.isBefore(db);
-}
-
-bool _isAfterDay(DateTime a, DateTime b) {
-  final da = DateTime(a.year, a.month, a.day);
-  final db = DateTime(b.year, b.month, b.day);
-  return da.isAfter(db);
-}
-
-// define "same reminder" (duplicate)
-// recommended: compare medicine + time + days only
 bool _sameReminder(ReminderItem a, ReminderItem b) {
   if (a.medicine.id != b.medicine.id) return false;
-  if (_timeToMinutes(a.time) != _timeToMinutes(b.time)) return false;
-
-  // compare days as sets
+  if (timeToMinutes(a.time) != timeToMinutes(b.time)) return false;
   return _sameIntSet(a.days, b.days);
 }
 

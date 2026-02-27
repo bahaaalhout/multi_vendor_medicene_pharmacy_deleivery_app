@@ -20,7 +20,7 @@ String monthYearLabel(DateTime d) {
   return '${months[d.month - 1]} ${d.year}';
 }
 
-/// Builds 6 weeks (42 cells) for month grid.
+/// Builds 6 weeks (42 cells) for a month grid.
 List<DateTime> buildCalendarDays(DateTime monthStart) {
   final firstDay = DateTime(monthStart.year, monthStart.month, 1);
   final startOffset = (firstDay.weekday - DateTime.monday) % 7;
@@ -43,9 +43,10 @@ DateTime clampSelectedToMonth(DateTime selected, DateTime monthStart) {
   return DateTime(monthStart.year, monthStart.month, day);
 }
 
-/// Builds days strip around center date (range default 3 => 7 items).
+/// Builds a day strip around center date (range default 3 => 7 items).
 List<DayItem> buildDaysStrip(DateTime centerDate, {int range = 3}) {
-  final List<DayItem> days = [];
+  final days = <DayItem>[];
+
   for (int i = -range; i <= range; i++) {
     final date = centerDate.add(Duration(days: i));
     days.add(
@@ -56,13 +57,13 @@ List<DayItem> buildDaysStrip(DateTime centerDate, {int range = 3}) {
       ),
     );
   }
+
   return days;
 }
 
 /// Checks if two dates are the same calendar day (ignores time).
 bool isSameCalendarDay(DateTime a, DateTime b) => isSameDay(a, b);
 
-/// Converts weekday to strip letter.
 String _dayLetter(int weekday) {
   switch (weekday) {
     case DateTime.monday:

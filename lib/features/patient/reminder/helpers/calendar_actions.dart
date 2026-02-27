@@ -1,4 +1,4 @@
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/widgets/calender_widgets/calendar_tabs.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/view/calender/widgets/sections/calendar_tabs.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/helpers/calendar_formatters.dart';
 
 /// Holds navigation result for current month and selected date.
@@ -12,50 +12,40 @@ class CalendarNavResult {
   });
 }
 
-/// Computes previous period based on current tab.
+/// Computes previous period based on the active tab.
+///
+/// Month: previous month, selected day clamped to month length.
+/// Week : move selected date back 7 days.
+/// Day  : move selected date back 1 day.
 CalendarNavResult computePrevPeriod({
   required CalendarViewTab tab,
   required DateTime currentMonth,
   required DateTime selectedDate,
 }) {
-  if (tab == CalendarViewTab.month) {
-    final newMonth = prevMonthStart(currentMonth);
-    final newSelected = clampSelectedToMonth(selectedDate, newMonth);
-    return CalendarNavResult(currentMonth: newMonth, selectedDate: newSelected);
-  }
-
-  if (tab == CalendarViewTab.week) {
-    final newSelected = selectedDate.subtract(const Duration(days: 7));
-    final newMonth = DateTime(newSelected.year, newSelected.month, 1);
-    return CalendarNavResult(currentMonth: newMonth, selectedDate: newSelected);
-  }
-
-  final newSelected = selectedDate.subtract(const Duration(days: 1));
-  final newMonth = DateTime(newSelected.year, newSelected.month, 1);
-  return CalendarNavResult(currentMonth: newMonth, selectedDate: newSelected);
+  return _computePeriodDelta(
+    tab: tab,
+    currentMonth: currentMonth,
+    selectedDate: selectedDate,
+    direction: -1,
+  );
 }
 
-/// Computes next period based on current tab.
+/// Computes next period based on the active tab.
+///
+/// Month: next month, selected day clamped to month length.
+/// Week : move selected date forward 7 days.
+/// Day  : move selected date forward 1 day.
 CalendarNavResult computeNextPeriod({
   required CalendarViewTab tab,
   required DateTime currentMonth,
   required DateTime selectedDate,
 }) {
-  if (tab == CalendarViewTab.month) {
-    final newMonth = nextMonthStart(currentMonth);
-    final newSelected = clampSelectedToMonth(selectedDate, newMonth);
-    return CalendarNavResult(currentMonth: newMonth, selectedDate: newSelected);
-  }
-
-  if (tab == CalendarViewTab.week) {
-    final newSelected = selectedDate.add(const Duration(days: 7));
-    final newMonth = DateTime(newSelected.year, newSelected.month, 1);
-    return CalendarNavResult(currentMonth: newMonth, selectedDate: newSelected);
-  }
-
-  final newSelected = selectedDate.add(const Duration(days: 1));
-  final newMonth = DateTime(newSelected.year, newSelected.month, 1);
-  return CalendarNavResult(currentMonth: newMonth, selectedDate: newSelected);
+  return _computePeriodDelta(
+    tab: tab,
+    currentMonth: currentMonth,
+    selectedDate: selectedDate,
+    direction: 1,
+  );
 }
 
 /// Computes today's navigation (reset selected date + current month).
@@ -64,4 +54,26 @@ CalendarNavResult computeToday() {
   final selected = DateTime(now.year, now.month, now.day);
   final month = DateTime(now.year, now.month, 1);
   return CalendarNavResult(currentMonth: month, selectedDate: selected);
+}
+
+CalendarNavResult _computePeriodDelta({
+  required CalendarViewTab tab,
+  required DateTime currentMonth,
+  required DateTime selectedDate,
+  required int direction,
+}) {
+  // Normalize selected date to a date-only value to keep navigation stable.
+  final selected = DateTime(selectedDate.year, selectedDate.month, selectedDate.day);
+
+  if (tab == CalendarViewTab.month) {
+    final newMonth = direction < 0 ? prevMonthStart(currentMonth) : nextMonthStart(currentMonth);
+    final newSelected = clampSelectedToMonth(selected, newMonth);
+    return CalendarNavResult(currentMonth: newMonth, selectedDate: newSelected);
+  }
+
+  final deltaDays = (tab == CalendarViewTab.week) ? 7 : 1;
+  final newSelected = selected.add(Duration(days: direction * deltaDays));
+  final newMonth = DateTime(newSelected.year, newSelected.month, 1);
+
+  return CalendarNavResult(currentMonth: newMonth, selectedDate: newSelected);
 }

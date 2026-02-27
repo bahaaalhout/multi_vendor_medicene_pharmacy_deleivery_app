@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/navigation/base_main_nav_screen.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/data/fake_data.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/home/screens/home_screen.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/orders/views/order_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/profile/screens/profile_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/bottom_navigation_item.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/view/calender/calendar_page.dart';
@@ -14,7 +16,7 @@ class MainScreen extends BaseMainNavScreen {
   @override
   List<Widget> get tabScreens => [
     const HomeScreen(),
-    const Center(child: Text('Orders')),
+    OrdersScreen(),
     const CalendarPage(),
     const Center(child: Text('Cart')),
     const ProfileScreen(),

@@ -5,8 +5,8 @@ import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/ca
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/delivery/navigation/delivery_main_screen.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/notifications/view/notifications_page.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/models/confirm_reminder_args.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/view/ConfirmReminderPage.dart';
-import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/view/ReminderSetPage.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/view/confirm/ConfirmReminderPage.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/view/reminder_set/ReminderSetPage.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/reminder/view/medication/medication_reminder_page.dart';
 import '../features/patient/navigation/patient_main_screen.dart';
 import 'app_routes.dart';
@@ -27,7 +27,6 @@ class AppPages {
         path: AppRoutes.notifications,
         builder: (context, state) => const NotificationsPage(),
       ),
-
       GoRoute(
         path: AppRoutes.medicationReminder,
         builder: (context, state) => const MedicationReminderPage(),
