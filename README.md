@@ -1,109 +1,61 @@
-Multi Vendor Medicine Pharmacy Delivery App
+# Multi Vendor Medicine Pharmacy Delivery App
 
+[![Flutter](https://img.shields.io/badge/Flutter-3.13-blue)](https://flutter.dev/)  
+[![Dart](https://img.shields.io/badge/Dart-3.2-blue)](https://dart.dev/)
 
+## Overview
 
+The **Multi Vendor Medicine Pharmacy Delivery App** is a Flutter mobile application designed to facilitate medicine ordering and delivery. It supports **three user roles**:
 
-Overview
-
-The Multi Vendor Medicine Pharmacy Delivery App is a Flutter mobile application designed to facilitate medicine ordering and delivery. It supports three user roles:
-
-Patient – Browses pharmacies, places medicine orders, tracks deliveries.
-
-Pharmacy – Manages inventory, receives orders, prepares packages for delivery.
-
-Driver/Delivery – Accepts delivery tasks, updates order status, and ensures timely delivery.
+1. **Patient** – Browses pharmacies, places medicine orders, tracks deliveries.  
+2. **Pharmacy** – Manages inventory, receives orders, and prepares packages for delivery.  
+3. **Driver/Delivery** – Accepts delivery tasks, updates order status, and ensures timely delivery.
 
 The system provides real-time updates, secure authentication, and role-specific dashboards for seamless workflow.
 
-Features
-Patient
+---
 
-Browse pharmacies and available medicines
+## Features
 
-Search and filter by medicine type or brand
+### Patient
+- Browse pharmacies and available medicines  
+- Search and filter by medicine type or brand  
+- Place orders and select preferred pharmacy  
+- Track order status in real-time  
+- Receive notifications about delivery updates  
 
-Place orders and select preferred pharmacy
+### Pharmacy
+- Manage medicine inventory (add, edit, remove items)  
+- View and manage incoming orders  
+- Update order status for driver pickup  
+- Analytics for sales and stock management  
 
-Track order status in real-time
+### Driver / Delivery
+- View available delivery orders  
+- Accept or reject assigned deliveries  
+- Track delivery status  
+- Update order status to delivered or failed  
 
-Receive notifications about delivery updates
+---
 
-Pharmacy
+## Screens
 
-Manage medicine inventory (add, edit, remove items)
+- Splash Screen → Onboarding → User Type Selection  
+- Patient Dashboard → Cart → Checkout → Order Tracking  
+- Pharmacy Dashboard → Inventory Management → Order Management  
+- Driver Dashboard → Available Deliveries → Active Orders → Delivery Completion  
 
-View and manage incoming orders
+---
 
-Update order status for driver pickup
+## Tech Stack
 
-Analytics for sales and stock management
+- **Frontend:** Flutter, Dart, Flutter ScreenUtil  
+- **State Management:** Bloc/Cubit  
+- **Backend:** REST API 
+- **Local Storage:** SharedPreferences  
+- **Navigation:** GoRouter  
+- **Authentication:** Email/password + Google Sign-in  
 
-Driver / Delivery
+---
 
-View available delivery orders
-
-Accept or reject assigned deliveries
-
-Track delivery status
-
-Update order status to delivered or failed
-
-Screens
-
-Splash Screen → Onboarding → User Type Selection
-
-Patient Dashboard → Cart → Checkout → Order Tracking
-
-Pharmacy Dashboard → Inventory Management → Order Management
-
-Driver Dashboard → Available Deliveries → Active Orders → Delivery Completion
-
-Tech Stack
-
-Frontend: Flutter, Dart, Flutter ScreenUtil
-
-State Management: Bloc/Cubit
-
-Backend: REST API (Firebase / Node.js or your chosen backend)
-
-Local Storage: SharedPreferences
-
-Navigation: GoRouter
-
-Authentication: Email/password + Google Sign-in
-
-Installation
-
-Clone the repository:
-
-git clone https://github.com/yourusername/multi_vendor_medicene_pharmacy_delivery_app.git
-
-Install dependencies:
-
-flutter pub get
-
-Run the app:
-
-flutter run
-Project Structure
-lib/
-├── core/               # Constants, themes, utilities
-├── features/
-│   ├── auth/           # Login, SignUp, Forget Password
-│   ├── onboarding/     # Onboarding & user type selection
-│   ├── patient/        # Patient dashboard & cart
-│   ├── pharmacy/       # Pharmacy dashboard & inventory
-│   └── driver/         # Driver dashboard & delivery management
-├── routes/             # App routes using GoRouter
-├── shared/             # Models, services (API calls, Auth)
-└── main.dart           # App entry point
-Usage
-
-Open the app → Splash Screen → Onboarding
-
-Select user type: Patient, Pharmacy, or Driver
-
-Sign up or login based on the selected role
-
-Use role-specific features (browse orders, manage inventory, track delivery)
-
+<img width="822" height="348" alt="Screenshot 2026-02-27 at 22 07 22" src="https://github.com/user-attachments/assets/a415eb66-a6cb-4963-8eb4-e000064bb91b" />
