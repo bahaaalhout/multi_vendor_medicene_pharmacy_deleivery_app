@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/constants/app_colors.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/theme/app_theme.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_buttons/app_bar_buttons/more_button.dart';
+import 'package:multi_vendor_medicene_pharmacy_deleivery_app/core/widgets/app_buttons/app_bar_buttons/navigate_back_button.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/orders/widgets/cards/order_card.dart';
 import 'package:multi_vendor_medicene_pharmacy_deleivery_app/features/patient/orders/widgets/tabs/order_tabs.dart';
 
@@ -38,7 +43,25 @@ class _OrdersView extends StatelessWidget {
 
           return Column(
             children: [
-              const SizedBox(height: 50),
+  Padding(
+          padding: EdgeInsets.all(10.r),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              NavigateBackButton(),
+              Text(
+                'Orders',
+                style: AppTextStyles.bold25.copyWith(
+                  color: AppColors.primaryDarker,
+                ),
+              ),
+              MoreButton(fun: () {}),
+            ],
+          ),
+        ),
+
+        SizedBox(height: 8.h),
+
               OrderTabs(
                 current: state.tab,
                 allOrders: state.allOrders,

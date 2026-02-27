@@ -95,7 +95,6 @@ Widget build(BuildContext context) {
         body: SafeArea(
           child: Column(
             children: [
-              // ✅ المحتوى الرئيسي مع padding
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.all(16.w),
@@ -141,48 +140,38 @@ Widget build(BuildContext context) {
                               SizedBox(height: 12.h),
 
                               Expanded(
-                                child: PageView(
-                                  controller: pageController,
-                                  physics: const BouncingScrollPhysics(),
-                                  onPageChanged: (index) => setState(
-                                    () => tab =
-                                        MedicationReminderTab.values[index],
-                                  ),
+                                child: Column(
                                   children: [
-                                    MedicationListSection(
-                                      items: prescriptions,
-                                      selectedIds: selectedIds,
-                                      reminders: allReminders,
-                                      onToggleSelect: toggleSelectWithDefault,
-                                      onSetReminder: (m) => setState(
-                                        () => selectedIds.add(m.id),
+                                    PageView(
+                                      controller: pageController,
+                                      physics: const BouncingScrollPhysics(),
+                                      onPageChanged: (index) => setState(
+                                        () => tab =
+                                            MedicationReminderTab.values[index],
                                       ),
-                                      bottomPadding: hasFooter ? 240.h : 16.h,
+                                      children: [
+                                        MedicationListSection(
+                                          items: prescriptions,
+                                          selectedIds: selectedIds,
+                                          reminders: allReminders,
+                                          onToggleSelect: toggleSelectWithDefault,
+                                          onSetReminder: (m) => setState(
+                                            () => selectedIds.add(m.id),
+                                          ),
+                                        ),
+                                        MedicationListSection(
+                                          items: recents,
+                                          selectedIds: selectedIds,
+                                          reminders: allReminders,
+                                          onToggleSelect: toggleSelectWithDefault,
+                                          onSetReminder: (m) => setState(
+                                            () => selectedIds.add(m.id),
+                                          ),
+                                    
+                                        ),
+                                      ],
                                     ),
-                                    MedicationListSection(
-                                      items: recents,
-                                      selectedIds: selectedIds,
-                                      reminders: allReminders,
-                                      onToggleSelect: toggleSelectWithDefault,
-                                      onSetReminder: (m) => setState(
-                                        () => selectedIds.add(m.id),
-                                      ),
-
-                                      bottomPadding: hasFooter ? 240.h : 16.h,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              if (hasFooter)
+                                               if (hasFooter)
                 SafeArea(
                   top: false,
                   child: Container(
@@ -268,6 +257,23 @@ Widget build(BuildContext context) {
                     ),
                   ),
                 ),
+                                  ],
+                                ),
+                              ),
+                           
+                            ],
+                            
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  
+                ),
+                
+              ),
+
+   
             ],
           ),
         ),

@@ -16,7 +16,6 @@ class MedicationListSection extends StatelessWidget {
 
   final ValueChanged<String> onToggleSelect;
   final ValueChanged<MedicineModel> onSetReminder;
-  final double bottomPadding;
 
   const MedicationListSection({
     super.key,
@@ -25,7 +24,6 @@ class MedicationListSection extends StatelessWidget {
     required this.reminders,
     required this.onToggleSelect,
     required this.onSetReminder,
-    this.bottomPadding = 16
   });
 
   @override
@@ -33,7 +31,7 @@ class MedicationListSection extends StatelessWidget {
     if (items.isEmpty) return const SizedBox.shrink();
 
     return ListView.builder(
-      padding: EdgeInsets.only(bottom: bottomPadding),
+      padding: EdgeInsets.zero,
       itemCount: items.length,
       physics: const BouncingScrollPhysics(),
       itemBuilder: (context, index) {
